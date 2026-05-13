@@ -59,18 +59,18 @@ const buildPhases = [
 export default function Home() {
   return (
     <main className="bg-[var(--color-page)] text-[var(--color-ink)]">
-      <section className="relative overflow-hidden border-b border-black/8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(194,65,12,0.16),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(23,37,84,0.14),_transparent_32%),linear-gradient(180deg,_#fffaf2_0%,_#fffdf8_52%,_#ffffff_100%)]" />
-        <div className="relative mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-7xl flex-col justify-center px-6 py-16 sm:px-10 lg:px-12">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(58,196,255,0.14),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(15,95,214,0.14),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(255,122,89,0.12),_transparent_26%)]" />
+        <div className="relative mx-auto flex min-h-[calc(100vh-7rem)] w-full max-w-7xl flex-col justify-center px-6 py-18 sm:px-10 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-white/85 px-4 py-2 text-sm font-medium text-[var(--color-muted)] shadow-sm backdrop-blur">
+              <div className="inline-flex items-center rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-semibold text-[var(--color-muted)] shadow-sm backdrop-blur">
                 Built for SSB aspirants across India
               </div>
-              <h1 className="mt-6 max-w-4xl font-serif text-5xl leading-none tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-6xl lg:text-7xl">
-                One platform to understand the SSB journey with confidence.
+              <h1 className="mt-6 max-w-5xl font-display text-5xl font-semibold leading-[0.95] tracking-[-0.06em] text-[var(--color-ink-strong)] sm:text-6xl lg:text-[5.2rem]">
+                The SaaS-style command center for every serious SSB aspirant.
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--color-muted)] sm:text-xl">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--color-muted)] sm:text-[1.22rem]">
                 SSB Sarthi helps students explore the full 5-day process,
                 compare centers and boards, follow recommendation trends, and
                 learn from real journals shared by fellow aspirants.
@@ -78,30 +78,30 @@ export default function Home() {
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                 <Link
                   href="/process"
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[var(--color-accent-strong)]"
+                  className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(8,145,178,0.28)] transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   Explore the Process
                 </Link>
                 <Link
                   href="/centers"
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-6 py-3 text-sm font-semibold text-[var(--color-ink-strong)] transition-colors duration-200 hover:bg-[var(--color-surface)]"
+                  className="inline-flex items-center justify-center rounded-full border border-white/70 bg-white/86 px-6 py-3.5 text-sm font-semibold text-[var(--color-ink-strong)] shadow-sm transition-colors duration-200 hover:bg-[var(--color-surface)]"
                 >
                   Browse Centers
                 </Link>
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-card)] p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-8">
+            <div className="rounded-[2rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(236,247,255,0.92))] p-6 shadow-[var(--shadow-soft)] sm:p-8">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium uppercase tracking-[0.22em] text-[var(--color-muted)]">
                     MVP Focus
                   </p>
-                  <h2 className="mt-2 font-serif text-3xl text-[var(--color-ink-strong)]">
-                    Student-first and easy to trust
+                  <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.05em] text-[var(--color-ink-strong)]">
+                    Useful, modern, and addictive to explore
                   </h2>
                 </div>
-                <div className="rounded-full bg-[var(--color-accent-soft)] px-4 py-2 text-sm font-semibold text-[var(--color-accent-strong)]">
+                <div className="rounded-full bg-[var(--color-accent-soft)] px-4 py-2 text-sm font-semibold text-[var(--color-accent-strong)] shadow-sm">
                   Phase 1
                 </div>
               </div>
@@ -109,9 +109,11 @@ export default function Home() {
                 {buildPhases.map((phase) => (
                   <div
                     key={phase}
-                    className="flex items-start gap-3 rounded-2xl bg-white px-4 py-4"
+                    className="flex items-start gap-3 rounded-2xl border border-white/80 bg-white/88 px-4 py-4 shadow-sm"
                   >
-                    <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[var(--color-accent)]" />
+                    <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-xs font-bold text-[var(--color-accent-strong)]">
+                      +
+                    </span>
                     <p className="text-sm leading-7 text-[var(--color-ink)] sm:text-base">
                       {phase}
                     </p>
@@ -125,9 +127,9 @@ export default function Home() {
             {quickStats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-[1.5rem] border border-[var(--color-border)] bg-white/92 px-5 py-6 shadow-sm backdrop-blur"
+                className="rounded-[1.5rem] border border-white/80 bg-white/88 px-5 py-6 shadow-sm backdrop-blur"
               >
-                <p className="font-serif text-3xl text-[var(--color-ink-strong)]">
+                <p className="font-display text-3xl font-semibold tracking-[-0.05em] text-[var(--color-ink-strong)]">
                   {stat.value}
                 </p>
                 <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">
@@ -144,7 +146,7 @@ export default function Home() {
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
             Platform modules
           </p>
-          <h2 className="mt-4 font-serif text-4xl leading-tight text-[var(--color-ink-strong)]">
+          <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.05em] text-[var(--color-ink-strong)]">
             The first version is built around the questions aspirants ask most.
           </h2>
         </div>
@@ -153,12 +155,12 @@ export default function Home() {
             <Link
               key={card.title}
               href={card.href}
-              className="group rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-card)] p-7 transition-all duration-200 hover:-translate-y-1 hover:border-[var(--color-accent)] hover:shadow-[0_24px_50px_rgba(15,23,42,0.08)]"
+              className="group rounded-[1.9rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(245,250,255,0.92))] p-7 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(8,145,178,0.22)] hover:shadow-[0_28px_72px_rgba(15,23,42,0.12)]"
             >
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
                 {card.href.replace("/", "") || "home"}
               </p>
-              <h3 className="mt-4 font-serif text-3xl text-[var(--color-ink-strong)]">
+              <h3 className="mt-4 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)]">
                 {card.title}
               </h3>
               <p className="mt-4 max-w-xl text-base leading-7 text-[var(--color-muted)]">
@@ -172,13 +174,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-black/8 bg-[var(--color-surface)]">
+      <section className="border-y border-white/70 bg-[var(--color-surface)]">
         <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
               Why it matters
             </p>
-            <h2 className="mt-4 font-serif text-4xl leading-tight text-[var(--color-ink-strong)]">
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.05em] text-[var(--color-ink-strong)]">
               SSB preparation is already intense. Finding reliable guidance
               should not be.
             </h2>
@@ -192,7 +194,7 @@ export default function Home() {
             {platformPillars.map((pillar) => (
               <div
                 key={pillar.title}
-                className="rounded-[1.5rem] border border-[var(--color-border)] bg-white p-6 shadow-sm"
+                className="rounded-[1.6rem] border border-white/80 bg-white/90 p-6 shadow-sm"
               >
                 <h3 className="text-xl font-semibold text-[var(--color-ink-strong)]">
                   {pillar.title}
@@ -207,13 +209,13 @@ export default function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-12">
-        <div className="rounded-[2rem] bg-[linear-gradient(135deg,_#172554_0%,_#1e3a8a_45%,_#c2410c_100%)] px-6 py-10 text-white shadow-[0_30px_80px_rgba(23,37,84,0.22)] sm:px-8 lg:px-10">
+        <div className="rounded-[2rem] bg-[linear-gradient(135deg,_#0d1b2f_0%,_#0f5fd6_52%,_#3ac4ff_100%)] px-6 py-10 text-white shadow-[0_30px_80px_rgba(23,37,84,0.22)] sm:px-8 lg:px-10">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/70">
                 Next steps
               </p>
-              <h2 className="mt-4 font-serif text-4xl leading-tight">
+              <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.05em]">
                 The foundation is ready for the next build step.
               </h2>
               <p className="mt-4 text-base leading-8 text-white/82">
