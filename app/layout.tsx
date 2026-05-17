@@ -1,18 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Manrope, Sora } from "next/font/google";
 import SiteNav from "./_components/site-nav";
 import "./globals.css";
-
-const sans = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const display = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-});
 
 const navigation = [
   { href: "/process", label: "Process" },
@@ -34,10 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${sans.variable} ${display.variable} h-full antialiased`}
-    >
+    <html lang="en" data-scroll-behavior="smooth" className="h-full antialiased">
       <body className="min-h-full bg-[var(--color-page)] text-[var(--color-ink)]">
         <div className="relative min-h-screen overflow-hidden">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_12%_18%,rgba(58,196,255,0.18),transparent_20%),radial-gradient(circle_at_84%_14%,rgba(8,145,178,0.16),transparent_19%),radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.9),transparent_40%)]" />
@@ -59,7 +45,7 @@ export default function RootLayout({
 
                 <Link
                   href="/journals"
-                  className="hidden rounded-full border border-[var(--color-border-strong)] bg-[var(--color-ink-strong)] px-4 py-2.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 lg:inline-flex"
+                  className="hidden rounded-full border border-[var(--color-border-strong)] bg-[var(--color-ink-strong)] px-4 py-2.5 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 md:inline-flex"
                 >
                   Explore stories
                 </Link>
