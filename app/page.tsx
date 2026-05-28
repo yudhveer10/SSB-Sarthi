@@ -363,7 +363,7 @@ export default function Home() {
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-white/82 sm:text-base">
                   Replace placeholders with reporting checklists, travel notes,
-                  and practical centre-specific guidance.
+                  and practical centre-specific guidance..
                 </p>
               </div>
             </div>
