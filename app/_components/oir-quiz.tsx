@@ -462,6 +462,7 @@ export default function OirQuiz() {
     return () => clearInterval(intervalRef.current!);
   }, [phase]);
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const handlePaperEnd = useCallback(() => {
     if (phase === "paper1") {
       setPaper1Answers(selected);

@@ -15,26 +15,4 @@ export default function OirPage() {
     </main>
   );
 }
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

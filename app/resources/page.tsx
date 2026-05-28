@@ -1,4 +1,7 @@
 // app/resources/page.tsx
+"use client";
+
+import Link from "next/link";
 
 const reportingChecklist = [
   {
@@ -197,6 +200,38 @@ export default function ResourcesPage() {
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Practice Screening Banner ── */}
+      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(135deg,rgba(3,105,161,0.07),rgba(29,107,64,0.06))] px-6 py-7 shadow-[var(--shadow-card)] sm:px-8">
+          <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(3,105,161,0.18),transparent_70%)]" />
+          <div className="absolute left-1/2 bottom-0 h-32 w-64 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(29,107,64,0.12),transparent_70%)]" />
+          <div className="relative flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="inline-flex items-center rounded-full bg-[#0369a1]/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-[#0369a1]">
+                  Day 1 Prep
+                </span>
+                <span className="inline-flex items-center rounded-full bg-[#1d6b40]/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-[#1d6b40]">
+                  Interactive
+                </span>
+              </div>
+              <h2 className="font-display text-2xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-3xl">
+                Practice the Screening Process
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">
+                Timed OIR practice tests and PPDT picture narration sets — built to simulate the real Day 1 experience.
+              </p>
+            </div>
+            <Link
+              href="/screening"
+              className="shrink-0 rounded-2xl bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-7 py-3.5 text-sm font-bold text-white shadow-[0_10px_28px_rgba(26,115,232,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(26,115,232,0.36)] whitespace-nowrap"
+            >
+              Start Practising →
+            </Link>
           </div>
         </div>
       </section>
