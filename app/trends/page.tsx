@@ -159,7 +159,7 @@ export default function TrendsPage() {
       <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
         <div className="mb-8">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-            How we think about trends
+            How we think about trends?
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
             Four principles that keep this honest.
