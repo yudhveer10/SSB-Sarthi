@@ -1,5 +1,5 @@
 // app/screening/oir/page.tsx
-import OirQuiz from "../_components/oir-quiz";
+import OirQuiz from "../../_components/oir-quiz";
  
 export const metadata = {
   title: "OIR Quiz — SSB Sarthi",
