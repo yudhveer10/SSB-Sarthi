@@ -1,45 +1,120 @@
+// app/process/page.tsx
+
 const processDays = [
   {
     day: "Day 1",
-    title: "Screening",
-    details: "OIR test, PPDT, narration, and group discussion decide whether you move ahead.",
-    focus: "First impression, observation, clear narration",
+    label: "Screening",
+    color: "#0369a1",
+    icon: "🔍",
+    tests: ["OIR Test (Verbal & Non-Verbal)", "Picture Perception & Discussion Test (PPDT)"],
+    details:
+      "The first day filters candidates through an intelligence test and a group storytelling exercise. Only those who clear screening proceed to the 4-day assessment.",
+    focus: "First impression, observation speed, clear narration",
+    tip: "Around 50–60% of candidates are screened out on Day 1. Your story in PPDT should have a positive hero, clear action, and a realistic outcome.",
   },
   {
     day: "Day 2",
-    title: "Psychology",
-    details: "TAT, WAT, SRT, and SD test your natural responses and thought patterns.",
-    focus: "Speed, authenticity, clarity of thinking",
+    label: "Psychological Tests",
+    color: "#7c3aed",
+    icon: "🧠",
+    tests: [
+      "Thematic Apperception Test (TAT) — 11 pictures + 1 blank",
+      "Word Association Test (WAT) — 60 words, 15 seconds each",
+      "Situation Reaction Test (SRT) — 60 situations in 30 minutes",
+      "Self Description Test (SD) — 5 open-ended paragraphs",
+    ],
+    details:
+      "The psychology battery reveals your natural thought patterns, values, and decision-making style under time pressure. Speed and authenticity matter more than crafted answers.",
+    focus: "Speed, authenticity, positive yet realistic outlook",
+    tip: "Don't overthink. The assessor is looking for Officer Like Qualities (OLQs) in your spontaneous responses — not polished answers.",
   },
   {
-    day: "Day 3 and 4",
-    title: "GTO Tasks",
-    details: "Outdoor and indoor group tasks reveal leadership, cooperation, and practical thinking.",
-    focus: "Team behavior, initiative, practical execution",
+    day: "Day 3 & 4",
+    label: "GTO Tasks",
+    color: "#1d6b40",
+    icon: "🏕️",
+    tests: [
+      "Group Discussion (GD) — 2 rounds",
+      "Group Planning Exercise (GPE)",
+      "Progressive Group Task (PGT)",
+      "Half Group Task (HGT)",
+      "Individual Obstacles (IO) — 10 obstacles",
+      "Command Task",
+      "Final Group Task (FGT)",
+      "Lecturette — 3-minute talk",
+    ],
+    details:
+      "GTO tasks assess leadership, teamwork, physical stamina, and practical problem-solving in real outdoor and indoor scenarios. Group tasks are observed carefully for both individual initiative and team cooperation.",
+    focus: "Team behavior, initiative without domination, practical execution",
+    tip: "In group tasks, contribute ideas early and support teammates physically. The GTO watches who helps, not just who leads.",
   },
   {
-    day: "Day 2 to 4",
-    title: "Personal Interview",
-    details: "The IO evaluates clarity, consistency, personality, and officer-like qualities.",
-    focus: "Consistency, self-awareness, communication",
+    day: "Day 2–4",
+    label: "Personal Interview (IO)",
+    color: "#b45309",
+    icon: "🤝",
+    tests: [
+      "Structured interview by the Interviewing Officer (IO)",
+      "Covers academics, family background, hobbies, current affairs, and motivation",
+    ],
+    details:
+      "The Interviewing Officer builds a full picture of your personality across 45–60 minutes. Consistency with your psychology responses is critical. Self-awareness and calm, clear communication define strong performers.",
+    focus: "Consistency, self-awareness, honest communication",
+    tip: "Your PIQ (Personal Information Questionnaire) filled on Day 1 is the IO's starting point. Know every detail you write on it.",
   },
   {
     day: "Day 5",
-    title: "Conference",
-    details: "All assessors discuss their observations before the final recommendation decision.",
-    focus: "Overall suitability and final alignment",
+    label: "Conference",
+    color: "#be123c",
+    icon: "🏛️",
+    tests: ["Board Conference — all assessors present", "Candidate called in briefly"],
+    details:
+      "All three assessors — Psychologist, IO, and GTO — align their observations. The President of the Board presides. A candidate may be called in to address any doubts the board has.",
+    focus: "Overall suitability across all testing streams",
+    tip: "If called in during conference, be calm and honest. It is not always a negative sign. Answer whatever is asked with the same consistency you showed throughout.",
   },
 ];
 
-const processSignals = [
-  "Know what happens each day before you report.",
-  "Understand what each testing area is really observing.",
-  "Prepare with structure instead of random advice.",
+const olqs = [
+  { label: "Effective Intelligence", short: "EI" },
+  { label: "Reasoning Ability", short: "RA" },
+  { label: "Organising Ability", short: "OA" },
+  { label: "Power of Expression", short: "PE" },
+  { label: "Social Adaptability", short: "SA" },
+  { label: "Cooperation", short: "CO" },
+  { label: "Sense of Responsibility", short: "SR" },
+  { label: "Initiative", short: "IN" },
+  { label: "Self Confidence", short: "SC" },
+  { label: "Speed of Decision", short: "SD" },
+  { label: "Ability to Influence the Group", short: "AI" },
+  { label: "Liveliness", short: "LV" },
+  { label: "Determination", short: "DM" },
+  { label: "Courage", short: "CG" },
+  { label: "Stamina", short: "ST" },
+];
+
+const assessors = [
+  {
+    role: "Psychologist",
+    scope: "TAT, WAT, SRT, SD responses",
+    color: "#7c3aed",
+  },
+  {
+    role: "Interviewing Officer (IO)",
+    scope: "Personal interview, PIQ, background",
+    color: "#b45309",
+  },
+  {
+    role: "Group Testing Officer (GTO)",
+    scope: "All group and individual outdoor tasks",
+    color: "#1d6b40",
+  },
 ];
 
 export default function ProcessPage() {
   return (
     <main className="pb-20">
+      {/* ── Hero ── */}
       <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
         <div className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(232,246,255,0.9))] px-6 py-8 shadow-[var(--shadow-soft)] sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="absolute -right-16 top-0 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(8,145,178,0.18),transparent_66%)]" />
@@ -51,54 +126,69 @@ export default function ProcessPage() {
                 SSB Process Guide
               </div>
               <h1 className="mt-6 max-w-4xl font-display text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4.25rem]">
-                The full 5-day SSB process, redesigned to feel clear and easy.
+                The full 5-day SSB process, explained clearly.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-                Instead of dumping notes, this section should guide aspirants
-                through each testing stage with the kind of clarity, pacing, and
-                confidence a good product experience gives.
+                Three independent assessors — Psychologist, IO, and GTO — observe
+                the same candidate across different testing formats. Consistency,
+                not coaching, is what leads to a recommendation.
               </p>
 
-              <div className="mt-8 grid gap-3 sm:max-w-2xl">
-                {processSignals.map((signal) => (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {[
+                  { label: "Testing Days", value: "5" },
+                  { label: "Assessors", value: "3" },
+                  { label: "OLQs Measured", value: "15" },
+                  { label: "Tests / Tasks", value: "15+" },
+                ].map((stat) => (
                   <div
-                    key={signal}
-                    className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white/80 px-4 py-3 shadow-sm"
+                    key={stat.label}
+                    className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white/70 px-5 py-3 shadow-sm backdrop-blur-sm"
                   >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-sm font-bold text-[var(--color-accent-strong)]">
-                      ✓
+                    <span className="text-2xl font-bold text-[var(--color-accent-strong)]">
+                      {stat.value}
                     </span>
-                    <p className="text-sm font-medium text-[var(--color-ink)] sm:text-base">
-                      {signal}
-                    </p>
+                    <span className="text-xs font-semibold text-[var(--color-muted)]">
+                      {stat.label}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-[1.6rem] border border-white/80 bg-[var(--color-card-strong)] p-5 shadow-[var(--shadow-card)]">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-muted)]">
-                  Timeline
+            {/* Assessor cards */}
+            <div className="grid gap-3">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-muted)]">
+                Three independent assessors
+              </p>
+              {assessors.map((a) => (
+                <div
+                  key={a.role}
+                  className="flex items-start gap-4 rounded-2xl border border-white/80 bg-white/90 p-4 shadow-sm"
+                >
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-black text-white"
+                    style={{ background: a.color }}
+                  >
+                    {a.role[0]}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-[var(--color-ink-strong)]">
+                      {a.role}
+                    </p>
+                    <p className="mt-0.5 text-xs text-[var(--color-muted)]">
+                      {a.scope}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              <div className="rounded-2xl border border-white/80 bg-[#0d1b2f] p-4 text-white">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/60">
+                  Key principle
                 </p>
-                <p className="mt-3 font-display text-3xl font-semibold tracking-[-0.05em] text-[var(--color-ink-strong)]">
-                  5 Days
-                </p>
-                <p className="mt-2 text-sm leading-7 text-[var(--color-muted)]">
-                  Structured assessment across screening, psychology, GTO,
-                  interview, and conference.
-                </p>
-              </div>
-              <div className="rounded-[1.6rem] border border-white/80 bg-[var(--color-card-strong)] p-5 shadow-[var(--shadow-card)]">
-                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-muted)]">
-                  Goal
-                </p>
-                <p className="mt-3 font-display text-3xl font-semibold tracking-[-0.05em] text-[var(--color-ink-strong)]">
-                  Less guesswork
-                </p>
-                <p className="mt-2 text-sm leading-7 text-[var(--color-muted)]">
-                  Students should know what to expect before they step into the
-                  center.
+                <p className="mt-2 text-sm font-semibold leading-relaxed">
+                  All three assessors work independently and compare notes only at
+                  the Day 5 conference.
                 </p>
               </div>
             </div>
@@ -106,52 +196,139 @@ export default function ProcessPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-              Day-by-day flow
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
-              Scan the full journey in minutes.
-            </h2>
-          </div>
+      {/* ── Day-by-day breakdown ── */}
+      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
+        <div className="mb-8">
+          <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
+            Day-by-day flow
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
+            Know what happens before you arrive.
+          </h2>
         </div>
 
         <div className="grid gap-5">
           {processDays.map((item, index) => (
             <article
-              key={`${item.day}-${item.title}`}
-              className="group relative overflow-hidden rounded-[1.9rem] border border-white/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(247,252,255,0.92))] p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(15,23,42,0.12)] sm:p-7"
+              key={item.day}
+              className="group relative overflow-hidden rounded-[1.9rem] border border-white/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(247,252,255,0.92))] shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_28px_80px_rgba(15,23,42,0.12)]"
             >
-              <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-[radial-gradient(circle,rgba(8,145,178,0.16),transparent_72%)] opacity-80 transition-transform duration-300 group-hover:scale-110" />
-              <div className="relative grid gap-5 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] text-lg font-bold text-white shadow-[0_14px_32px_rgba(8,145,178,0.26)]">
-                  {index + 1}
-                </div>
+              {/* Left accent bar */}
+              <div
+                className="absolute left-0 top-0 h-full w-1.5 rounded-l-[1.9rem]"
+                style={{ background: item.color }}
+              />
 
-                <div className="max-w-3xl">
-                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-                    {item.day}
-                  </p>
-                  <h3 className="mt-2 font-display text-2xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-[2rem]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-[var(--color-muted)] sm:text-base">
-                    {item.details}
-                  </p>
-                </div>
+              <div className="pl-8 pr-6 py-6 sm:pr-8 sm:py-7">
+                <div className="grid gap-6 lg:grid-cols-[auto_1fr_auto] lg:items-start">
+                  {/* Step number + emoji */}
+                  <div className="flex items-center gap-3 lg:flex-col lg:items-center lg:gap-2">
+                    <div
+                      className="flex h-14 w-14 items-center justify-center rounded-2xl text-xl font-black text-white shadow-md"
+                      style={{ background: item.color }}
+                    >
+                      {index + 1}
+                    </div>
+                    <span className="text-2xl lg:text-xl">{item.icon}</span>
+                  </div>
 
-                <div className="rounded-2xl border border-[var(--color-border)] bg-white/90 px-4 py-4 lg:max-w-[18rem]">
-                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[var(--color-muted)]">
-                    Key focus
-                  </p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[var(--color-ink-strong)]">
-                    {item.focus}
-                  </p>
+                  {/* Content */}
+                  <div>
+                    <p
+                      className="text-xs font-bold uppercase tracking-[0.24em]"
+                      style={{ color: item.color }}
+                    >
+                      {item.day}
+                    </p>
+                    <h3 className="mt-1.5 font-display text-2xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-3xl">
+                      {item.label}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-[var(--color-muted)] sm:text-base">
+                      {item.details}
+                    </p>
+
+                    {/* Tests list */}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {item.tests.map((t) => (
+                        <span
+                          key={t}
+                          className="inline-block rounded-full border px-3 py-1 text-xs font-semibold"
+                          style={{
+                            borderColor: `color-mix(in srgb, ${item.color} 25%, transparent)`,
+                            color: item.color,
+                            background: `color-mix(in srgb, ${item.color} 7%, white)`,
+                          }}
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Focus + tip */}
+                  <div className="space-y-3 lg:w-64 lg:shrink-0">
+                    <div className="rounded-2xl border border-[var(--color-border)] bg-white/90 p-4">
+                      <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]">
+                        Key focus
+                      </p>
+                      <p className="mt-2 text-sm font-semibold leading-6 text-[var(--color-ink-strong)]">
+                        {item.focus}
+                      </p>
+                    </div>
+                    <div
+                      className="rounded-2xl p-4"
+                      style={{
+                        background: `color-mix(in srgb, ${item.color} 8%, white)`,
+                        border: `1px solid color-mix(in srgb, ${item.color} 18%, transparent)`,
+                      }}
+                    >
+                      <p
+                        className="text-[0.68rem] font-bold uppercase tracking-[0.22em]"
+                        style={{ color: item.color }}
+                      >
+                        Insider tip
+                      </p>
+                      <p className="mt-2 text-xs leading-relaxed text-[var(--color-ink-strong)]">
+                        {item.tip}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 15 OLQs ── */}
+      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
+        <div className="mb-6">
+          <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
+            What the board measures
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
+            15 Officer Like Qualities (OLQs)
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--color-muted)] sm:text-base">
+            Every test, task, and interview traces back to these 15 qualities.
+            Understanding them gives you a clearer framework for honest
+            self-preparation.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {olqs.map((olq, i) => (
+            <div
+              key={olq.short}
+              className="flex items-start gap-3 rounded-[1.4rem] border border-white/80 bg-white/90 p-4 shadow-sm"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent-soft)] text-xs font-black text-[var(--color-accent-strong)]">
+                {olq.short}
+              </span>
+              <p className="text-xs font-semibold leading-snug text-[var(--color-ink-strong)]">
+                {olq.label}
+              </p>
+            </div>
           ))}
         </div>
       </section>
