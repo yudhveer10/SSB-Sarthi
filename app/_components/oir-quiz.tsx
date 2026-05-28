@@ -453,6 +453,7 @@ export default function OirQuiz() {
       setTimeLeft((t) => {
         if (t <= 1) {
           clearInterval(intervalRef.current!);
+          // eslint-disable-next-line react-hooks/immutability
           handlePaperEnd();
           return 0;
         }
