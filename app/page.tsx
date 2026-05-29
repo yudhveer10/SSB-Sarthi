@@ -7,7 +7,7 @@ const features = [
     tag: "5-Day Guide",
     title: "The SSB Process",
     desc: "A complete day-by-day breakdown of everything that happens inside the board — from screening to the Day 5 conference.",
-    accent: "#0369a1",
+    accent: "#5b8fc9",
   },
   {
     href: "/centers",
@@ -15,7 +15,7 @@ const features = [
     tag: "14 Centres",
     title: "Service Centre Browser",
     desc: "Find every Army, Air Force, and Navy SSB centre with address, board numbers, transport details, and travel tips.",
-    accent: "#1d6b40",
+    accent: "#6f8f4d",
   },
   {
     href: "/resources",
@@ -23,7 +23,7 @@ const features = [
     tag: "Prep Material",
     title: "Resources",
     desc: "Document checklist, PI theme guides with real question examples, psychology tips, and myths vs reality cards.",
-    accent: "#7c3aed",
+    accent: "#4f6f8c",
   },
   {
     href: "/screening",
@@ -31,7 +31,7 @@ const features = [
     tag: "Interactive",
     title: "Screening Practice",
     desc: "An OIR quiz and PPDT picture viewer to sharpen your Day 1 performance before you reach the board.",
-    accent: "#b45309",
+    accent: "#5b8fc9",
   },
 ];
 
@@ -43,11 +43,11 @@ const stats = [
 ];
 
 const steps = [
-  { day: "Day 1", label: "Screening", color: "#0369a1", note: "OIR + PPDT" },
-  { day: "Day 2", label: "Psychology", color: "#7c3aed", note: "TAT · WAT · SRT · SD" },
-  { day: "Days 3–4", label: "GTO Tasks", color: "#1d6b40", note: "Outdoor + indoor tasks" },
-  { day: "Days 2–4", label: "Personal Interview", color: "#b45309", note: "IO interview" },
-  { day: "Day 5", label: "Conference", color: "#be123c", note: "Board alignment" },
+  { day: "Day 1", label: "Screening", color: "#5b8fc9", note: "OIR + PPDT" },
+  { day: "Day 2", label: "Psychology", color: "#4f6f8c", note: "TAT · WAT · SRT · SD" },
+  { day: "Days 3–4", label: "GTO Tasks", color: "#6f8f4d", note: "Outdoor + indoor tasks" },
+  { day: "Days 2–4", label: "Personal Interview", color: "#7b8d9a", note: "IO interview" },
+  { day: "Day 5", label: "Conference", color: "#102033", note: "Board alignment" },
 ];
 
 const myths = [
@@ -70,9 +70,9 @@ export default function HomePage() {
     <main className="pb-24">
       <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
         <div className="relative overflow-hidden rounded-[2rem] border border-white/75 bg-[linear-gradient(140deg,rgba(255,255,255,0.97)_0%,rgba(224,246,255,0.93)_55%,rgba(230,250,245,0.9)_100%)] px-6 py-12 shadow-[var(--shadow-soft)] sm:px-10 sm:py-16 lg:px-14 lg:py-20">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(8,145,178,0.15)_0%,transparent_65%)]" />
-          <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(29,107,64,0.1)_0%,transparent_65%)]" />
-          <div className="pointer-events-none absolute right-1/3 bottom-0 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(180,83,9,0.07)_0%,transparent_70%)]" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(127,179,227,0.16)_0%,transparent_65%)]" />
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(111,143,77,0.12)_0%,transparent_65%)]" />
+          <div className="pointer-events-none absolute right-1/3 bottom-0 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(91,143,201,0.08)_0%,transparent_70%)]" />
 
           <div className="relative">
             <div className="badge animate-fade-up">
@@ -95,8 +95,8 @@ export default function HomePage() {
                 href="/process"
                 className="inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
                 style={{
-                  background: "linear-gradient(135deg, #0891b2 0%, #0e7490 100%)",
-                  boxShadow: "0 4px 20px rgba(8,145,178,0.35)",
+                  background: "linear-gradient(135deg, #5b8fc9 0%, #7fb3e3 100%)",
+                  boxShadow: "0 4px 20px rgba(91,143,201,0.28)",
                 }}
               >
                 Understand the Process
@@ -257,8 +257,8 @@ export default function HomePage() {
                   {item.myth}
                 </p>
               </div>
-              <div className="bg-[rgba(29,107,64,0.05)] px-5 py-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1d6b40]">
+              <div className="bg-[rgba(111,143,77,0.06)] px-5 py-4">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#6f8f4d]">
                   ✓ Reality
                 </p>
                 <p className="text-sm leading-relaxed text-[var(--color-muted)]">
@@ -272,9 +272,9 @@ export default function HomePage() {
 
       <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
         <div className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#0d1b2f_0%,#0e3352_50%,#0d2a4a_100%)] px-8 py-12 text-center text-white sm:px-12 sm:py-14">
-          <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(8,145,178,0.22),transparent)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(127,179,227,0.22),transparent)]" />
           <div className="relative">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[rgba(8,145,178,0.85)]">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[rgba(91,143,201,0.9)]">
               You&apos;re here for a reason
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.04em] text-white/95 sm:text-4xl">
@@ -291,7 +291,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
                 style={{
                   background: "linear-gradient(135deg, #0891b2 0%, #0e7490 100%)",
-                  boxShadow: "0 4px 24px rgba(8,145,178,0.4)",
+                  boxShadow: "0 4px 24px rgba(91,143,201,0.35)",
                 }}
               >
                 Start with the Process

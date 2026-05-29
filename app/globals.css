@@ -5,22 +5,22 @@
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "DM Sans", system-ui, sans-serif;
 
-  --color-ink-strong: #0d1b2f;
-  --color-ink: #1e3448;
-  --color-muted: #6b7e96;
-  --color-muted-soft: #9aafc4;
+  --color-ink-strong: #102033;
+  --color-ink: #22384b;
+  --color-muted: #63778d;
+  --color-muted-soft: #94a9bc;
 
-  --color-accent-strong: #0891b2;
-  --color-accent: #06b6d4;
-  --color-accent-soft: rgba(8, 145, 178, 0.1);
-  --color-accent-glow: rgba(8, 145, 178, 0.22);
+  --color-accent-strong: #5b8fc9;
+  --color-accent: #7fb3e3;
+  --color-accent-soft: rgba(127, 179, 227, 0.12);
+  --color-accent-glow: rgba(127, 179, 227, 0.24);
 
-  --color-warm-strong: #b45309;
-  --color-warm-soft: rgba(180, 83, 9, 0.08);
+  --color-warm-strong: #6f8f4d;
+  --color-warm-soft: rgba(111, 143, 77, 0.1);
 
-  --color-surface: #f6fafd;
-  --color-surface-alt: #eef4fa;
-  --color-bg: #f0f5fb;
+  --color-surface: #f5f8fb;
+  --color-surface-alt: #eef4f7;
+  --color-bg: #edf3f7;
 
   --color-border: rgba(14, 36, 64, 0.09);
   --color-border-strong: rgba(14, 36, 64, 0.16);
@@ -121,9 +121,9 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(8, 145, 178, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 95% 90%, rgba(180, 83, 9, 0.05) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(8, 145, 178, 0.03) 0%, transparent 80%);
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(127, 179, 227, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 95% 90%, rgba(111, 143, 77, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(127, 179, 227, 0.04) 0%, transparent 80%);
 }
 
 body > * {
@@ -132,10 +132,10 @@ body > * {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(248, 251, 253, 0.84);
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.72);
 }
 
 .glass-dark {
@@ -155,7 +155,7 @@ body > * {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-accent-strong) 0%, #38bdf8 100%);
+  background: linear-gradient(135deg, var(--color-accent-strong) 0%, #7fb3e3 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

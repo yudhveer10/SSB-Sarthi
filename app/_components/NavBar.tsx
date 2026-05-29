@@ -20,9 +20,9 @@ export default function NavBar() {
       className="fixed inset-x-0 top-0 z-50 h-[var(--nav-height)]"
       aria-label="Primary"
     >
-      <nav className="glass mx-auto flex h-full max-w-7xl items-center justify-between gap-5 px-4 shadow-[0_1px_0_rgba(14,36,64,0.08),0_8px_30px_rgba(13,27,47,0.08)] sm:px-6 lg:px-8">
+      <nav className="glass mx-auto flex h-full max-w-7xl items-center justify-between gap-5 px-4 shadow-[0_1px_0_rgba(14,36,64,0.08),0_8px_30px_rgba(16,32,51,0.08)] sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="SSB Sarthi home">
-          <span className="flex h-9 w-9 items-center justify-center rounded-[0.7rem] bg-[linear-gradient(135deg,var(--color-accent-strong),var(--color-accent))] text-[0.72rem] font-black tracking-[0.18em] text-white shadow-[0_8px_18px_rgba(8,145,178,0.28)]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-[0.7rem] bg-[linear-gradient(135deg,var(--color-accent-strong),var(--color-accent))] text-[0.72rem] font-black tracking-[0.18em] text-white shadow-[0_8px_18px_rgba(91,143,201,0.28)]">
             SSB
           </span>
           <span className="font-display text-lg font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)]">
@@ -51,7 +51,7 @@ export default function NavBar() {
         <div className="flex items-center gap-3">
           <Link
             href="/centers"
-            className="hidden rounded-full bg-[linear-gradient(135deg,var(--color-accent-strong),var(--color-accent))] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_10px_24px_rgba(8,145,178,0.24)] transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
+            className="hidden rounded-full bg-[linear-gradient(135deg,var(--color-accent-strong),var(--color-accent))] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_10px_24px_rgba(91,143,201,0.24)] transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
           >
             Find My Centre
           </Link>

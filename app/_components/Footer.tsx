@@ -71,7 +71,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[1.35rem] border border-[var(--color-border)] bg-[rgba(8,145,178,0.05)] p-4 text-xs leading-relaxed text-[var(--color-muted)]">
+        <div className="mt-10 rounded-[1.35rem] border border-[var(--color-border)] bg-[rgba(127,179,227,0.08)] p-4 text-xs leading-relaxed text-[var(--color-muted)]">
           <strong className="text-[var(--color-ink-strong)]">Disclaimer: </strong>
           SSB Sarthi is an independent resource created to help candidates understand
           the SSB process. Centre details, contact information, and board numbers are
