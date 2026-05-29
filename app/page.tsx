@@ -1,371 +1,314 @@
 import Link from "next/link";
 
-const liveHeadlines = [
+const features = [
   {
-    tag: "NDA",
-    title:
-      "UPSC NDA 2 2025 result out with SSB registration now active for shortlisted candidates.",
-    date: "Oct 2025",
-    href: "https://www.joinindianarmy.nic.in",
-  },
-  {
-    tag: "CDS",
-    title:
-      "UPSC CDS II 2026 notification released across IMA, INA, AFA and OTA entries.",
-    date: "May 2026",
-    href: "https://upsconline.nic.in",
-  },
-  {
-    tag: "Reform",
-    title:
-      "Indian Army is preparing computer-based Stage 1 screening changes for future cycles.",
-    date: "Apr 2026",
-    href: "https://news.ssbcrack.com",
-  },
-  {
-    tag: "Tech Entry",
-    title:
-      "CDSTE is expected to replace direct SSB calls for some technical entries from 2027 onward.",
-    date: "2027 onward",
-    href: "https://upsc.gov.in",
-  },
-];
-
-const featureCards = [
-  {
-    title: "Process Clarity",
-    description:
-      "Understand screening, psychology, GTO, interview, and conference without jumping through scattered sources.",
     href: "/process",
+    emoji: "🗓️",
+    tag: "5-Day Guide",
+    title: "The SSB Process",
+    desc: "A complete day-by-day breakdown of everything that happens inside the board — from screening to the Day 5 conference.",
+    accent: "#0369a1",
   },
   {
-    title: "Centre Discovery",
-    description:
-      "Start with Army, Air Force, or Navy first, then browse the centres that actually matter to your entry.",
     href: "/centers",
+    emoji: "🏛️",
+    tag: "14 Centres",
+    title: "Service Centre Browser",
+    desc: "Find every Army, Air Force, and Navy SSB centre with address, board numbers, transport details, and travel tips.",
+    accent: "#1d6b40",
   },
   {
-    title: "Trend Context",
-    description:
-      "Track shifts in the SSB ecosystem carefully, with context instead of rumor-led noise.",
-    href: "/trends",
+    href: "/resources",
+    emoji: "📋",
+    tag: "Prep Material",
+    title: "Resources",
+    desc: "Document checklist, PI theme guides with real question examples, psychology tips, and myths vs reality cards.",
+    accent: "#7c3aed",
+  },
+  {
+    href: "/screening",
+    emoji: "🧩",
+    tag: "Interactive",
+    title: "Screening Practice",
+    desc: "An OIR quiz and PPDT picture viewer to sharpen your Day 1 performance before you reach the board.",
+    accent: "#b45309",
   },
 ];
 
-const quickStats = [
-  { value: "5 Days", label: "mapped into a clear preparation flow" },
-  { value: "13+", label: "centre locations ready for structured discovery" },
-  { value: "1 Hub", label: "for process, centres, trends, and journals" },
+const stats = [
+  { value: "14", label: "Selection Centres", sub: "Army · Air Force · Navy" },
+  { value: "5", label: "Testing Days", sub: "Screening to Conference" },
+  { value: "15", label: "OLQs Assessed", sub: "Officer Like Qualities" },
+  { value: "3", label: "Assessors", sub: "Psych · IO · GTO" },
 ];
 
-const signals = [
-  "Branch-first centre discovery",
-  "Cleaner guidance for first-time aspirants",
-  "Less noise, more practical direction",
+const steps = [
+  { day: "Day 1", label: "Screening", color: "#0369a1", note: "OIR + PPDT" },
+  { day: "Day 2", label: "Psychology", color: "#7c3aed", note: "TAT · WAT · SRT · SD" },
+  { day: "Days 3–4", label: "GTO Tasks", color: "#1d6b40", note: "Outdoor + indoor tasks" },
+  { day: "Days 2–4", label: "Personal Interview", color: "#b45309", note: "IO interview" },
+  { day: "Day 5", label: "Conference", color: "#be123c", note: "Board alignment" },
 ];
 
-export default function Home() {
+const myths = [
+  {
+    myth: "Coaching centres guarantee selection.",
+    reality: "Coaching can sharpen presentation, but it cannot replace genuine Officer Like Qualities.",
+  },
+  {
+    myth: "You need a military family background.",
+    reality: "The board looks for qualities and consistency, not lineage.",
+  },
+  {
+    myth: "Tall, athletic candidates are always preferred.",
+    reality: "Fitness helps, but intelligence, responsibility, and leadership matter more.",
+  },
+];
+
+export default function HomePage() {
   return (
-    <main className="bg-[var(--color-page)] text-[var(--color-ink)]">
-      <div className="relative z-10 border-b border-white/60 bg-[linear-gradient(90deg,#174ea6,#1a73e8)] text-white">
-        <div className="mx-auto flex w-full max-w-[1440px] items-center gap-4 px-6 py-2.5 sm:px-10 lg:px-12">
-          <span className="hidden shrink-0 items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/85 sm:inline-flex">
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-            Live updates
-          </span>
-          <div className="ticker-track flex-1 overflow-hidden">
-            <div className="ticker-content flex gap-10 whitespace-nowrap text-sm font-medium">
-              {[...liveHeadlines, ...liveHeadlines].map((headline, index) => (
-                <a
-                  key={`${headline.title}-${index}`}
-                  href={headline.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 text-white/90 transition-colors hover:text-white"
+    <main className="pb-24">
+      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/75 bg-[linear-gradient(140deg,rgba(255,255,255,0.97)_0%,rgba(224,246,255,0.93)_55%,rgba(230,250,245,0.9)_100%)] px-6 py-12 shadow-[var(--shadow-soft)] sm:px-10 sm:py-16 lg:px-14 lg:py-20">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(8,145,178,0.15)_0%,transparent_65%)]" />
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(29,107,64,0.1)_0%,transparent_65%)]" />
+          <div className="pointer-events-none absolute right-1/3 bottom-0 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(180,83,9,0.07)_0%,transparent_70%)]" />
+
+          <div className="relative">
+            <div className="badge animate-fade-up">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent-strong)]" />
+              India&apos;s SSB Preparation Guide
+            </div>
+
+            <h1 className="animate-fade-up stagger-1 mt-6 max-w-4xl text-[clamp(2.4rem,6vw,4.5rem)] font-display font-semibold leading-[1.01] tracking-[-0.05em] text-[var(--color-ink-strong)]">
+              Prepare for your <span className="text-gradient">SSB interview</span> the right way.
+            </h1>
+
+            <p className="animate-fade-up stagger-2 mt-6 max-w-2xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
+              SSB Sarthi gives you a clear, honest map of the entire Service Selection Board
+              process — day-by-day breakdowns, centre details, practice tools, and preparation
+              resources. No coaching gimmicks.
+            </p>
+
+            <div className="animate-fade-up stagger-3 mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/process"
+                className="inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
+                style={{
+                  background: "linear-gradient(135deg, #0891b2 0%, #0e7490 100%)",
+                  boxShadow: "0 4px 20px rgba(8,145,178,0.35)",
+                }}
+              >
+                Understand the Process
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link
+                href="/centers"
+                className="inline-flex items-center gap-2 rounded-2xl border px-6 py-3.5 text-sm font-bold transition-all duration-200 hover:bg-white/70 active:scale-95"
+                style={{
+                  borderColor: "var(--color-border-strong)",
+                  color: "var(--color-ink-strong)",
+                }}
+              >
+                Find My Centre
+              </Link>
+            </div>
+
+            <div className="animate-fade-up stagger-4 mt-10 flex flex-wrap gap-4">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex items-center gap-3 rounded-2xl border border-white/90 bg-white/75 px-5 py-3 shadow-[var(--shadow-card)]"
                 >
-                  <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white">
-                    {headline.tag}
+                  <span className="font-display text-2xl font-bold text-[var(--color-accent-strong)]">
+                    {stat.value}
                   </span>
-                  <span>{headline.title}</span>
-                  <span className="text-white/60">· {headline.date}</span>
-                </a>
+                  <div>
+                    <p className="text-xs font-bold text-[var(--color-ink-strong)]">{stat.label}</p>
+                    <p className="mt-0.5 text-[11px] text-[var(--color-muted)]">{stat.sub}</p>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(26,115,232,0.1),transparent_24%),radial-gradient(circle_at_top_right,rgba(26,115,232,0.14),transparent_28%),radial-gradient(circle_at_55%_32%,rgba(255,255,255,0.94),transparent_36%)]" />
-        <div className="relative mx-auto w-full max-w-[1440px] px-6 pb-18 pt-14 sm:px-10 lg:px-12 lg:pb-22">
-          <div className="grid gap-10 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-start">
-            <div className="max-w-5xl pt-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/75 bg-white/88 px-4 py-2 text-sm font-semibold text-[var(--color-muted)] shadow-sm backdrop-blur">
-                <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-accent)]" />
-                Built for NDA, CDS, AFCAT and TES aspirants across India
-              </div>
-
-              <h1 className="mt-6 max-w-5xl font-display text-[3.8rem] font-semibold leading-[0.92] tracking-[-0.07em] text-[var(--color-ink-strong)] sm:text-[5rem] xl:text-[6.4rem]">
-                One calm place to plan your SSB, not another cluttered prep
-                site.
-              </h1>
-
-              <p className="mt-7 max-w-3xl text-[1.14rem] leading-9 text-[var(--color-ink)] sm:text-[1.24rem]">
-                SSB Sarthi brings process clarity, selection-centre discovery,
-                recommendation context, and real aspirant stories into one
-                sharper experience so you can prepare with confidence and skip
-                the noise.
-              </p>
-
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/centers"
-                  className="inline-flex min-w-[230px] items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-7 py-4 text-sm font-semibold text-white shadow-[0_20px_45px_rgba(26,115,232,0.28)] transition-transform duration-200 hover:-translate-y-0.5"
-                >
-                  Explore Selection Centres
-                </Link>
-                <Link
-                  href="/process"
-                  className="inline-flex min-w-[210px] items-center justify-center rounded-full border border-white/75 bg-white/94 px-7 py-4 text-sm font-semibold text-[var(--color-ink-strong)] shadow-sm transition-colors duration-200 hover:bg-[var(--color-surface)]"
-                >
-                  View 5-Day Process
-                </Link>
-              </div>
-
-              <div className="mt-10 grid gap-3 lg:max-w-4xl lg:grid-cols-3">
-                {signals.map((signal) => (
-                  <div
-                    key={signal}
-                    className="rounded-[1.35rem] border border-white/75 bg-white/82 px-4 py-4 shadow-sm backdrop-blur"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-sm font-bold text-[var(--color-accent-strong)]">
-                        +
-                      </span>
-                      <p className="text-sm font-medium leading-6 text-[var(--color-ink)]">
-                        {signal}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="xl:pt-10">
-              <div className="rounded-[2rem] border border-white/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(241,246,255,0.96))] p-6 shadow-[var(--shadow-soft)] sm:p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-medium uppercase tracking-[0.22em] text-[var(--color-muted)]">
-                      Aspirant briefing
-                    </p>
-                    <h2 className="mt-2 max-w-sm font-display text-3xl font-semibold tracking-[-0.05em] text-[var(--color-ink-strong)]">
-                      What changed for SSB candidates this cycle
-                    </h2>
-                  </div>
-                  <span className="rounded-full bg-[var(--color-accent-soft)] px-4 py-2 text-sm font-semibold text-[var(--color-accent-strong)] shadow-sm">
-                    Live
-                  </span>
-                </div>
-
-                <ul className="mt-7 space-y-3">
-                  {liveHeadlines.slice(0, 3).map((headline) => (
-                    <li
-                      key={headline.title}
-                      className="rounded-[1.2rem] border border-white/75 bg-white/90 px-4 py-4 shadow-sm"
-                    >
-                      <div className="flex gap-3">
-                        <span className="mt-0.5 inline-flex shrink-0 items-center justify-center rounded-full bg-[var(--color-accent-soft)] px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-[var(--color-accent-strong)]">
-                          {headline.tag}
-                        </span>
-                        <div>
-                          <p className="text-sm font-semibold leading-6 text-[var(--color-ink-strong)]">
-                            {headline.title}
-                          </p>
-                          <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-muted)]">
-                            {headline.date}
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6 rounded-[1.5rem] border border-[rgba(26,115,232,0.16)] bg-[linear-gradient(135deg,#174ea6,#1a73e8)] p-5 text-white shadow-[0_18px_46px_rgba(26,115,232,0.2)]">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/72">
-                      Best next click
-                    </p>
-                    <span className="rounded-full bg-white/14 px-3 py-1 text-xs font-semibold text-white/85">
-                      live flow
-                    </span>
-                  </div>
-                  <p className="mt-3 font-display text-xl font-semibold tracking-[-0.04em]">
-                    Branch-first centre browsing
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-white/84">
-                    Choose Army, Air Force, or Navy first, then explore the
-                    centres that fit your reporting route and entry plan.
-                  </p>
-                </div>
-              </div>
-            </div>
+      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
+        <div className="overflow-hidden rounded-[1.75rem] bg-[#0d1b2f] p-6 shadow-[var(--shadow-raised)] sm:p-7">
+          <div className="mb-5 flex items-center gap-3">
+            <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/50">
+              At a glance
+            </span>
+            <div className="h-px flex-1 bg-white/10" />
           </div>
 
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {quickStats.map((stat) => (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {steps.map((step, index) => (
               <div
-                key={stat.label}
-                className="rounded-[1.5rem] border border-white/80 bg-white/90 px-6 py-6 shadow-sm backdrop-blur"
+                key={step.day}
+                className="relative rounded-2xl border p-4"
+                style={{
+                  background: `color-mix(in srgb, ${step.color} 15%, rgba(255,255,255,0.04))`,
+                  borderColor: `color-mix(in srgb, ${step.color} 35%, transparent)`,
+                }}
               >
-                <p className="font-display text-3xl font-semibold tracking-[-0.05em] text-[var(--color-ink-strong)]">
-                  {stat.value}
+                {index < steps.length - 1 ? (
+                  <span className="pointer-events-none absolute -right-1.5 top-1/2 hidden h-px w-3 bg-white/12 lg:block" />
+                ) : null}
+                <p className="text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: step.color }}>
+                  {step.day}
                 </p>
-                <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">
-                  {stat.label}
-                </p>
+                <p className="mt-1.5 text-sm font-bold leading-snug text-white/92">{step.label}</p>
+                <p className="mt-1 text-[11px] leading-relaxed text-white/45">{step.note}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-5 flex justify-end">
+            <Link
+              href="/process"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-accent)] transition-opacity hover:opacity-80"
+            >
+              Full 5-day breakdown
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-6 py-18 sm:px-10 lg:px-12">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-              Platform modules
-            </p>
-            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.05em] text-[var(--color-ink-strong)]">
-              Built around the questions aspirants ask most.
-            </h2>
-          </div>
-          <Link
-            href="/trends"
-            className="inline-flex w-fit items-center justify-center rounded-full border border-[rgba(26,115,232,0.18)] bg-white px-5 py-3 text-sm font-semibold text-[var(--color-accent-strong)] shadow-sm transition-colors hover:bg-[var(--color-accent-soft)]"
-          >
-            See all trends →
-          </Link>
+      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
+        <div className="mb-8">
+          <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
+            What&apos;s inside
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
+            Everything you need in one place.
+          </h2>
         </div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {featureCards.map((card) => (
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {features.map((feature) => (
             <Link
-              key={card.title}
-              href={card.href}
-              className="group rounded-[1.8rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(245,249,255,0.94))] p-7 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(26,115,232,0.24)] hover:shadow-[0_28px_72px_rgba(15,23,42,0.12)]"
+              key={feature.href}
+              href={feature.href}
+              className="card-lift group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(247,253,255,0.94)_100%)] p-6 shadow-[var(--shadow-card)]"
             >
-              <h3 className="font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)]">
-                {card.title}
+              <div
+                className="absolute left-0 right-0 top-0 h-0.5 rounded-t-[1.75rem]"
+                style={{ background: feature.accent }}
+              />
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-2xl text-2xl"
+                style={{ background: `color-mix(in srgb, ${feature.accent} 10%, rgba(255,255,255,0.6))` }}
+                aria-hidden="true"
+              >
+                {feature.emoji}
+              </div>
+              <span className="mt-4 inline-block text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: feature.accent }}>
+                {feature.tag}
+              </span>
+              <h3 className="mt-1.5 font-display text-xl font-semibold leading-snug tracking-[-0.03em] text-[var(--color-ink-strong)]">
+                {feature.title}
               </h3>
-              <p className="mt-4 text-base leading-7 text-[var(--color-muted)]">
-                {card.description}
+              <p className="mt-3 flex-1 text-sm leading-7 text-[var(--color-muted)]">
+                {feature.desc}
               </p>
-              <p className="mt-6 text-sm font-semibold text-[var(--color-accent-strong)] transition-transform duration-200 group-hover:translate-x-1">
-                Open section →
-              </p>
+              <div className="mt-5 flex items-center justify-end">
+                <span
+                  className="flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-200 group-hover:translate-x-0.5"
+                  style={{ background: `color-mix(in srgb, ${feature.accent} 12%, transparent)`, color: feature.accent }}
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="border-y border-white/70 bg-[var(--color-surface)]">
-        <div className="mx-auto grid w-full max-w-[1440px] gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-              Why it matters
-            </p>
-            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.05em] text-[var(--color-ink-strong)]">
-              SSB preparation is already intense. Finding reliable guidance
-              should not be.
-            </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)]">
-              Aspirants already deal with fragmented advice across Telegram
-              groups, YouTube clips, and scattered notes. This platform should
-              feel calmer, sharper, and easier to trust.
-            </p>
-          </div>
+      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
+        <div className="mb-7">
+          <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-warm-strong)]">
+            Clear the noise
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
+            Common SSB myths, debunked.
+          </h2>
+        </div>
 
-          <div className="grid gap-5 md:grid-cols-2">
-            {liveHeadlines.slice(0, 4).map((headline) => (
-              <a
-                key={headline.title}
-                href={headline.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-[1.5rem] border border-white/80 bg-white/90 p-5 shadow-sm transition-colors hover:border-[rgba(26,115,232,0.22)]"
-              >
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--color-accent-strong)]">
-                  {headline.tag}
+        <div className="grid gap-4 sm:grid-cols-3">
+          {myths.map((item) => (
+            <div
+              key={item.myth}
+              className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] shadow-[var(--shadow-card)]"
+            >
+              <div className="bg-[rgba(239,68,68,0.06)] px-5 py-4">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ef4444]">
+                  ✗ Myth
                 </p>
-                <p className="mt-3 text-base font-semibold leading-7 text-[var(--color-ink-strong)]">
-                  {headline.title}
+                <p className="text-sm font-semibold leading-relaxed text-[var(--color-ink-strong)]">
+                  {item.myth}
                 </p>
-                <p className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-muted)]">
-                  {headline.date}
+              </div>
+              <div className="bg-[rgba(29,107,64,0.05)] px-5 py-4">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1d6b40]">
+                  ✓ Reality
                 </p>
-              </a>
-            ))}
-          </div>
+                <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+                  {item.reality}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-[1440px] px-6 py-18 sm:px-10 lg:px-12">
-        <div className="overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#174ea6_0%,#1a73e8_58%,#6ea8ff_100%)] px-6 py-10 text-white shadow-[0_30px_80px_rgba(23,37,84,0.18)] sm:px-8 lg:px-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
-            <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/72">
-                Next steps
-              </p>
-              <h2 className="mt-4 font-display text-4xl font-semibold leading-tight tracking-[-0.05em]">
-                The next build priorities are clearer now.
-              </h2>
-              <p className="mt-4 text-base leading-8 text-white/84">
-                The strongest next step is turning resources into genuinely
-                useful checklists and reporting help, then deepening trends with
-                better structure and context.
-              </p>
-
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/resources"
-                  className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#174ea6] transition-colors hover:bg-[#eef5ff]"
-                >
-                  Open Resources
-                </Link>
-                <Link
-                  href="/trends"
-                  className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-                >
-                  Review Trends
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid gap-4">
-              <div className="rounded-[1.6rem] border border-white/18 bg-white/10 p-5 backdrop-blur">
-                <p className="text-[0.7rem] font-bold uppercase tracking-[0.24em] text-white/68">
-                  Now shipping
-                </p>
-                <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em]">
-                  Cleaner landing page
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-white/82 sm:text-base">
-                  Better spacing, stronger blue-led branding, and less visual
-                  clutter across the homepage.
-                </p>
-              </div>
-              <div className="rounded-[1.6rem] border border-white/18 bg-white/10 p-5 backdrop-blur">
-                <p className="text-[0.7rem] font-bold uppercase tracking-[0.24em] text-white/68">
-                  Next build step
-                </p>
-                <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em]">
-                  Real resource content
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-white/82 sm:text-base">
-                  Replace placeholders with reporting checklists, travel notes,
-                  and practical centre-specific guidance..
-                </p>
-              </div>
+      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
+        <div className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#0d1b2f_0%,#0e3352_50%,#0d2a4a_100%)] px-8 py-12 text-center text-white sm:px-12 sm:py-14">
+          <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(8,145,178,0.22),transparent)]" />
+          <div className="relative">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[rgba(8,145,178,0.85)]">
+              You&apos;re here for a reason
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.04em] text-white/95 sm:text-4xl">
+              The board is looking for who you really are.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-sm leading-8 text-white/55">
+              The only candidate the SSB recommends is one who is consistently
+              themselves across five days. Start understanding what that means before
+              you walk through the gate.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/process"
+                className="inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
+                style={{
+                  background: "linear-gradient(135deg, #0891b2 0%, #0e7490 100%)",
+                  boxShadow: "0 4px 24px rgba(8,145,178,0.4)",
+                }}
+              >
+                Start with the Process
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+              <Link
+                href="/resources"
+                className="inline-flex items-center gap-2 rounded-2xl border px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:bg-white/10 active:scale-95"
+                style={{
+                  borderColor: "rgba(255,255,255,0.18)",
+                  color: "rgba(255,255,255,0.85)",
+                }}
+              >
+                Browse Resources
+              </Link>
             </div>
           </div>
         </div>
