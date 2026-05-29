@@ -45,6 +45,9 @@ export default function Footer() {
               An independent preparation guide for SSB aspirants. Not affiliated with
               any government body. Centre data should always be verified before travel.
             </p>
+            <p className="mt-3 text-sm font-semibold text-[var(--color-ink-strong)]">
+              Made with love for Defense Aspirants 🇮🇳 ❤️
+            </p>
             <p className="mt-4 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-muted-soft)]">
               © {new Date().getFullYear()} SSB Sarthi
             </p>
