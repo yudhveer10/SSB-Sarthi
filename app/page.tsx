@@ -65,9 +65,64 @@ const myths = [
   },
 ];
 
+const liveUpdates = [
+  {
+    tag: "UPSC",
+    title: "CDS II 2026 exam notification is live on the UPSC What’s New page.",
+    date: "May 29, 2026",
+    href: "https://www.upsc.gov.in/whats-new/Combined%20Defence%20Services%20Examination%20%28II%29%2C%202026/Exam%20Notification",
+  },
+  {
+    tag: "UPSC",
+    title: "NDA & NA II 2026 exam notification is now available officially.",
+    date: "May 29, 2026",
+    href: "https://www.upsc.gov.in/whats-new/National%20Defence%20Academy%20and%20Naval%20Academy%20Examination%20%28II%29%2C%202026/Exam%20Notification",
+  },
+  {
+    tag: "UPSC",
+    title: "Written results for CDS I 2026 and NDA/NA I 2026 are listed on the live updates page.",
+    date: "May 29, 2026",
+    href: "https://www.upsc.gov.in",
+  },
+  {
+    tag: "UPSC",
+    title: "UPSC’s What’s New feed is the best place to track defence exam updates right now.",
+    date: "May 29, 2026",
+    href: "https://www.upsc.gov.in/whats-new",
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="pb-24">
+      <section className="border-b border-white/60 bg-[linear-gradient(90deg,#5b8fc9,#7fb3e3)] text-white">
+        <div className="mx-auto flex w-full max-w-[1440px] items-center gap-4 px-6 py-2.5 sm:px-10 lg:px-12">
+          <span className="hidden shrink-0 items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/90 sm:inline-flex">
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+            Live updates
+          </span>
+          <div className="ticker-track flex-1 overflow-hidden">
+            <div className="ticker-content flex gap-10 whitespace-nowrap text-sm font-medium">
+              {[...liveUpdates, ...liveUpdates].map((item, index) => (
+                <a
+                  key={`${item.title}-${index}`}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 text-white/92 transition-colors hover:text-white"
+                >
+                  <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white">
+                    {item.tag}
+                  </span>
+                  <span>{item.title}</span>
+                  <span className="text-white/60">· {item.date}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
         <div className="relative overflow-hidden rounded-[2rem] border border-white/75 bg-[linear-gradient(140deg,rgba(255,255,255,0.97)_0%,rgba(224,246,255,0.93)_55%,rgba(230,250,245,0.9)_100%)] px-6 py-12 shadow-[var(--shadow-soft)] sm:px-10 sm:py-16 lg:px-14 lg:py-20">
           <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(127,179,227,0.16)_0%,transparent_65%)]" />
