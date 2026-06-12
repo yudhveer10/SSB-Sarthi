@@ -17,15 +17,16 @@ export default function SignInPage() {
             Sign in to your preparation workspace.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)]">
-            Continue with Google or use a secure email link. Your dashboard keeps
-            plans, OIR attempts, PPDT stories, centre checklists, and OLQ journal
-            entries private to your account.
+            Create an account with email and password, continue with Google, or
+            use a secure email link. Your dashboard keeps plans, OIR attempts,
+            PPDT stories, centre checklists, and OLQ journal entries private to
+            your account.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
               ["Private data", "Protected by Supabase row-level security."],
-              ["Fast login", "Google OAuth and email magic links."],
+              ["Fast login", "Password, Google OAuth, and email magic links."],
               ["Same workspace", "One place for practice and review."],
             ].map(([title, body]) => (
               <div key={title} className="mini-panel">

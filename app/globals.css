@@ -208,6 +208,29 @@ body > * {
   transform: translateY(-1px);
 }
 
+.field-input {
+  min-height: 48px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-strong);
+  background: white;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink-strong);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: var(--color-muted-soft);
+}
+
+.field-input:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(47, 128, 201, 0.12);
+}
+
 .mini-panel,
 .feature-panel {
   display: block;
