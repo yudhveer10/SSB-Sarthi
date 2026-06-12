@@ -76,7 +76,7 @@ const plans = [
   },
   {
     name: "Sarthi Pro",
-    price: "Rs 299",
+    price: "Rs 499",
     description: "For aspirants who want a structured, accountable workspace.",
     cta: "Go Pro",
     href: "/screening",
@@ -109,17 +109,17 @@ export default function HomePage() {
   return (
     <main className="bg-white text-[var(--color-ink-strong)]">
       <section className="overflow-hidden border-b border-[var(--color-border)]">
-        <div className="mx-auto grid min-h-[calc(100dvh-var(--nav-height))] w-full max-w-7xl items-center gap-12 px-6 py-16 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-12 lg:py-20">
+        <div className="mx-auto grid w-full max-w-7xl items-start gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12 lg:py-12">
           <div className="max-w-2xl">
-            <h1 className="max-w-[11ch] font-display text-5xl font-semibold leading-[1.02] text-[var(--color-ink-strong)] sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-[12ch] font-display text-4xl font-extrabold leading-[1.05] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4rem]">
               Your command center for SSB readiness.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--color-muted)]">
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
               Plan every testing day, practice screening tasks, track OLQs, and
               arrive at the board with clarity.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link href="/screening" className="btn-primary">
                 Start preparation
                 <ArrowIcon />
@@ -129,7 +129,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-12 grid gap-3 sm:grid-cols-3">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {navCards.map((card) => (
                 <Link key={card.title} href={card.href} className="mini-panel">
                   <span className="text-sm font-semibold text-[var(--color-ink-strong)]">
@@ -161,14 +161,14 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="grid gap-4 p-5 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="grid gap-3 p-5 lg:grid-cols-[0.9fr_1.1fr]">
                 <div className="space-y-4">
                   <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold">5-day plan</p>
                       <CalendarIcon className="h-4 w-4 text-[var(--color-green)]" />
                     </div>
-                    <div className="mt-4 space-y-2">
+                    <div className="mt-3 space-y-2">
                       {planner.map((item) => (
                         <div
                           key={item.day}
@@ -192,7 +192,7 @@ export default function HomePage() {
 
                   <div className="rounded-lg border border-[var(--color-border)] bg-[#0d1b2f] p-4 text-white">
                     <p className="text-sm font-semibold">Centre checklist</p>
-                    <div className="mt-4 space-y-3">
+                    <div className="mt-3 space-y-2.5">
                       {["Call-up letter", "Documents", "Travel buffer"].map((item) => (
                         <div key={item} className="flex items-center gap-3">
                           <span className="flex h-5 w-5 items-center justify-center rounded bg-[#2f7d57] text-[10px]">
@@ -211,7 +211,7 @@ export default function HomePage() {
                       <p className="text-sm font-semibold">OLQ progress</p>
                       <TargetIcon className="h-4 w-4 text-[var(--color-blue)]" />
                     </div>
-                    <div className="mt-5 space-y-4">
+                    <div className="mt-4 space-y-3">
                       {progressRows.map((row) => (
                         <div key={row.label}>
                           <div className="mb-2 flex justify-between text-xs">
