@@ -56,7 +56,7 @@ export default function NavBar() {
             View demo
           </Link>
           <Link
-            href="/screening"
+            href="/dashboard"
             className="hidden rounded-lg bg-[var(--color-blue)] px-4 py-2.5 text-xs font-bold text-white shadow-[0_10px_24px_rgba(47,128,201,0.22)] transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
           >
             Start preparation
@@ -125,7 +125,7 @@ export default function NavBar() {
 
         <div className="mt-3 border-t border-[var(--color-border)] pt-3">
           <Link
-            href="/screening"
+            href="/dashboard"
             className="flex w-full items-center justify-center rounded-lg bg-[var(--color-blue)] px-4 py-3 text-sm font-bold text-white"
             onClick={() => setMenuOpen(false)}
           >

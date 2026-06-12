@@ -246,7 +246,7 @@ export default function ResourcesPage() {
             Before you leave home
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
-            Reporting checklist — don't forget these.
+            Reporting checklist — don&apos;t forget these.
           </h2>
         </div>
 
@@ -297,10 +297,10 @@ export default function ResourcesPage() {
             Personal interview
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
-            Common PI question themes — reflect, don't memorise.
+            Common PI question themes — reflect, don&apos;t memorise.
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--color-muted)]">
-            These aren't scripts. Use these themes to reflect honestly on your
+            These aren&apos;t scripts. Use these themes to reflect honestly on your
             own answers before the interview — not to craft coached responses.
           </p>
         </div>

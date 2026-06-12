@@ -146,7 +146,7 @@ export default function TrendsPage() {
                   base of verified aspirant submissions.
                 </p>
                 <p className="mt-2 text-xs text-[var(--color-muted)]">
-                  If you've recently appeared at an SSB, your journal submission
+                  If you&apos;ve recently appeared at an SSB, your journal submission
                   directly contributes to this data.
                 </p>
               </div>
@@ -202,7 +202,7 @@ export default function TrendsPage() {
       <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
         <div className="mb-8">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-            What's being built
+            What&apos;s being built
           </p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
             The full trends dashboard, planned.
