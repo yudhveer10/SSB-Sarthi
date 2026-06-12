@@ -9,9 +9,8 @@ export default function DashboardPracticePage() {
     <DashboardModule
       eyebrow="Practice"
       title="Screening practice hub."
-      body="Start with OIR and PPDT. We will connect saved attempts and deeper drills here next."
+      body="Start with two free OIR sets and PPDT practice. We will connect saved attempts and deeper drills here next."
       actions={[
-        ["Start OIR test", "/screening/oir"],
         ["Open PPDT sets", "/screening"],
       ]}
     />
@@ -41,6 +40,14 @@ function DashboardModule({
         {body}
       </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
+        {["OIR Set 01", "OIR Set 02"].map((set) => (
+          <Link key={set} href="/screening/oir" className="feature-panel">
+            <p className="text-lg font-extrabold">{set}</p>
+            <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
+              50 questions, two timed papers, instant IB-style review.
+            </p>
+          </Link>
+        ))}
         {actions.map(([label, href]) => (
           <Link key={label} href={href} className="feature-panel">
             <p className="text-lg font-extrabold">{label}</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -13,6 +13,14 @@ type Question = {
   options: string[];
   answer: number; // 0-indexed
   explanation: string;
+};
+
+type OirSet = {
+  id: string;
+  title: string;
+  difficulty: string;
+  description: string;
+  questions: Question[];
 };
 
 // ─── Full question bank ───────────────────────────────────────────────────────
@@ -394,11 +402,81 @@ const QUESTIONS: Question[] = [
   },
 ];
 
+const SET_TWO_QUESTIONS: Question[] = [
+  { id: 101, paper: 1, category: "Number Series", question: "Find the missing number: 4, 9, 16, 25, 36, ?", options: ["42", "45", "49", "52"], answer: 2, explanation: "These are squares: 2^2, 3^2, 4^2, 5^2, 6^2, so next is 7^2 = 49." },
+  { id: 102, paper: 1, category: "Number Series", question: "Find the missing number: 7, 14, 28, 56, ?", options: ["84", "98", "112", "126"], answer: 2, explanation: "Each term doubles. 56 x 2 = 112." },
+  { id: 103, paper: 1, category: "Number Series", question: "Find the missing number: 81, 72, 64, 57, 51, ?", options: ["44", "45", "46", "47"], answer: 2, explanation: "Differences are -9, -8, -7, -6, so next is -5. 51 - 5 = 46." },
+  { id: 104, paper: 1, category: "Number Series", question: "Find the missing number: 2, 5, 11, 23, 47, ?", options: ["83", "91", "95", "99"], answer: 2, explanation: "Each term is previous x 2 + 1. 47 x 2 + 1 = 95." },
+  { id: 105, paper: 1, category: "Number Series", question: "Find the missing number: 6, 11, 18, 27, 38, ?", options: ["49", "50", "51", "52"], answer: 2, explanation: "Differences are 5, 7, 9, 11, then 13. 38 + 13 = 51." },
+  { id: 106, paper: 1, category: "Analogies", question: "Compass : Direction :: Clock : ?", options: ["Time", "Speed", "Alarm", "Minute"], answer: 0, explanation: "A compass indicates direction; a clock indicates time." },
+  { id: 107, paper: 1, category: "Analogies", question: "Pilot : Aircraft :: Captain : ?", options: ["Harbour", "Ship", "Ocean", "Crew"], answer: 1, explanation: "A pilot operates an aircraft; a captain commands a ship." },
+  { id: 108, paper: 1, category: "Analogies", question: "Seed : Plant :: Cadet : ?", options: ["Parade", "Officer", "Training", "Uniform"], answer: 1, explanation: "A seed develops into a plant; a cadet develops into an officer." },
+  { id: 109, paper: 1, category: "Analogies", question: "Library : Books :: Armoury : ?", options: ["Maps", "Weapons", "Uniforms", "Vehicles"], answer: 1, explanation: "A library stores books; an armoury stores weapons." },
+  { id: 110, paper: 1, category: "Analogies", question: "Thermometer : Temperature :: Barometer : ?", options: ["Height", "Rain", "Pressure", "Wind"], answer: 2, explanation: "A thermometer measures temperature; a barometer measures pressure." },
+  { id: 111, paper: 1, category: "Coding-Decoding", question: "If CAMP is coded as DBNQ, how is FORT coded?", options: ["GPSU", "GQSU", "GPSV", "EQSS"], answer: 0, explanation: "Each letter moves +1: F to G, O to P, R to S, T to U." },
+  { id: 112, paper: 1, category: "Coding-Decoding", question: "If DELHI is 4-5-12-8-9, what is BASE?", options: ["2-1-19-5", "2-2-19-5", "3-1-18-5", "2-1-18-5"], answer: 0, explanation: "Use alphabet positions: B=2, A=1, S=19, E=5." },
+  { id: 113, paper: 1, category: "Coding-Decoding", question: "If TIGER is written as SFHDP, how is HORSE written?", options: ["GNQRD", "GNQTD", "IPSTF", "GNRRD"], answer: 0, explanation: "Each letter moves -1: H to G, O to N, R to Q, S to R, E to D." },
+  { id: 114, paper: 1, category: "Odd One Out", question: "Which does not belong? Platoon, Company, Battalion, Squadron, Brigade", options: ["Platoon", "Squadron", "Battalion", "Brigade"], answer: 1, explanation: "Squadron is commonly an air/cavalry unit term; the others are standard army formation terms in this list." },
+  { id: 115, paper: 1, category: "Odd One Out", question: "Which is odd? Rifle, Carbine, Pistol, Binoculars", options: ["Rifle", "Carbine", "Pistol", "Binoculars"], answer: 3, explanation: "Binoculars are observation equipment; the others are firearms." },
+  { id: 116, paper: 1, category: "Odd One Out", question: "Which does not belong? Monday, March, Friday, Sunday", options: ["Monday", "March", "Friday", "Sunday"], answer: 1, explanation: "March is a month; the others are days of the week." },
+  { id: 117, paper: 1, category: "Logical Reasoning", question: "All trainees attend parade. Neeraj attends parade. What follows?", options: ["Neeraj is definitely a trainee", "Neeraj may or may not be a trainee", "No trainee attends parade", "Neeraj is not a trainee"], answer: 1, explanation: "Attending parade does not prove he is a trainee; others may attend too." },
+  { id: 118, paper: 1, category: "Logical Reasoning", question: "Some athletes are cadets. All cadets are disciplined. Which is certain?", options: ["Some athletes are disciplined", "All athletes are disciplined", "No athlete is disciplined", "All disciplined people are cadets"], answer: 0, explanation: "The athletes who are cadets must be disciplined." },
+  { id: 119, paper: 1, category: "Logical Reasoning", question: "A is east of B. C is west of B. Which is true?", options: ["A is east of C", "C is east of A", "A and C are north", "Cannot compare"], answer: 0, explanation: "If C is west of B and A is east of B, A is east of C." },
+  { id: 120, paper: 1, category: "Number Problems", question: "A vehicle covers 180 km in 3 hours. How far will it cover in 5 hours at the same speed?", options: ["240 km", "270 km", "300 km", "320 km"], answer: 2, explanation: "Speed = 180/3 = 60 km/h. In 5 hours: 300 km." },
+  { id: 121, paper: 1, category: "Number Problems", question: "If 12 men finish a task in 10 days, how many days will 20 men take at the same rate?", options: ["5", "6", "7", "8"], answer: 1, explanation: "Work = 12 x 10 = 120 man-days. 120/20 = 6 days." },
+  { id: 122, paper: 1, category: "Number Problems", question: "What is 15% of 240?", options: ["24", "30", "36", "42"], answer: 2, explanation: "10% is 24 and 5% is 12, total 36." },
+  { id: 123, paper: 1, category: "Number Problems", question: "A candidate scores 72 out of 120. What percentage is this?", options: ["55%", "60%", "65%", "70%"], answer: 1, explanation: "72/120 x 100 = 60%." },
+  { id: 124, paper: 1, category: "Vocabulary", question: "Choose the synonym of RESILIENT", options: ["Fragile", "Adaptable", "Careless", "Silent"], answer: 1, explanation: "Resilient means able to recover or adapt." },
+  { id: 125, paper: 1, category: "Vocabulary", question: "Choose the antonym of PRECISE", options: ["Exact", "Vague", "Sharp", "Brief"], answer: 1, explanation: "Precise means exact; its antonym is vague." },
+  { id: 126, paper: 2, category: "Pattern Recognition", question: "Series: A, C, F, J, O, ?", options: ["T", "U", "V", "W"], answer: 1, explanation: "Gaps increase by 1: +2, +3, +4, +5, +6. O + 6 = U." },
+  { id: 127, paper: 2, category: "Pattern Recognition", question: "Series: 1 square, 2 circles, 3 triangles, 4 squares, ?", options: ["5 circles", "5 squares", "4 circles", "6 triangles"], answer: 0, explanation: "Shape cycle square, circle, triangle repeats while count increases by one." },
+  { id: 128, paper: 2, category: "Matrix Reasoning", question: "Matrix rows: 2, 3, 5; 4, 5, 9; 6, 7, ?. What completes row 3?", options: ["11", "12", "13", "14"], answer: 2, explanation: "Third number is first + second: 6 + 7 = 13." },
+  { id: 129, paper: 2, category: "Matrix Reasoning", question: "Rows: 1, 4, 9; 2, 5, 10; 3, 6, ?. What fits the pattern?", options: ["9", "11", "12", "13"], answer: 1, explanation: "Columns increase by 1 downward: 9, 10, 11." },
+  { id: 130, paper: 2, category: "Spatial Reasoning", question: "How many faces does a cuboid have?", options: ["4", "6", "8", "12"], answer: 1, explanation: "A cuboid has 6 rectangular faces." },
+  { id: 131, paper: 2, category: "Spatial Reasoning", question: "A triangle is divided from one vertex to the opposite side. How many smaller triangles are formed?", options: ["1", "2", "3", "4"], answer: 1, explanation: "One internal line from a vertex to the opposite side divides it into 2 triangles." },
+  { id: 132, paper: 2, category: "Spatial Reasoning", question: "A cube is cut once exactly through the middle. How many solid pieces are formed?", options: ["2", "3", "4", "6"], answer: 0, explanation: "One complete straight cut creates 2 pieces." },
+  { id: 133, paper: 2, category: "Figure Series", question: "Number of sides increases: square, pentagon, hexagon, ?", options: ["Triangle", "Heptagon", "Octagon", "Circle"], answer: 1, explanation: "4 sides, 5 sides, 6 sides, then 7 sides = heptagon." },
+  { id: 134, paper: 2, category: "Figure Series", question: "If an arrow rotates 90 degrees clockwise each step: Up, Right, Down, ?", options: ["Up", "Right", "Left", "Down"], answer: 2, explanation: "After Up, Right, Down, the next direction is Left." },
+  { id: 135, paper: 2, category: "Mirror / Water Image", question: "Which letter remains unchanged in a vertical mirror?", options: ["B", "C", "H", "R"], answer: 2, explanation: "H is symmetric across a vertical axis." },
+  { id: 136, paper: 2, category: "Mirror / Water Image", question: "Which number looks the same in a mirror most clearly?", options: ["2", "3", "8", "7"], answer: 2, explanation: "8 has vertical symmetry in standard block form." },
+  { id: 137, paper: 2, category: "Counting Figures", question: "How many squares are in a 2 x 2 grid?", options: ["4", "5", "6", "8"], answer: 1, explanation: "Four small squares plus one large square = 5." },
+  { id: 138, paper: 2, category: "Counting Figures", question: "A rectangle has 2 vertical internal lines and no horizontal internal line. How many rectangles total?", options: ["3", "4", "5", "6"], answer: 3, explanation: "There are 4 vertical boundary lines including edges. Choose any 2: C(4,2)=6 rectangles." },
+  { id: 139, paper: 2, category: "Odd Figure", question: "Which is odd? Cube, Sphere, Cone, Cylinder", options: ["Cube", "Sphere", "Cone", "Cylinder"], answer: 0, explanation: "Cube has only flat faces and edges; the others have curved surfaces." },
+  { id: 140, paper: 2, category: "Odd Figure", question: "Which is odd? Triangle, Pentagon, Hexagon, Circle", options: ["Triangle", "Pentagon", "Hexagon", "Circle"], answer: 3, explanation: "Circle has no sides; the others are polygons." },
+  { id: 141, paper: 2, category: "Analogy (Figures)", question: "Filled triangle is to hollow triangle as filled circle is to:", options: ["Hollow circle", "Filled square", "Hollow square", "Filled circle"], answer: 0, explanation: "The relation changes filled to hollow while preserving shape." },
+  { id: 142, paper: 2, category: "Dice Problems", question: "On a standard die, what is opposite 5?", options: ["1", "2", "3", "4"], answer: 1, explanation: "Opposite faces sum to 7, so 5 is opposite 2." },
+  { id: 143, paper: 2, category: "Dice Problems", question: "If 6 is on top of a standard die, what is on the bottom?", options: ["1", "2", "3", "4"], answer: 0, explanation: "1 and 6 are opposite on a standard die." },
+  { id: 144, paper: 2, category: "Direction Sense", question: "A cadet walks 4 km east, 4 km north, then 4 km west. How far is he from the start?", options: ["4 km North", "4 km East", "8 km North", "0 km"], answer: 0, explanation: "East and west cancel; he remains 4 km north of start." },
+  { id: 145, paper: 2, category: "Direction Sense", question: "Facing South, you turn left. Which direction do you face?", options: ["East", "West", "North", "South"], answer: 0, explanation: "Left from South points East." },
+  { id: 146, paper: 2, category: "Clock Problems", question: "At 6:00, the angle between clock hands is:", options: ["90 degrees", "120 degrees", "180 degrees", "360 degrees"], answer: 2, explanation: "At 6:00, the hands are opposite each other, forming 180 degrees." },
+  { id: 147, paper: 2, category: "Clock Problems", question: "At 12:30, the hour hand is between:", options: ["12 and 1", "1 and 2", "6 and 7", "11 and 12"], answer: 0, explanation: "At 12:30, the hour hand has moved halfway between 12 and 1." },
+  { id: 148, paper: 2, category: "Venn Diagrams", question: "In a group of 50, 30 read newspapers, 25 read magazines, 10 read both. How many read at least one?", options: ["35", "40", "45", "55"], answer: 2, explanation: "At least one = 30 + 25 - 10 = 45." },
+  { id: 149, paper: 2, category: "Venn Diagrams", question: "All pilots are officers. Some officers are instructors. Which diagram is suitable?", options: ["Pilot circle inside Officer circle, Instructor partly overlaps Officer", "Officer inside Pilot", "All circles separate", "Instructor inside Pilot only"], answer: 0, explanation: "All pilots are officers, and instructors share only some of the officer group." },
+  { id: 150, paper: 2, category: "Visual Puzzles", question: "A sheet is folded twice and one hole is punched through all layers. Maximum holes after unfolding?", options: ["2", "3", "4", "5"], answer: 2, explanation: "Two folds make four layers, so one punch can create 4 holes." },
+];
+
+const OIR_SETS: OirSet[] = [
+  {
+    id: "set-01",
+    title: "OIR Set 01",
+    difficulty: "Starter",
+    description: "Balanced verbal and non-verbal practice for first attempt.",
+    questions: QUESTIONS,
+  },
+  {
+    id: "set-02",
+    title: "OIR Set 02",
+    difficulty: "Fresh",
+    description: "A second original free set with new series, logic, and spatial questions.",
+    questions: SET_TWO_QUESTIONS,
+  },
+];
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PAPER_TIME = 17 * 60; // 17 minutes per paper in seconds
-const PAPER_1 = QUESTIONS.filter((q) => q.paper === 1);
-const PAPER_2 = QUESTIONS.filter((q) => q.paper === 2);
+const DEFAULT_SET = OIR_SETS[0];
+const DEFAULT_PAPER_1 = DEFAULT_SET.questions.filter((q) => q.paper === 1);
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Number Series": "#0369a1",
@@ -437,37 +515,25 @@ type Phase = "intro" | "paper1" | "paper2" | "result";
 
 export default function OirQuiz() {
   const [phase, setPhase] = useState<Phase>("intro");
-  const [currentPaper, setCurrentPaper] = useState<Question[]>(PAPER_1);
+  const [activeSetId, setActiveSetId] = useState(DEFAULT_SET.id);
+  const [currentPaper, setCurrentPaper] = useState<Question[]>(DEFAULT_PAPER_1);
   const [qIndex, setQIndex] = useState(0);
   const [selected, setSelected] = useState<(number | null)[]>(Array(25).fill(null));
   const [timeLeft, setTimeLeft] = useState(PAPER_TIME);
   const [paper1Answers, setPaper1Answers] = useState<(number | null)[]>(Array(25).fill(null));
   const [paper2Answers, setPaper2Answers] = useState<(number | null)[]>(Array(25).fill(null));
-  const [showExplanation, setShowExplanation] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const activeSet = useMemo(
+    () => OIR_SETS.find((set) => set.id === activeSetId) ?? DEFAULT_SET,
+    [activeSetId],
+  );
+  const paper1 = useMemo(() => activeSet.questions.filter((q) => q.paper === 1), [activeSet]);
+  const paper2 = useMemo(() => activeSet.questions.filter((q) => q.paper === 2), [activeSet]);
 
-  // Timer
-  useEffect(() => {
-    if (phase !== "paper1" && phase !== "paper2") return;
-    intervalRef.current = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t <= 1) {
-          clearInterval(intervalRef.current!);
-          // eslint-disable-next-line react-hooks/immutability
-          handlePaperEnd();
-          return 0;
-        }
-        return t - 1;
-      });
-    }, 1000);
-    return () => clearInterval(intervalRef.current!);
-  }, [phase]);
-
-  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const handlePaperEnd = useCallback(() => {
     if (phase === "paper1") {
       setPaper1Answers(selected);
-      setCurrentPaper(PAPER_2);
+      setCurrentPaper(paper2);
       setSelected(Array(25).fill(null));
       setQIndex(0);
       setTimeLeft(PAPER_TIME);
@@ -476,7 +542,23 @@ export default function OirQuiz() {
       setPaper2Answers(selected);
       setPhase("result");
     }
-  }, [phase, selected]);
+  }, [paper2, phase, selected]);
+
+  // Timer
+  useEffect(() => {
+    if (phase !== "paper1" && phase !== "paper2") return;
+    intervalRef.current = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) {
+          clearInterval(intervalRef.current!);
+          handlePaperEnd();
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(intervalRef.current!);
+  }, [handlePaperEnd, phase]);
 
   const handleSelect = (optIdx: number) => {
     const updated = [...selected];
@@ -488,8 +570,8 @@ export default function OirQuiz() {
   const paperLabel = phase === "paper1" ? "Paper 1 — Verbal" : "Paper 2 — Non-Verbal";
 
   // Score
-  const p1Score = paper1Answers.reduce<number>((acc, ans, i) => acc + (ans === PAPER_1[i].answer ? 1 : 0), 0);
-  const p2Score = paper2Answers.reduce<number>((acc, ans, i) => acc + (ans === PAPER_2[i].answer ? 1 : 0), 0);
+  const p1Score = paper1Answers.reduce<number>((acc, ans, i) => acc + (ans === paper1[i].answer ? 1 : 0), 0);
+  const p2Score = paper2Answers.reduce<number>((acc, ans, i) => acc + (ans === paper2[i].answer ? 1 : 0), 0);
   const totalScore = p1Score + p2Score;
   const ib = totalScore >= 43 ? "IB-5 (Exceptional)" : totalScore >= 37 ? "IB-4 (Very Good)" : totalScore >= 29 ? "IB-3 (Good)" : totalScore >= 20 ? "IB-2 (Average)" : "IB-1 (Below Average)";
   const ibColor = totalScore >= 43 ? "#1d6b40" : totalScore >= 37 ? "#0369a1" : totalScore >= 29 ? "#b45309" : totalScore >= 20 ? "#be123c" : "#6b2d2d";
@@ -519,6 +601,49 @@ export default function OirQuiz() {
               Two papers, 25 questions each, 17 minutes per paper. The real OIR is fast — don&apos;t think too long on any single question.
             </p>
           </div>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {OIR_SETS.map((set) => {
+            const isActive = set.id === activeSetId;
+            return (
+              <button
+                key={set.id}
+                type="button"
+                onClick={() => {
+                  setActiveSetId(set.id);
+                  setCurrentPaper(set.questions.filter((q) => q.paper === 1));
+                  setSelected(Array(25).fill(null));
+                  setPaper1Answers(Array(25).fill(null));
+                  setPaper2Answers(Array(25).fill(null));
+                  setQIndex(0);
+                  setTimeLeft(PAPER_TIME);
+                }}
+                className="rounded-lg border bg-white p-5 text-left shadow-[var(--shadow-card)] transition hover:-translate-y-0.5"
+                style={{
+                  borderColor: isActive ? "var(--color-blue)" : "var(--color-border)",
+                  boxShadow: isActive ? "0 16px 36px rgba(47,128,201,0.16)" : "var(--shadow-card)",
+                }}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-lg font-extrabold text-[var(--color-ink-strong)]">{set.title}</p>
+                  <span
+                    className="rounded-full px-3 py-1 text-xs font-bold"
+                    style={{
+                      background: isActive ? "var(--color-blue-soft)" : "var(--color-surface)",
+                      color: isActive ? "var(--color-blue)" : "var(--color-muted)",
+                    }}
+                  >
+                    {set.difficulty}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-muted)]">{set.description}</p>
+                <p className="mt-4 text-xs font-bold uppercase text-[var(--color-green)]">
+                  50 questions / 34 minutes / Free
+                </p>
+              </button>
+            );
+          })}
         </div>
 
         {/* Info cards */}
@@ -559,7 +684,15 @@ export default function OirQuiz() {
         </div>
 
         <button
-          onClick={() => setPhase("paper1")}
+          onClick={() => {
+            setCurrentPaper(paper1);
+            setSelected(Array(25).fill(null));
+            setPaper1Answers(Array(25).fill(null));
+            setPaper2Answers(Array(25).fill(null));
+            setQIndex(0);
+            setTimeLeft(PAPER_TIME);
+            setPhase("paper1");
+          }}
           className="w-full rounded-2xl bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-8 py-4 text-base font-bold text-white shadow-[0_12px_32px_rgba(26,115,232,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(26,115,232,0.36)]"
         >
           Start Paper 1 — Verbal →
@@ -638,7 +771,7 @@ export default function OirQuiz() {
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent-strong)] mb-4">Answer Review</p>
           <div className="space-y-3">
-            {[...PAPER_1, ...PAPER_2].map((q, i) => {
+            {[...paper1, ...paper2].map((q, i) => {
               const userAns = i < 25 ? paper1Answers[i] : paper2Answers[i - 25];
               const isCorrect = userAns === q.answer;
               const isSkipped = userAns === null;
@@ -713,7 +846,7 @@ export default function OirQuiz() {
               setPaper2Answers(Array(25).fill(null));
               setQIndex(0);
               setTimeLeft(PAPER_TIME);
-              setCurrentPaper(PAPER_1);
+              setCurrentPaper(paper1);
             }}
             className="flex-1 rounded-2xl bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-6 py-3.5 text-sm font-bold text-white shadow-[0_10px_28px_rgba(26,115,232,0.24)] transition-all hover:-translate-y-0.5"
           >
@@ -816,7 +949,7 @@ export default function OirQuiz() {
       <div className="flex items-center gap-3">
         <button
           disabled={qIndex === 0}
-          onClick={() => { setQIndex(qIndex - 1); setShowExplanation(false); }}
+          onClick={() => setQIndex(qIndex - 1)}
           className="rounded-2xl border border-white/80 bg-white/90 px-5 py-3 text-sm font-bold text-[var(--color-ink-strong)] shadow-sm disabled:opacity-40 transition-all hover:-translate-y-0.5 hover:shadow-md"
         >
           ← Prev
@@ -826,7 +959,7 @@ export default function OirQuiz() {
           {currentPaper.map((_, i) => (
             <button
               key={i}
-              onClick={() => { setQIndex(i); setShowExplanation(false); }}
+              onClick={() => setQIndex(i)}
               className="h-7 w-7 rounded-lg text-[11px] font-bold transition-all"
               style={{
                 background:
@@ -851,7 +984,7 @@ export default function OirQuiz() {
 
         {qIndex < currentPaper.length - 1 ? (
           <button
-            onClick={() => { setQIndex(qIndex + 1); setShowExplanation(false); }}
+            onClick={() => setQIndex(qIndex + 1)}
             className="rounded-2xl border border-white/80 bg-white/90 px-5 py-3 text-sm font-bold text-[var(--color-ink-strong)] shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
           >
             Next →

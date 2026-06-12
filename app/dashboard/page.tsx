@@ -98,7 +98,7 @@ export default async function DashboardPage() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link href="/screening" className="btn-primary">
+            <Link href="/dashboard/practice" className="btn-primary">
               Practice now
             </Link>
             <Link href="/dashboard/profile" className="btn-secondary">
@@ -139,7 +139,7 @@ export default async function DashboardPage() {
               <div className="grid gap-3 md:grid-cols-3">
                 {[
                   ["Plan", "Update profile when ready"],
-                  ["Practice", "Run one OIR set today"],
+                  ["Practice", "Attempt one of 2 free OIR sets"],
                   ["Reflect", "Write one OLQ example"],
                 ].map(([title, body]) => (
                   <div key={title} className="rounded-lg bg-white/8 p-4">
