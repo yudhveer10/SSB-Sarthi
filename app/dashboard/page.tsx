@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Json } from "../_lib/database.types";
 import { createClient } from "../_lib/supabase/server";
-import SetupForm from "./setup-form";
 
 export const metadata = {
   title: "Dashboard",
@@ -75,28 +74,26 @@ export default async function DashboardPage() {
   const oirAttempts = oirResult.data ?? [];
   const ppdtAttempts = ppdtResult.data ?? [];
   const journals = journalResult.data ?? [];
-  const name = profile?.full_name?.split(" ")[0] ?? "Candidate";
-  const hasWorkspace = Boolean(profile?.onboarding_completed && plan);
+  const name = profile?.full_name?.split(" ")[0] ?? profile?.email?.split("@")[0] ?? "Candidate";
   const latestScore = oirAttempts[0]
     ? `${oirAttempts[0].score}/${oirAttempts[0].total_questions}`
     : "Not started";
   const completedChecklist = checklist.filter((item) => item.done).length;
 
   return (
-    <main className="bg-white">
-      <section className="mx-auto w-full max-w-7xl px-6 py-10 sm:px-10 lg:px-12">
+    <div>
+      <section className="mx-auto w-full max-w-7xl px-5 py-8 sm:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-green)]">
-              Your workspace
+              Overview
             </p>
-            <h1 className="mt-3 font-display text-4xl font-extrabold leading-tight text-[var(--color-ink-strong)] sm:text-5xl">
-              Welcome back, {name}.
+            <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight text-[var(--color-ink-strong)] sm:text-4xl">
+              Welcome, {name}.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--color-muted)]">
-              {hasWorkspace
-                ? "Keep your SSB preparation visible: planning, screening practice, PPDT reflection, OLQ evidence, and reporting-day readiness."
-                : "Finish your candidate setup once, then your SSB workspace will track your plan, practice, checklist, and review history."}
+              Your candidate dashboard for practice, review, checklist progress,
+              and future SSB preparation tools.
             </p>
           </div>
 
@@ -104,23 +101,16 @@ export default async function DashboardPage() {
             <Link href="/screening" className="btn-primary">
               Practice now
             </Link>
-            <Link href="/auth/signout" className="btn-secondary">
-              Sign out
+            <Link href="/dashboard/profile" className="btn-secondary">
+              Update profile
             </Link>
           </div>
         </div>
 
-        {!hasWorkspace ? (
-          <SetupForm
-            userId={userId}
-            defaultName={profile?.full_name ?? profile?.email?.split("@")[0] ?? ""}
-          />
-        ) : null}
-
         <div className="mt-8 grid gap-3 md:grid-cols-4">
           {[
-            ["Active plan", plan?.title ?? "Setup pending"],
-            ["Target board", plan?.target_board ?? "Not set"],
+            ["Workspace", plan?.title ?? "Starter workspace"],
+            ["Target entry", plan?.target_entry ?? "Set in profile"],
             ["Latest OIR", latestScore],
             ["Checklist", `${completedChecklist}/${checklist.length} ready`],
           ].map(([label, value]) => (
@@ -143,12 +133,12 @@ export default async function DashboardPage() {
                   Readiness command
                 </p>
                 <h2 className="mt-3 text-2xl font-extrabold">
-                  {hasWorkspace ? "Your next best actions" : "Setup your workspace to unlock actions"}
+                  Your next best actions
                 </h2>
               </div>
               <div className="grid gap-3 md:grid-cols-3">
                 {[
-                  ["Plan", hasWorkspace ? "Review reporting target" : "Add entry and board"],
+                  ["Plan", "Update profile when ready"],
                   ["Practice", "Run one OIR set today"],
                   ["Reflect", "Write one OLQ example"],
                 ].map(([title, body]) => (
@@ -177,9 +167,8 @@ export default async function DashboardPage() {
             <div className="mt-5 grid gap-3">
               {[
                 ["Entry", plan?.target_entry ?? "NDA / CDS / AFCAT"],
-                ["Start date", formatDate(plan?.start_date)],
-                ["Reporting date", formatDate(plan?.reporting_date)],
                 ["Status", plan?.status ?? "Ready to start"],
+                ["Profile", profile?.onboarding_completed ? "Configured" : "Basic account"],
               ].map(([label, value]) => (
                 <div
                   key={label}
@@ -266,7 +255,7 @@ export default async function DashboardPage() {
           />
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
