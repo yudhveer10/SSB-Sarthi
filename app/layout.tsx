@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import NavBar from "./_components/NavBar";
 import Footer from "./_components/Footer";
+import LiveUpdates from "./_components/LiveUpdates";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -39,7 +40,10 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className="flex min-h-dvh flex-col">
         <NavBar />
-        <div className="flex-1 pt-[var(--nav-height)]">{children}</div>
+        <div className="flex-1 pt-[var(--nav-height)]">
+          <LiveUpdates />
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

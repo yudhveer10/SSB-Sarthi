@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 :root {
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
 
   --color-ink-strong: #0d1b2f;
   --color-ink: #26384d;
@@ -37,8 +37,8 @@
 }
 
 @theme inline {
-  --font-sans: "DM Sans", system-ui, sans-serif;
-  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
   --color-background: var(--color-bg);
   --color-foreground: var(--color-ink-strong);
 }
@@ -74,7 +74,6 @@ h5,
 h6,
 .font-display {
   font-family: var(--font-display);
-  font-optical-sizing: auto;
   letter-spacing: 0;
 }
 
@@ -133,7 +132,7 @@ body > * {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   border: 1px solid rgba(13, 27, 47, 0.08);
@@ -224,7 +223,7 @@ body > * {
 }
 
 .feature-panel {
-  min-height: 220px;
+  min-height: 190px;
   padding: 1.5rem;
 }
 
@@ -243,6 +242,64 @@ body > * {
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 248, 250, 0.92)),
     white;
   box-shadow: var(--shadow-raised);
+}
+
+main {
+  background: #ffffff;
+}
+
+main > section {
+  scroll-margin-top: calc(var(--nav-height) + 42px);
+}
+
+main h1,
+main h2,
+main h3 {
+  letter-spacing: 0 !important;
+}
+
+main * {
+  letter-spacing: 0 !important;
+}
+
+main h1 {
+  font-weight: 800;
+}
+
+main h2,
+main h3 {
+  font-weight: 700;
+}
+
+main > section:first-child {
+  padding-top: 2rem !important;
+}
+
+main [class*="rounded-[2rem]"],
+main [class*="rounded-[1.9rem]"],
+main [class*="rounded-[1.8rem]"],
+main [class*="rounded-[1.7rem]"],
+main [class*="rounded-[1.6rem]"],
+main [class*="rounded-[1.5rem]"],
+main [class*="rounded-[1.4rem]"],
+main [class*="rounded-2xl"] {
+  border-radius: 12px !important;
+}
+
+main [class*="radial-gradient"] {
+  display: none !important;
+}
+
+main [class*="border-white"],
+main [class*="bg-white/"],
+main [class*="bg-[linear-gradient"] {
+  border-color: var(--color-border) !important;
+}
+
+main [class*="shadow-[var(--shadow-soft)]"],
+main [class*="shadow-[var(--shadow-card)]"],
+main [class*="shadow-[0_"] {
+  box-shadow: var(--shadow-card) !important;
 }
 
 .badge {
