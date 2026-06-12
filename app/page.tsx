@@ -1,373 +1,437 @@
 import Link from "next/link";
 
-const features = [
+const navCards = [
   {
     href: "/process",
-    emoji: "🗓️",
-    tag: "5-Day Guide",
-    title: "The SSB Process",
-    desc: "A complete day-by-day breakdown of everything that happens inside the board — from screening to the Day 5 conference.",
-    accent: "#5b8fc9",
-  },
-  {
-    href: "/centers",
-    emoji: "🏛️",
-    tag: "14 Centres",
-    title: "Service Centre Browser",
-    desc: "Find every Army, Air Force, and Navy SSB centre with address, board numbers, transport details, and travel tips.",
-    accent: "#6f8f4d",
-  },
-  {
-    href: "/resources",
-    emoji: "📋",
-    tag: "Prep Material",
-    title: "Resources",
-    desc: "Document checklist, PI theme guides with real question examples, psychology tips, and myths vs reality cards.",
-    accent: "#4f6f8c",
+    title: "5-day planner",
+    detail: "Map screening, psychology, GTO, interview, and conference prep.",
   },
   {
     href: "/screening",
-    emoji: "🧩",
-    tag: "Interactive",
+    title: "Practice studio",
+    detail: "Train OIR speed and PPDT structure with focused sessions.",
+  },
+  {
+    href: "/centers",
+    title: "Centre readiness",
+    detail: "Keep travel details, documents, and board logistics in one place.",
+  },
+];
+
+const progressRows = [
+  { label: "OIR drills", value: "82%", width: "82%" },
+  { label: "PPDT narration", value: "64%", width: "64%" },
+  { label: "OLQ journal", value: "71%", width: "71%" },
+];
+
+const planner = [
+  { day: "Day 1", title: "Screening", state: "Practice due" },
+  { day: "Day 2", title: "Psychology", state: "Prep ready" },
+  { day: "Days 3-4", title: "GTO tasks", state: "Review" },
+  { day: "Day 5", title: "Conference", state: "Checklist" },
+];
+
+const features = [
+  {
+    title: "5-Day Process Planner",
+    body: "Turn the SSB process into a calm, visible plan with daily priorities and prep notes.",
+    href: "/process",
+    icon: CalendarIcon,
+  },
+  {
     title: "Screening Practice",
-    desc: "An OIR quiz and PPDT picture viewer to sharpen your Day 1 performance before you reach the board.",
-    accent: "#5b8fc9",
+    body: "Run OIR and PPDT practice with clear review prompts after every attempt.",
+    href: "/screening",
+    icon: TargetIcon,
+  },
+  {
+    title: "Centre Readiness",
+    body: "Browse service centres and keep travel, reporting, and document details organized.",
+    href: "/centers",
+    icon: MapIcon,
+  },
+  {
+    title: "OLQ Journal",
+    body: "Track examples, stories, and reflections against officer-like qualities.",
+    href: "/resources",
+    icon: JournalIcon,
   },
 ];
 
-const stats = [
-  { value: "14", label: "Selection Centres", sub: "Army · Air Force · Navy" },
-  { value: "5", label: "Testing Days", sub: "Screening to Conference" },
-  { value: "15", label: "OLQs Assessed", sub: "Officer Like Qualities" },
-  { value: "3", label: "Assessors", sub: "Psych · IO · GTO" },
+const workflow = [
+  ["Plan", "Choose daily focus areas before practice starts."],
+  ["Practice", "Work through screening and interview prep blocks."],
+  ["Review", "Capture honest notes, mistakes, and OLQ evidence."],
+  ["Arrive", "Carry a complete checklist into reporting day."],
 ];
 
-const steps = [
-  { day: "Day 1", label: "Screening", color: "#5b8fc9", note: "OIR + PPDT" },
-  { day: "Day 2", label: "Psychology", color: "#4f6f8c", note: "TAT · WAT · SRT · SD" },
-  { day: "Days 3–4", label: "GTO Tasks", color: "#6f8f4d", note: "Outdoor + indoor tasks" },
-  { day: "Days 2–4", label: "Personal Interview", color: "#7b8d9a", note: "IO interview" },
-  { day: "Day 5", label: "Conference", color: "#102033", note: "Board alignment" },
-];
-
-const myths = [
+const plans = [
   {
-    myth: "Coaching centres guarantee selection.",
-    reality: "Coaching can sharpen presentation, but it cannot replace genuine Officer Like Qualities.",
+    name: "Free Starter",
+    price: "Free",
+    description: "For candidates beginning their SSB prep routine.",
+    cta: "Try free",
+    href: "/process",
+    features: ["5-day process overview", "Centre browser", "Starter resources"],
   },
   {
-    myth: "You need a military family background.",
-    reality: "The board looks for qualities and consistency, not lineage.",
-  },
-  {
-    myth: "Tall, athletic candidates are always preferred.",
-    reality: "Fitness helps, but intelligence, responsibility, and leadership matter more.",
+    name: "Sarthi Pro",
+    price: "Rs 499",
+    description: "For aspirants who want a structured, accountable workspace.",
+    cta: "Go Pro",
+    href: "/screening",
+    features: ["Practice routines", "OLQ journal system", "Weekly readiness review"],
   },
 ];
 
-const liveUpdates = [
+const testimonials = [
   {
-    tag: "UPSC",
-    title: "CDS II 2026 exam notification is live on the UPSC What’s New page.",
-    date: "May 29, 2026",
-    href: "https://www.upsc.gov.in/whats-new/Combined%20Defence%20Services%20Examination%20%28II%29%2C%202026/Exam%20Notification",
+    quote:
+      "The best part is how it turns SSB prep into a routine instead of panic before reporting.",
+    name: "Aarav",
+    role: "CDS aspirant",
   },
   {
-    tag: "UPSC",
-    title: "NDA & NA II 2026 exam notification is now available officially.",
-    date: "May 29, 2026",
-    href: "https://www.upsc.gov.in/whats-new/National%20Defence%20Academy%20and%20Naval%20Academy%20Examination%20%28II%29%2C%202026/Exam%20Notification",
+    quote:
+      "I used the centre checklist and process planner together. It made the whole journey feel clear.",
+    name: "Meera",
+    role: "AFCAT aspirant",
   },
   {
-    tag: "UPSC",
-    title: "Written results for CDS I 2026 and NDA/NA I 2026 are listed on the live updates page.",
-    date: "May 29, 2026",
-    href: "https://www.upsc.gov.in",
-  },
-  {
-    tag: "UPSC",
-    title: "UPSC’s What’s New feed is the best place to track defence exam updates right now.",
-    date: "May 29, 2026",
-    href: "https://www.upsc.gov.in/whats-new",
+    quote:
+      "The journal prompts helped me speak from real examples instead of rehearsed answers.",
+    name: "Kabir",
+    role: "NDA aspirant",
   },
 ];
 
 export default function HomePage() {
   return (
-    <main className="pb-24">
-      <section className="border-b border-white/60 bg-[linear-gradient(90deg,#5b8fc9,#7fb3e3)] text-white">
-        <div className="mx-auto flex w-full max-w-[1440px] items-center gap-4 px-6 py-2.5 sm:px-10 lg:px-12">
-          <span className="hidden shrink-0 items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-white/90 sm:inline-flex">
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-            Live updates
-          </span>
-          <div className="ticker-track flex-1 overflow-hidden">
-            <div className="ticker-content flex gap-10 whitespace-nowrap text-sm font-medium">
-              {[...liveUpdates, ...liveUpdates].map((item, index) => (
-                <a
-                  key={`${item.title}-${index}`}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-3 text-white/92 transition-colors hover:text-white"
-                >
-                  <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white">
-                    {item.tag}
-                  </span>
-                  <span>{item.title}</span>
-                  <span className="text-white/60">· {item.date}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/75 bg-[linear-gradient(140deg,rgba(255,255,255,0.97)_0%,rgba(224,246,255,0.93)_55%,rgba(230,250,245,0.9)_100%)] px-6 py-12 shadow-[var(--shadow-soft)] sm:px-10 sm:py-16 lg:px-14 lg:py-20">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(127,179,227,0.16)_0%,transparent_65%)]" />
-          <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(111,143,77,0.12)_0%,transparent_65%)]" />
-          <div className="pointer-events-none absolute right-1/3 bottom-0 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(91,143,201,0.08)_0%,transparent_70%)]" />
-
-          <div className="relative">
-            <div className="badge animate-fade-up">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent-strong)]" />
-              India&apos;s SSB Preparation Guide
-            </div>
-
-            <h1 className="animate-fade-up stagger-1 mt-6 max-w-4xl text-[clamp(2.4rem,6vw,4.5rem)] font-display font-semibold leading-[1.01] tracking-[-0.05em] text-[var(--color-ink-strong)]">
-              Prepare for your <span className="text-gradient">SSB interview</span> the right way.
+    <main className="bg-white text-[var(--color-ink-strong)]">
+      <section className="overflow-hidden border-b border-[var(--color-border)]">
+        <div className="mx-auto grid min-h-[calc(100dvh-var(--nav-height))] w-full max-w-7xl items-center gap-12 px-6 py-16 sm:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-12 lg:py-20">
+          <div className="max-w-2xl">
+            <h1 className="max-w-[11ch] font-display text-5xl font-semibold leading-[1.02] text-[var(--color-ink-strong)] sm:text-6xl lg:text-7xl">
+              Your command center for SSB readiness.
             </h1>
-
-            <p className="animate-fade-up stagger-2 mt-6 max-w-2xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-              SSB Sarthi gives you a clear, honest map of the entire Service Selection Board
-              process — day-by-day breakdowns, centre details, practice tools, and preparation
-              resources. No coaching gimmicks.
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--color-muted)]">
+              Plan every testing day, practice screening tasks, track OLQs, and
+              arrive at the board with clarity.
             </p>
 
-            <div className="animate-fade-up stagger-3 mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/process"
-                className="inline-flex items-center gap-2 rounded-2xl px-6 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
-                style={{
-                  background: "linear-gradient(135deg, #5b8fc9 0%, #7fb3e3 100%)",
-                  boxShadow: "0 4px 20px rgba(91,143,201,0.28)",
-                }}
-              >
-                Understand the Process
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/screening" className="btn-primary">
+                Start preparation
+                <ArrowIcon />
               </Link>
-              <Link
-                href="/centers"
-                className="inline-flex items-center gap-2 rounded-2xl border px-6 py-3.5 text-sm font-bold transition-all duration-200 hover:bg-white/70 active:scale-95"
-                style={{
-                  borderColor: "var(--color-border-strong)",
-                  color: "var(--color-ink-strong)",
-                }}
-              >
-                Find My Centre
+              <Link href="/process" className="btn-secondary">
+                View demo
               </Link>
             </div>
 
-            <div className="animate-fade-up stagger-4 mt-10 flex flex-wrap gap-4">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex items-center gap-3 rounded-2xl border border-white/90 bg-white/75 px-5 py-3 shadow-[var(--shadow-card)]"
-                >
-                  <span className="font-display text-2xl font-bold text-[var(--color-accent-strong)]">
-                    {stat.value}
+            <div className="mt-12 grid gap-3 sm:grid-cols-3">
+              {navCards.map((card) => (
+                <Link key={card.title} href={card.href} className="mini-panel">
+                  <span className="text-sm font-semibold text-[var(--color-ink-strong)]">
+                    {card.title}
                   </span>
-                  <div>
-                    <p className="text-xs font-bold text-[var(--color-ink-strong)]">{stat.label}</p>
-                    <p className="mt-0.5 text-[11px] text-[var(--color-muted)]">{stat.sub}</p>
+                  <span className="mt-2 block text-xs leading-5 text-[var(--color-muted)]">
+                    {card.detail}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="product-shell">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-4">
+                <div>
+                  <p className="text-sm font-semibold text-[var(--color-ink-strong)]">
+                    SSB Sarthi workspace
+                  </p>
+                  <p className="text-xs text-[var(--color-muted)]">
+                    Weekly readiness overview
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#2f7d57]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#2f80c9]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#cad3dc]" />
+                </div>
+              </div>
+
+              <div className="grid gap-4 p-5 lg:grid-cols-[0.9fr_1.1fr]">
+                <div className="space-y-4">
+                  <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold">5-day plan</p>
+                      <CalendarIcon className="h-4 w-4 text-[var(--color-green)]" />
+                    </div>
+                    <div className="mt-4 space-y-2">
+                      {planner.map((item) => (
+                        <div
+                          key={item.day}
+                          className="flex items-center justify-between rounded-md bg-[var(--color-surface)] px-3 py-2"
+                        >
+                          <div>
+                            <p className="text-[11px] font-semibold text-[var(--color-green)]">
+                              {item.day}
+                            </p>
+                            <p className="text-xs font-medium text-[var(--color-ink)]">
+                              {item.title}
+                            </p>
+                          </div>
+                          <span className="text-[11px] text-[var(--color-muted)]">
+                            {item.state}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-lg border border-[var(--color-border)] bg-[#0d1b2f] p-4 text-white">
+                    <p className="text-sm font-semibold">Centre checklist</p>
+                    <div className="mt-4 space-y-3">
+                      {["Call-up letter", "Documents", "Travel buffer"].map((item) => (
+                        <div key={item} className="flex items-center gap-3">
+                          <span className="flex h-5 w-5 items-center justify-center rounded bg-[#2f7d57] text-[10px]">
+                            <CheckIcon />
+                          </span>
+                          <span className="text-xs text-white/82">{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              ))}
+
+                <div className="space-y-4">
+                  <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold">OLQ progress</p>
+                      <TargetIcon className="h-4 w-4 text-[var(--color-blue)]" />
+                    </div>
+                    <div className="mt-5 space-y-4">
+                      {progressRows.map((row) => (
+                        <div key={row.label}>
+                          <div className="mb-2 flex justify-between text-xs">
+                            <span className="font-medium text-[var(--color-ink)]">
+                              {row.label}
+                            </span>
+                            <span className="text-[var(--color-muted)]">{row.value}</span>
+                          </div>
+                          <div className="h-2 rounded-full bg-[#e9eef3]">
+                            <div
+                              className="h-full rounded-full bg-[linear-gradient(90deg,var(--color-green),var(--color-blue))]"
+                              style={{ width: row.width }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+                      <p className="text-xs font-semibold text-[var(--color-muted)]">
+                        Next drill
+                      </p>
+                      <p className="mt-2 text-lg font-semibold">OIR set 04</p>
+                      <p className="mt-1 text-xs text-[var(--color-muted)]">18 min focus</p>
+                    </div>
+                    <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+                      <p className="text-xs font-semibold text-[var(--color-muted)]">
+                        Review
+                      </p>
+                      <p className="mt-2 text-lg font-semibold">PPDT story</p>
+                      <p className="mt-1 text-xs text-[var(--color-muted)]">Narration notes</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-6 pt-10 sm:px-10 lg:px-12">
-        <div className="overflow-hidden rounded-[1.75rem] bg-[#0d1b2f] p-6 shadow-[var(--shadow-raised)] sm:p-7">
-          <div className="mb-5 flex items-center gap-3">
-            <span className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/50">
-              At a glance
-            </span>
-            <div className="h-px flex-1 bg-white/10" />
+      <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-12">
+        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+          <div>
+            <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
+              Everything you need for SSB success.
+            </h2>
+            <p className="mt-5 max-w-md text-base leading-8 text-[var(--color-muted)]">
+              One workspace for process clarity, practice discipline, centre
+              planning, and honest self-review.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {steps.map((step, index) => (
+          <div className="grid gap-3 sm:grid-cols-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <Link key={feature.title} href={feature.href} className="feature-panel">
+                  <Icon className="h-5 w-5 text-[var(--color-green)]" />
+                  <h3 className="mt-5 text-lg font-semibold">{feature.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
+                    {feature.body}
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-10 grid overflow-hidden rounded-lg border border-[var(--color-border)] md:grid-cols-4">
+          {workflow.map(([title, body], index) => (
+            <div
+              key={title}
+              className="border-b border-[var(--color-border)] p-5 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
+            >
+              <p className="text-xs font-semibold text-[var(--color-green)]">
+                0{index + 1}
+              </p>
+              <h3 className="mt-3 text-base font-semibold">{title}</h3>
+              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--color-border)] bg-[var(--color-surface)]">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-20 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
+          <div>
+            <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
+              Start structured SSB prep today.
+            </h2>
+            <p className="mt-5 max-w-lg text-base leading-8 text-[var(--color-muted)]">
+              Choose a plan, build your routine, and keep every practice session
+              accountable.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {plans.map((plan, index) => (
               <div
-                key={step.day}
-                className="relative rounded-2xl border p-4"
-                style={{
-                  background: `color-mix(in srgb, ${step.color} 15%, rgba(255,255,255,0.04))`,
-                  borderColor: `color-mix(in srgb, ${step.color} 35%, transparent)`,
-                }}
+                key={plan.name}
+                className={`rounded-lg border bg-white p-6 shadow-[var(--shadow-card)] ${
+                  index === 1 ? "border-[var(--color-green)]" : "border-[var(--color-border)]"
+                }`}
               >
-                {index < steps.length - 1 ? (
-                  <span className="pointer-events-none absolute -right-1.5 top-1/2 hidden h-px w-3 bg-white/12 lg:block" />
-                ) : null}
-                <p className="text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: step.color }}>
-                  {step.day}
+                <h3 className="text-xl font-semibold">{plan.name}</h3>
+                <p className="mt-3 text-sm leading-6 text-[var(--color-muted)]">
+                  {plan.description}
                 </p>
-                <p className="mt-1.5 text-sm font-bold leading-snug text-white/92">{step.label}</p>
-                <p className="mt-1 text-[11px] leading-relaxed text-white/45">{step.note}</p>
+                <p className="mt-6 text-3xl font-semibold">{plan.price}</p>
+                <Link
+                  href={plan.href}
+                  className={index === 1 ? "btn-primary mt-6 w-full justify-center" : "btn-secondary mt-6 w-full justify-center"}
+                >
+                  {plan.cta}
+                </Link>
+                <ul className="mt-6 space-y-3">
+                  {plan.features.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-[var(--color-ink)]">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[rgba(47,125,87,0.1)] text-[var(--color-green)]">
+                        <CheckIcon />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-
-          <div className="mt-5 flex justify-end">
-            <Link
-              href="/process"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-accent)] transition-opacity hover:opacity-80"
-            >
-              Full 5-day breakdown
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
-        <div className="mb-8">
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-accent-strong)]">
-            What&apos;s inside
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
-            Everything you need in one place.
-          </h2>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {features.map((feature) => (
-            <Link
-              key={feature.href}
-              href={feature.href}
-              className="card-lift group relative flex flex-col overflow-hidden rounded-[1.75rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(247,253,255,0.94)_100%)] p-6 shadow-[var(--shadow-card)]"
-            >
-              <div
-                className="absolute left-0 right-0 top-0 h-0.5 rounded-t-[1.75rem]"
-                style={{ background: feature.accent }}
-              />
-              <div
-                className="flex h-12 w-12 items-center justify-center rounded-2xl text-2xl"
-                style={{ background: `color-mix(in srgb, ${feature.accent} 10%, rgba(255,255,255,0.6))` }}
-                aria-hidden="true"
-              >
-                {feature.emoji}
-              </div>
-              <span className="mt-4 inline-block text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: feature.accent }}>
-                {feature.tag}
-              </span>
-              <h3 className="mt-1.5 font-display text-xl font-semibold leading-snug tracking-[-0.03em] text-[var(--color-ink-strong)]">
-                {feature.title}
-              </h3>
-              <p className="mt-3 flex-1 text-sm leading-7 text-[var(--color-muted)]">
-                {feature.desc}
-              </p>
-              <div className="mt-5 flex items-center justify-end">
-                <span
-                  className="flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-200 group-hover:translate-x-0.5"
-                  style={{ background: `color-mix(in srgb, ${feature.accent} 12%, transparent)`, color: feature.accent }}
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
+      <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-12">
+        <div className="grid gap-4 md:grid-cols-3">
+          {testimonials.map((item) => (
+            <figure key={item.name} className="rounded-lg border border-[var(--color-border)] p-6">
+              <blockquote className="text-base leading-8 text-[var(--color-ink)]">
+                &quot;{item.quote}&quot;
+              </blockquote>
+              <figcaption className="mt-5 text-sm font-semibold">
+                {item.name}
+                <span className="block text-xs font-medium text-[var(--color-muted)]">
+                  {item.role}
                 </span>
-              </div>
-            </Link>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
-        <div className="mb-7">
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-warm-strong)]">
-            Clear the noise
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-[var(--color-ink-strong)] sm:text-4xl">
-            Common SSB myths, debunked.
-          </h2>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-3">
-          {myths.map((item) => (
-            <div
-              key={item.myth}
-              className="overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] shadow-[var(--shadow-card)]"
-            >
-              <div className="bg-[rgba(239,68,68,0.06)] px-5 py-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#ef4444]">
-                  ✗ Myth
-                </p>
-                <p className="text-sm font-semibold leading-relaxed text-[var(--color-ink-strong)]">
-                  {item.myth}
-                </p>
-              </div>
-              <div className="bg-[rgba(111,143,77,0.06)] px-5 py-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#6f8f4d]">
-                  ✓ Reality
-                </p>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)]">
-                  {item.reality}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
-        <div className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#0d1b2f_0%,#0e3352_50%,#0d2a4a_100%)] px-8 py-12 text-center text-white sm:px-12 sm:py-14">
-          <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(127,179,227,0.22),transparent)]" />
-          <div className="relative">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[rgba(91,143,201,0.9)]">
-              You&apos;re here for a reason
-            </p>
-            <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.04em] text-white/95 sm:text-4xl">
-              The board is looking for who you really are.
+      <section className="bg-[#0d1b2f] text-white">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-16 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">
+          <div>
+            <h2 className="font-display text-4xl font-semibold leading-tight">
+              Build confidence before reporting day.
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-sm leading-8 text-white/55">
-              The only candidate the SSB recommends is one who is consistently
-              themselves across five days. Start understanding what that means before
-              you walk through the gate.
+            <p className="mt-4 max-w-xl text-sm leading-7 text-white/65">
+              Start with the process map, add practice blocks, and keep your
+              preparation visible from the first drill to the final checklist.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/process"
-                className="inline-flex items-center gap-2 rounded-2xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
-                style={{
-                  background: "linear-gradient(135deg, #0891b2 0%, #0e7490 100%)",
-                  boxShadow: "0 4px 24px rgba(91,143,201,0.35)",
-                }}
-              >
-                Start with the Process
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <Link
-                href="/resources"
-                className="inline-flex items-center gap-2 rounded-2xl border px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 hover:bg-white/10 active:scale-95"
-                style={{
-                  borderColor: "rgba(255,255,255,0.18)",
-                  color: "rgba(255,255,255,0.85)",
-                }}
-              >
-                Browse Resources
-              </Link>
-            </div>
           </div>
+          <Link href="/screening" className="btn-light">
+            Start preparation
+            <ArrowIcon />
+          </Link>
         </div>
       </section>
     </main>
+  );
+}
+
+function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function CheckIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.4">
+      <path strokeLinecap="round" strokeLinejoin="round" d="m5 13 4 4L19 7" />
+    </svg>
+  );
+}
+
+function CalendarIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 3v3m10-3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
+    </svg>
+  );
+}
+
+function TargetIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 12h.01" />
+    </svg>
+  );
+}
+
+function MapIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
+      <path strokeLinecap="round" strokeLinejoin="round" d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 3v15m6-12v15" />
+    </svg>
+  );
+}
+
+function JournalIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7 4h10a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 8h6M9 12h6M9 16h4" />
+    </svg>
   );
 }
