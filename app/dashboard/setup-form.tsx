@@ -9,15 +9,23 @@ const entries = ["NDA", "CDS", "AFCAT", "TES", "TGC", "INET", "Other"];
 export default function SetupForm({
   userId,
   defaultName,
+  defaultEntry = "CDS",
+  defaultBoard = "",
+  defaultReportingDate = "",
+  planId = null,
 }: {
   userId: string;
   defaultName: string;
+  defaultEntry?: string;
+  defaultBoard?: string;
+  defaultReportingDate?: string;
+  planId?: string | null;
 }) {
   const router = useRouter();
   const [fullName, setFullName] = useState(defaultName);
-  const [targetEntry, setTargetEntry] = useState("CDS");
-  const [targetBoard, setTargetBoard] = useState("");
-  const [reportingDate, setReportingDate] = useState("");
+  const [targetEntry, setTargetEntry] = useState(defaultEntry);
+  const [targetBoard, setTargetBoard] = useState(defaultBoard);
+  const [reportingDate, setReportingDate] = useState(defaultReportingDate);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -36,25 +44,47 @@ export default function SetupForm({
       { label: "Five OLQ examples", done: false },
     ];
 
+    const planMutation = planId
+      ? supabase
+          .from("prep_plans")
+          .update({
+            title: `${targetEntry} SSB readiness plan`,
+            target_entry: targetEntry,
+            target_board: targetBoard || null,
+            reporting_date: reportingDate || null,
+            status: "active",
+          })
+          .eq("id", planId)
+          .eq("user_id", userId)
+      : supabase.from("prep_plans").insert({
+          user_id: userId,
+          title: `${targetEntry} SSB readiness plan`,
+          target_entry: targetEntry,
+          target_board: targetBoard || null,
+          reporting_date: reportingDate || null,
+          status: "active",
+        });
+    const checklistMutation = planId
+      ? supabase
+          .from("centre_checklists")
+          .update({
+            centre_name: targetBoard || "My SSB centre",
+          })
+          .eq("user_id", userId)
+      : supabase.from("centre_checklists").insert({
+          user_id: userId,
+          centre_name: targetBoard || "My SSB centre",
+          items: checklistItems,
+        });
+
     const [profileResult, planResult, checklistResult] = await Promise.all([
       supabase.from("profiles").upsert({
         id: userId,
         full_name: fullName,
         onboarding_completed: true,
       }),
-      supabase.from("prep_plans").insert({
-        user_id: userId,
-        title: `${targetEntry} SSB readiness plan`,
-        target_entry: targetEntry,
-        target_board: targetBoard || null,
-        reporting_date: reportingDate || null,
-        status: "active",
-      }),
-      supabase.from("centre_checklists").insert({
-        user_id: userId,
-        centre_name: targetBoard || "My SSB centre",
-        items: checklistItems,
-      }),
+      planMutation,
+      checklistMutation,
     ]);
 
     const error = profileResult.error ?? planResult.error ?? checklistResult.error;
@@ -65,6 +95,7 @@ export default function SetupForm({
       return;
     }
 
+    router.push("/dashboard");
     router.refresh();
   }
 
@@ -73,14 +104,14 @@ export default function SetupForm({
       <div className="grid gap-0 lg:grid-cols-[0.88fr_1.12fr]">
         <div className="bg-[#0d1b2f] p-6 text-white sm:p-8">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/55">
-            Candidate setup
+            Workspace settings
           </p>
           <h2 className="mt-4 text-3xl font-extrabold leading-tight">
-            Build your first SSB workspace.
+            Keep your candidate profile ready.
           </h2>
           <p className="mt-4 text-sm leading-7 text-white/68">
-            Add your entry, board, and reporting target once. SSB Sarthi will
-            turn it into your plan, checklist, and dashboard overview.
+            Add or update these details when you have them. Your dashboard will
+            stay focused on practice while this page handles setup.
           </p>
 
           <div className="mt-6 grid gap-3">
@@ -143,7 +174,7 @@ export default function SetupForm({
           </div>
 
           <button type="submit" disabled={loading} className="btn-primary mt-2 justify-center">
-            {loading ? "Creating workspace..." : "Create my workspace"}
+            {loading ? "Saving profile..." : "Save profile"}
           </button>
 
           {message ? (
