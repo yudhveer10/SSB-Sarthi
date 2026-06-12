@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Json } from "../_lib/database.types";
 import { createClient } from "../_lib/supabase/server";
+import SetupForm from "./setup-form";
 
 export const metadata = {
   title: "Dashboard",
@@ -15,7 +16,7 @@ type ChecklistItem = {
 };
 
 const fallbackChecklist: ChecklistItem[] = [
-  { label: "Call-up letter", done: true },
+  { label: "Call-up letter", done: false },
   { label: "Photo ID and documents", done: false },
   { label: "Travel and reporting buffer", done: false },
   { label: "Final OIR revision", done: false },
@@ -75,6 +76,7 @@ export default async function DashboardPage() {
   const ppdtAttempts = ppdtResult.data ?? [];
   const journals = journalResult.data ?? [];
   const name = profile?.full_name?.split(" ")[0] ?? "Candidate";
+  const hasWorkspace = Boolean(profile?.onboarding_completed && plan);
   const latestScore = oirAttempts[0]
     ? `${oirAttempts[0].score}/${oirAttempts[0].total_questions}`
     : "Not started";
@@ -92,8 +94,9 @@ export default async function DashboardPage() {
               Welcome back, {name}.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--color-muted)]">
-              Keep your SSB preparation visible: planning, screening practice,
-              PPDT reflection, OLQ evidence, and reporting-day readiness.
+              {hasWorkspace
+                ? "Keep your SSB preparation visible: planning, screening practice, PPDT reflection, OLQ evidence, and reporting-day readiness."
+                : "Finish your candidate setup once, then your SSB workspace will track your plan, practice, checklist, and review history."}
             </p>
           </div>
 
@@ -107,9 +110,16 @@ export default async function DashboardPage() {
           </div>
         </div>
 
+        {!hasWorkspace ? (
+          <SetupForm
+            userId={userId}
+            defaultName={profile?.full_name ?? profile?.email?.split("@")[0] ?? ""}
+          />
+        ) : null}
+
         <div className="mt-8 grid gap-3 md:grid-cols-4">
           {[
-            ["Active plan", plan?.title ?? "Create your plan"],
+            ["Active plan", plan?.title ?? "Setup pending"],
             ["Target board", plan?.target_board ?? "Not set"],
             ["Latest OIR", latestScore],
             ["Checklist", `${completedChecklist}/${checklist.length} ready`],
@@ -126,6 +136,31 @@ export default async function DashboardPage() {
         </div>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          <section className="rounded-lg border border-[var(--color-border)] bg-[#0d1b2f] p-5 text-white shadow-[var(--shadow-card)] lg:col-span-2">
+            <div className="grid gap-5 lg:grid-cols-[0.75fr_1.25fr] lg:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-white/55">
+                  Readiness command
+                </p>
+                <h2 className="mt-3 text-2xl font-extrabold">
+                  {hasWorkspace ? "Your next best actions" : "Setup your workspace to unlock actions"}
+                </h2>
+              </div>
+              <div className="grid gap-3 md:grid-cols-3">
+                {[
+                  ["Plan", hasWorkspace ? "Review reporting target" : "Add entry and board"],
+                  ["Practice", "Run one OIR set today"],
+                  ["Reflect", "Write one OLQ example"],
+                ].map(([title, body]) => (
+                  <div key={title} className="rounded-lg bg-white/8 p-4">
+                    <p className="text-sm font-bold text-white">{title}</p>
+                    <p className="mt-2 text-xs leading-5 text-white/62">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           <section className="rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)]">
             <div className="flex items-center justify-between gap-4">
               <div>
