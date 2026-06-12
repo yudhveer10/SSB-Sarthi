@@ -36,7 +36,7 @@ export default function SignInForm() {
     setMessage("");
 
     const supabase = createClient();
-    const { error } =
+    const { data, error } =
       mode === "signup"
         ? await supabase.auth.signUp({
             email,
@@ -55,13 +55,21 @@ export default function SignInForm() {
 
     setLoading(null);
     if (error) {
-      setMessage(error.message);
+      setMessage(
+        error.message.includes("Invalid login credentials")
+          ? "Invalid credentials. If you previously used magic link or Google, use Set or reset password below once."
+          : error.message,
+      );
       return;
     }
 
     if (mode === "signup") {
-      setMessage("Account created. If Supabase email confirmation is enabled, check your inbox. Otherwise opening the dashboard will continue setup.");
-      window.location.href = "/dashboard";
+      if (data.session) {
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      setMessage("Check your email to confirm the account. If this email already exists, use Set or reset password below.");
       return;
     }
 
@@ -87,6 +95,28 @@ export default function SignInForm() {
 
     setLoading(null);
     setMessage(error ? error.message : "Check your inbox for the secure sign-in link.");
+  }
+
+  async function sendPasswordReset() {
+    if (!email) {
+      setMessage("Enter your email first, then request a password setup link.");
+      return;
+    }
+
+    setLoading("email");
+    setMessage("");
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/auth/update-password`,
+    });
+
+    setLoading(null);
+    setMessage(
+      error
+        ? error.message
+        : "Password setup link sent. Open it from your email, then set a new password.",
+    );
   }
 
   return (
@@ -197,6 +227,15 @@ export default function SignInForm() {
         className="mt-3 w-full rounded-lg px-4 py-3 text-sm font-bold text-[var(--color-blue)] transition hover:bg-[var(--color-blue-soft)] disabled:cursor-wait disabled:opacity-70"
       >
         {loading === "email" ? "Sending magic link..." : "Email me a magic link instead"}
+      </button>
+
+      <button
+        type="button"
+        disabled={loading !== null}
+        onClick={sendPasswordReset}
+        className="w-full rounded-lg px-4 py-3 text-sm font-bold text-[var(--color-green)] transition hover:bg-[var(--color-green-soft)] disabled:cursor-wait disabled:opacity-70"
+      >
+        Set or reset password
       </button>
 
       {message ? (
