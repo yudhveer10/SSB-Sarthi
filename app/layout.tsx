@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | SSB Sarthi",
   },
   description:
-    "Your calm, practical guide to the SSB process, centres, resources, and screening practice.",
+    "A structured SaaS workspace for SSB aspirants to plan, practice, review, and arrive prepared.",
   keywords: [
     "SSB",
     "SSB interview",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SSB Sarthi",
     description:
-      "Understand the SSB process, discover service centres, and practice screening with confidence.",
+      "Plan SSB preparation, practice screening tasks, track OLQs, and manage centre readiness in one workspace.",
     type: "website",
     siteName: "SSB Sarthi",
   },
