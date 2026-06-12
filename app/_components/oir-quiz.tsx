@@ -516,7 +516,7 @@ export default function OirQuiz() {
               Officer Intelligence Rating Test
             </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-[var(--color-muted)]">
-              Two papers, 25 questions each, 17 minutes per paper. The real OIR is fast — don't think too long on any single question.
+              Two papers, 25 questions each, 17 minutes per paper. The real OIR is fast — don&apos;t think too long on any single question.
             </p>
           </div>
         </div>

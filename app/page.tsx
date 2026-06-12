@@ -71,7 +71,7 @@ const plans = [
     price: "Free",
     description: "For candidates beginning their SSB prep routine.",
     cta: "Try free",
-    href: "/process",
+    href: "/dashboard",
     features: ["5-day process overview", "Centre browser", "Starter resources"],
   },
   {
@@ -79,7 +79,7 @@ const plans = [
     price: "Rs 499",
     description: "For aspirants who want a structured, accountable workspace.",
     cta: "Go Pro",
-    href: "/screening",
+    href: "/dashboard",
     features: ["Practice routines", "OLQ journal system", "Weekly readiness review"],
   },
 ];
@@ -120,7 +120,7 @@ export default function HomePage() {
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/screening" className="btn-primary">
+              <Link href="/dashboard" className="btn-primary">
                 Start preparation
                 <ArrowIcon />
               </Link>
@@ -374,7 +374,7 @@ export default function HomePage() {
               preparation visible from the first drill to the final checklist.
             </p>
           </div>
-          <Link href="/screening" className="btn-light">
+          <Link href="/dashboard" className="btn-light">
             Start preparation
             <ArrowIcon />
           </Link>
