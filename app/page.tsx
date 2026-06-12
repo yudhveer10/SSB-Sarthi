@@ -76,7 +76,7 @@ const plans = [
   },
   {
     name: "Sarthi Pro",
-    price: "Rs 499",
+    price: "Rs 299",
     description: "For aspirants who want a structured, accountable workspace.",
     cta: "Go Pro",
     href: "/screening",
