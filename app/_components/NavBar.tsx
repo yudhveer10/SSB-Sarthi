@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BrandIcon from "./BrandIcon";
 
 const NAV_LINKS = [
   { href: "/process", label: "Process" },
@@ -22,9 +23,7 @@ export default function NavBar() {
     >
       <nav className="glass mx-auto flex h-full max-w-7xl items-center justify-between gap-5 px-4 shadow-[0_1px_0_rgba(13,27,47,0.08)] sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="SSB Sarthi home">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--color-green)] text-[0.72rem] font-black tracking-[0.12em] text-white shadow-[0_8px_18px_rgba(47,125,87,0.22)]">
-            SSB
-          </span>
+          <BrandIcon priority />
           <span className="font-display text-lg font-semibold text-[var(--color-ink-strong)]">
             SSB Sarthi
           </span>

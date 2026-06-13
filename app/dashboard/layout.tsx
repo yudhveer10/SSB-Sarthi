@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import BrandIcon from "../_components/BrandIcon";
 import { createClient } from "../_lib/supabase/server";
 
 const dashboardLinks = [
@@ -37,9 +38,7 @@ export default async function DashboardLayout({
     <div className="min-h-dvh bg-[var(--color-surface)] text-[var(--color-ink-strong)]">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-[var(--color-border)] bg-white px-4 py-5 lg:flex lg:flex-col">
         <Link href="/dashboard" className="flex items-center gap-3 px-2">
-          <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--color-green)] text-xs font-black tracking-[0.12em] text-white">
-            SSB
-          </span>
+          <BrandIcon className="h-11 w-11" priority />
           <div>
             <p className="text-lg font-extrabold">SSB Sarthi</p>
             <p className="text-xs font-semibold text-[var(--color-muted)]">Candidate workspace</p>
@@ -71,9 +70,7 @@ export default async function DashboardLayout({
         <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-white/95 px-5 py-4 backdrop-blur lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link href="/dashboard" className="flex items-center gap-3 lg:hidden">
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-green)] text-xs font-black tracking-[0.12em] text-white">
-                SSB
-              </span>
+              <BrandIcon className="h-10 w-10" priority />
               <span className="text-lg font-extrabold">SSB Sarthi</span>
             </Link>
             <div className="hidden lg:block">

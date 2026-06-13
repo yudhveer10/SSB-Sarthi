@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandIcon from "./BrandIcon";
 
 const LINK_GROUPS = [
   {
@@ -34,9 +35,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,minmax(0,1fr))]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--color-green)] text-[0.72rem] font-black tracking-[0.12em] text-white">
-                SSB
-              </span>
+              <BrandIcon />
               <span className="font-display text-xl font-semibold text-[var(--color-ink-strong)]">
                 SSB Sarthi
               </span>
