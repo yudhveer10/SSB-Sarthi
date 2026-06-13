@@ -52,13 +52,13 @@ export default function NavBar() {
             href="/process"
             className="hidden rounded-lg border border-[var(--color-border-strong)] bg-white px-4 py-2.5 text-xs font-bold text-[var(--color-blue)] transition-colors hover:bg-[var(--color-surface)] lg:inline-flex"
           >
-            View demo
+            View process
           </Link>
           <Link
-            href="/dashboard"
+            href="/signin"
             className="hidden rounded-lg bg-[var(--color-blue)] px-4 py-2.5 text-xs font-bold text-white shadow-[0_10px_24px_rgba(47,128,201,0.22)] transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
           >
-            Start preparation
+            Create account
           </Link>
 
           <button
@@ -124,11 +124,11 @@ export default function NavBar() {
 
         <div className="mt-3 border-t border-[var(--color-border)] pt-3">
           <Link
-            href="/dashboard"
+            href="/signin"
             className="flex w-full items-center justify-center rounded-lg bg-[var(--color-blue)] px-4 py-3 text-sm font-bold text-white"
             onClick={() => setMenuOpen(false)}
           >
-            Start preparation
+            Create account
           </Link>
         </div>
       </div>
