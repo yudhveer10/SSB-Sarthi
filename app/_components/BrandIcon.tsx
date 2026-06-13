@@ -7,14 +7,15 @@ type BrandIconProps = {
 
 export default function BrandIcon({ className = "h-12 w-12", priority = false }: BrandIconProps) {
   return (
-    <span className={`relative flex shrink-0 overflow-hidden ${className}`}>
+    <span className={`flex shrink-0 overflow-hidden ${className}`}>
       <Image
         src="/brand-icon.png"
         alt=""
-        fill
+        width={48}
+        height={48}
         priority={priority}
-        sizes="48px"
-        className="object-contain"
+        unoptimized
+        className="h-full w-full object-contain"
       />
     </span>
   );
