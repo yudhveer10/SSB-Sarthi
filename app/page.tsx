@@ -1,108 +1,72 @@
 import Link from "next/link";
 
-const navCards = [
+const heroCards = [
   {
-    href: "/process",
-    title: "5-day planner",
-    detail: "Map screening, psychology, GTO, interview, and conference prep.",
+    title: "Process clarity",
+    detail: "Understand what happens from screening to conference before you start preparing.",
   },
   {
-    href: "/screening",
-    title: "Practice studio",
-    detail: "Train OIR speed and PPDT structure with focused sessions.",
+    title: "Dashboard first",
+    detail: "Save plans, practice history, OLQ notes, and centre checklists after login.",
   },
   {
-    href: "/centers",
-    title: "Centre readiness",
-    detail: "Keep travel details, documents, and board logistics in one place.",
+    title: "Private prep",
+    detail: "Your practice history and reflections stay inside your candidate workspace.",
   },
 ];
 
-const progressRows = [
-  { label: "OIR drills", value: "82%", width: "82%" },
-  { label: "PPDT narration", value: "64%", width: "64%" },
-  { label: "OLQ journal", value: "71%", width: "71%" },
+const readinessRows = [
+  { label: "OIR reasoning", value: "Planned", width: "76%" },
+  { label: "PPDT narration", value: "Reviewing", width: "62%" },
+  { label: "OLQ examples", value: "Building", width: "68%" },
 ];
 
-const planner = [
-  { day: "Day 1", title: "Screening", state: "Practice due" },
-  { day: "Day 2", title: "Psychology", state: "Prep ready" },
-  { day: "Days 3-4", title: "GTO tasks", state: "Review" },
-  { day: "Day 5", title: "Conference", state: "Checklist" },
+const dashboardPlan = [
+  { day: "Day 1", title: "Screening", state: "OIR + PPDT" },
+  { day: "Day 2", title: "Psychology", state: "Stories + SRT" },
+  { day: "Days 3-4", title: "GTO", state: "Group tasks" },
+  { day: "Day 5", title: "Conference", state: "Final review" },
 ];
 
-const features = [
+const productSections = [
   {
-    title: "5-Day Process Planner",
-    body: "Turn the SSB process into a calm, visible plan with daily priorities and prep notes.",
+    title: "Learn the SSB flow",
+    body: "Use the public process guide to understand each testing stage before creating a plan.",
     href: "/process",
     icon: CalendarIcon,
   },
   {
-    title: "Screening Practice",
-    body: "Run OIR and PPDT practice with clear review prompts after every attempt.",
-    href: "/screening",
-    icon: TargetIcon,
-  },
-  {
-    title: "Centre Readiness",
-    body: "Browse service centres and keep travel, reporting, and document details organized.",
+    title: "Explore centres",
+    body: "Browse Army, Air Force, and Navy selection centres with practical reporting context.",
     href: "/centers",
     icon: MapIcon,
   },
   {
-    title: "OLQ Journal",
-    body: "Track examples, stories, and reflections against officer-like qualities.",
+    title: "Understand practice areas",
+    body: "See what OIR, PPDT, psychology, GTO, interview, and conference prep should cover.",
+    href: "/screening",
+    icon: TargetIcon,
+  },
+  {
+    title: "Use resources wisely",
+    body: "Read guidance, myths, and prep notes without jumping straight into random tests.",
     href: "/resources",
     icon: JournalIcon,
   },
 ];
 
-const workflow = [
-  ["Plan", "Choose daily focus areas before practice starts."],
-  ["Practice", "Work through screening and interview prep blocks."],
-  ["Review", "Capture honest notes, mistakes, and OLQ evidence."],
-  ["Arrive", "Carry a complete checklist into reporting day."],
+const dashboardAccess = [
+  ["Practice sessions", "Timed OIR sets, PPDT drills, review notes, and saved progress."],
+  ["Readiness planner", "A 5-day preparation map with daily priorities and centre checklist."],
+  ["OLQ journal", "Real examples, reflections, and interview-ready stories in one place."],
+  ["Private history", "Attempts, scores, and preparation notes attached to your account."],
 ];
 
-const plans = [
-  {
-    name: "Free Starter",
-    price: "Free",
-    description: "For candidates beginning their SSB prep routine.",
-    cta: "Try free",
-    href: "/dashboard",
-    features: ["5-day process overview", "Centre browser", "Starter resources"],
-  },
-  {
-    name: "Sarthi Pro",
-    price: "Rs 499",
-    description: "For aspirants who want a structured, accountable workspace.",
-    cta: "Go Pro",
-    href: "/dashboard",
-    features: ["Practice routines", "OLQ journal system", "Weekly readiness review"],
-  },
-];
-
-const testimonials = [
-  {
-    quote:
-      "The best part is how it turns SSB prep into a routine instead of panic before reporting.",
-    name: "Aarav",
-    role: "CDS aspirant",
-  },
-  {
-    quote:
-      "I used the centre checklist and process planner together. It made the whole journey feel clear.",
-    name: "Meera",
-    role: "AFCAT aspirant",
-  },
-  {
-    quote:
-      "The journal prompts helped me speak from real examples instead of rehearsed answers.",
-    name: "Kabir",
-    role: "NDA aspirant",
-  },
+const flow = [
+  ["Explore", "Read public guides and understand the SSB journey."],
+  ["Login", "Create your private candidate workspace."],
+  ["Practice", "Attempt drills and save review notes inside the dashboard."],
+  ["Arrive", "Use your checklist and plan before reporting day."],
 ];
 
 export default function HomePage() {
@@ -111,34 +75,35 @@ export default function HomePage() {
       <section className="overflow-hidden border-b border-[var(--color-border)]">
         <div className="mx-auto grid w-full max-w-7xl items-start gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12 lg:py-12">
           <div className="max-w-2xl">
-            <h1 className="max-w-[12ch] font-display text-4xl font-extrabold leading-[1.05] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4rem]">
-              Your command center for SSB readiness.
+            <h1 className="max-w-[13ch] font-display text-4xl font-extrabold leading-[1.05] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4rem]">
+              SSB prep, organized around your real journey.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-              Plan every testing day, practice screening tasks, track OLQs, and
-              arrive at the board with clarity.
+              SSB Sarthi is a preparation workspace for aspirants who want a
+              clear process map, focused practice plan, OLQ review, and centre
+              readiness in one place.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/dashboard" className="btn-primary">
-                Start preparation
+              <Link href="/signin" className="btn-primary">
+                Create account
                 <ArrowIcon />
               </Link>
               <Link href="/process" className="btn-secondary">
-                View demo
+                Explore process
               </Link>
             </div>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {navCards.map((card) => (
-                <Link key={card.title} href={card.href} className="mini-panel">
+              {heroCards.map((card) => (
+                <div key={card.title} className="mini-panel">
                   <span className="text-sm font-semibold text-[var(--color-ink-strong)]">
                     {card.title}
                   </span>
                   <span className="mt-2 block text-xs leading-5 text-[var(--color-muted)]">
                     {card.detail}
                   </span>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -148,10 +113,10 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-4">
                 <div>
                   <p className="text-sm font-semibold text-[var(--color-ink-strong)]">
-                    SSB Sarthi workspace
+                    Candidate dashboard
                   </p>
                   <p className="text-xs text-[var(--color-muted)]">
-                    Weekly readiness overview
+                    Available after login
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -165,11 +130,11 @@ export default function HomePage() {
                 <div className="space-y-4">
                   <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold">5-day plan</p>
+                      <p className="text-sm font-semibold">5-day prep map</p>
                       <CalendarIcon className="h-4 w-4 text-[var(--color-green)]" />
                     </div>
                     <div className="mt-3 space-y-2">
-                      {planner.map((item) => (
+                      {dashboardPlan.map((item) => (
                         <div
                           key={item.day}
                           className="flex items-center justify-between rounded-md bg-[var(--color-surface)] px-3 py-2"
@@ -193,7 +158,7 @@ export default function HomePage() {
                   <div className="rounded-lg border border-[var(--color-border)] bg-[#0d1b2f] p-4 text-white">
                     <p className="text-sm font-semibold">Centre checklist</p>
                     <div className="mt-3 space-y-2.5">
-                      {["Call-up letter", "Documents", "Travel buffer"].map((item) => (
+                      {["Call-up letter", "Documents", "Travel plan"].map((item) => (
                         <div key={item} className="flex items-center gap-3">
                           <span className="flex h-5 w-5 items-center justify-center rounded bg-[#2f7d57] text-[10px]">
                             <CheckIcon />
@@ -208,11 +173,11 @@ export default function HomePage() {
                 <div className="space-y-4">
                   <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold">OLQ progress</p>
+                      <p className="text-sm font-semibold">Readiness areas</p>
                       <TargetIcon className="h-4 w-4 text-[var(--color-blue)]" />
                     </div>
                     <div className="mt-4 space-y-3">
-                      {progressRows.map((row) => (
+                      {readinessRows.map((row) => (
                         <div key={row.label}>
                           <div className="mb-2 flex justify-between text-xs">
                             <span className="font-medium text-[var(--color-ink)]">
@@ -234,17 +199,17 @@ export default function HomePage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
                       <p className="text-xs font-semibold text-[var(--color-muted)]">
-                        Next drill
+                        Next focus
                       </p>
-                      <p className="mt-2 text-lg font-semibold">OIR set 04</p>
-                      <p className="mt-1 text-xs text-[var(--color-muted)]">18 min focus</p>
+                      <p className="mt-2 text-lg font-semibold">PPDT review</p>
+                      <p className="mt-1 text-xs text-[var(--color-muted)]">Saved in dashboard</p>
                     </div>
                     <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
                       <p className="text-xs font-semibold text-[var(--color-muted)]">
-                        Review
+                        Journal
                       </p>
-                      <p className="mt-2 text-lg font-semibold">PPDT story</p>
-                      <p className="mt-1 text-xs text-[var(--color-muted)]">Narration notes</p>
+                      <p className="mt-2 text-lg font-semibold">OLQ notes</p>
+                      <p className="mt-1 text-xs text-[var(--color-muted)]">Private workspace</p>
                     </div>
                   </div>
                 </div>
@@ -258,16 +223,17 @@ export default function HomePage() {
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
           <div>
             <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
-              Everything you need for SSB success.
+              What visitors can explore before login.
             </h2>
             <p className="mt-5 max-w-md text-base leading-8 text-[var(--color-muted)]">
-              One workspace for process clarity, practice discipline, centre
-              planning, and honest self-review.
+              The public site explains the SSB journey and the product. Actual
+              practice history, saved progress, and review notes stay inside the
+              dashboard.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            {features.map((feature) => {
+            {productSections.map((feature) => {
               const Icon = feature.icon;
               return (
                 <Link key={feature.title} href={feature.href} className="feature-panel">
@@ -283,7 +249,7 @@ export default function HomePage() {
         </div>
 
         <div className="mt-10 grid overflow-hidden rounded-lg border border-[var(--color-border)] md:grid-cols-4">
-          {workflow.map(([title, body], index) => (
+          {flow.map(([title, body], index) => (
             <div
               key={title}
               className="border-b border-[var(--color-border)] p-5 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
@@ -299,67 +265,30 @@ export default function HomePage() {
       </section>
 
       <section className="border-y border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-20 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-20 sm:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-12">
           <div>
             <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
-              Start structured SSB prep today.
+              What opens inside the dashboard.
             </h2>
             <p className="mt-5 max-w-lg text-base leading-8 text-[var(--color-muted)]">
-              Choose a plan, build your routine, and keep every practice session
-              accountable.
+              Login is the boundary between browsing and doing. Once signed in,
+              a candidate can practice, track preparation, and keep
+              private notes.
             </p>
+            <Link href="/signin" className="btn-primary mt-7">
+              Go to dashboard
+              <ArrowIcon />
+            </Link>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {plans.map((plan, index) => (
-              <div
-                key={plan.name}
-                className={`rounded-lg border bg-white p-6 shadow-[var(--shadow-card)] ${
-                  index === 1 ? "border-[var(--color-green)]" : "border-[var(--color-border)]"
-                }`}
-              >
-                <h3 className="text-xl font-semibold">{plan.name}</h3>
-                <p className="mt-3 text-sm leading-6 text-[var(--color-muted)]">
-                  {plan.description}
-                </p>
-                <p className="mt-6 text-3xl font-semibold">{plan.price}</p>
-                <Link
-                  href={plan.href}
-                  className={index === 1 ? "btn-primary mt-6 w-full justify-center" : "btn-secondary mt-6 w-full justify-center"}
-                >
-                  {plan.cta}
-                </Link>
-                <ul className="mt-6 space-y-3">
-                  {plan.features.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-[var(--color-ink)]">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-[rgba(47,125,87,0.1)] text-[var(--color-green)]">
-                        <CheckIcon />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+            {dashboardAccess.map(([title, body]) => (
+              <div key={title} className="rounded-lg border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)]">
+                <h3 className="text-lg font-semibold">{title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">{body}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-12">
-        <div className="grid gap-4 md:grid-cols-3">
-          {testimonials.map((item) => (
-            <figure key={item.name} className="rounded-lg border border-[var(--color-border)] p-6">
-              <blockquote className="text-base leading-8 text-[var(--color-ink)]">
-                &quot;{item.quote}&quot;
-              </blockquote>
-              <figcaption className="mt-5 text-sm font-semibold">
-                {item.name}
-                <span className="block text-xs font-medium text-[var(--color-muted)]">
-                  {item.role}
-                </span>
-              </figcaption>
-            </figure>
-          ))}
         </div>
       </section>
 
@@ -367,15 +296,15 @@ export default function HomePage() {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-16 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">
           <div>
             <h2 className="font-display text-4xl font-semibold leading-tight">
-              Build confidence before reporting day.
+              Prepare with structure before reporting day.
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/65">
-              Start with the process map, add practice blocks, and keep your
-              preparation visible from the first drill to the final checklist.
+              Start by understanding the process. Login when you are ready to
+              save practice notes and your personal readiness plan.
             </p>
           </div>
-          <Link href="/dashboard" className="btn-light">
-            Start preparation
+          <Link href="/signin" className="btn-light">
+            Create account
             <ArrowIcon />
           </Link>
         </div>
