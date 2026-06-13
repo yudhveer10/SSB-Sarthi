@@ -1,20 +1,19 @@
 import Image from "next/image";
-import brandIcon from "../icon.png";
 
 type BrandIconProps = {
   className?: string;
   priority?: boolean;
 };
 
-export default function BrandIcon({ className = "h-9 w-9", priority = false }: BrandIconProps) {
+export default function BrandIcon({ className = "h-12 w-12", priority = false }: BrandIconProps) {
   return (
-    <span className={`relative flex shrink-0 overflow-hidden rounded-lg ${className}`}>
+    <span className={`relative flex shrink-0 overflow-hidden ${className}`}>
       <Image
-        src={brandIcon}
+        src="/brand-icon.png"
         alt=""
         fill
         priority={priority}
-        sizes="44px"
+        sizes="48px"
         className="object-contain"
       />
     </span>
