@@ -45,7 +45,7 @@ export default async function ProfileSetupPage() {
 
       <SetupForm
         userId={userId}
-        defaultName={profile?.full_name ?? profile?.email?.split("@")[0] ?? ""}
+        defaultName={profile?.full_name ?? ""}
         defaultEntry={plan?.target_entry ?? "CDS"}
         defaultBoard={plan?.target_board ?? ""}
         defaultReportingDate={plan?.reporting_date ?? ""}
