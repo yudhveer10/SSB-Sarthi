@@ -10,13 +10,13 @@ export const dynamic = "force-dynamic";
 
 export default async function ProfileSetupPage() {
   const supabase = await createClient();
-  const { data: claimsData, error } = await supabase.auth.getClaims();
+  const { data: userData, error } = await supabase.auth.getUser();
 
-  if (error || !claimsData?.claims?.sub) {
+  if (error || !userData.user) {
     redirect("/signin");
   }
 
-  const userId = claimsData.claims.sub;
+  const userId = userData.user.id;
   const [{ data: profile }, { data: plan }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
     supabase
