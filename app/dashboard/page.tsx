@@ -23,13 +23,13 @@ const fallbackChecklist: ChecklistItem[] = [
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const { data: claimsData, error } = await supabase.auth.getClaims();
+  const { data: userData, error } = await supabase.auth.getUser();
 
-  if (error || !claimsData?.claims?.sub) {
+  if (error || !userData.user) {
     redirect("/signin");
   }
 
-  const userId = claimsData.claims.sub;
+  const userId = userData.user.id;
 
   const [profileResult, planResult, checklistResult, oirResult, ppdtResult, journalResult] =
     await Promise.all([

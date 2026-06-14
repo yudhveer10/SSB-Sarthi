@@ -20,13 +20,13 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const { data: claimsData, error } = await supabase.auth.getClaims();
+  const { data: userData, error } = await supabase.auth.getUser();
 
-  if (error || !claimsData?.claims?.sub) {
+  if (error || !userData.user) {
     redirect("/signin");
   }
 
-  const userId = claimsData.claims.sub;
+  const userId = userData.user.id;
   const { data: profile } = await supabase
     .from("profiles")
     .select("full_name,email")
