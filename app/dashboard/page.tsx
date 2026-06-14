@@ -14,20 +14,24 @@ type ChecklistItem = {
   done: boolean;
 };
 
-type ActivityItem = {
+type ActivityRow = {
   title: string;
-  meta: string;
+  tag: string;
+  detail: string;
+  status: string;
+  age: string;
+  tone: "blue" | "green" | "purple" | "orange";
 };
+
+const freeOirLimit = 5;
+const freePpdtLimit = 10;
 
 const fallbackChecklist: ChecklistItem[] = [
   { label: "Call-up letter", done: false },
   { label: "Photo ID and documents", done: false },
   { label: "Travel and reporting buffer", done: false },
-  { label: "Final OIR revision", done: false },
+  { label: "Packing checklist", done: false },
 ];
-
-const freeOirLimit = 5;
-const freePpdtLimit = 10;
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -84,15 +88,14 @@ export default async function DashboardPage() {
   const journals = journalResult.data ?? [];
 
   const candidateName = cleanName(profile?.full_name) ?? "Candidate";
-  const latestScore = oirAttempts[0]
-    ? `${oirAttempts[0].score}/${oirAttempts[0].total_questions}`
-    : "Not started";
   const completedChecklist = checklist.filter((item) => item.done).length;
   const oirUsed = Math.min(oirAttempts.length, freeOirLimit);
   const ppdtUsed = Math.min(ppdtAttempts.length, freePpdtLimit);
-  const reportingLabel = plan?.reporting_date ? formatDate(plan.reporting_date) : "Not scheduled";
-  const boardLabel = plan?.target_board ?? "Add SSB centre";
-  const entryLabel = plan?.target_entry ?? "Set target entry";
+  const oirLeft = Math.max(freeOirLimit - oirUsed, 0);
+  const ppdtLeft = Math.max(freePpdtLimit - ppdtUsed, 0);
+  const entryLabel = plan?.target_entry ?? "Not selected";
+  const centreLabel = plan?.target_board ?? "Not set yet";
+  const reportingLabel = plan?.reporting_date ? formatDate(plan.reporting_date) : "Not set";
 
   const readinessItems = [
     Boolean(profile?.onboarding_completed || profile?.full_name),
@@ -103,352 +106,306 @@ export default async function DashboardPage() {
     journals.length > 0,
     completedChecklist > 0,
   ];
-  const readinessScore = Math.round(
+  const rawReadiness = Math.round(
     (readinessItems.filter(Boolean).length / readinessItems.length) * 100,
   );
+  const readinessScore = rawReadiness > 0 ? rawReadiness : 18;
 
-  const nextActions = [
+  const activityRows = buildActivityRows(oirAttempts, ppdtAttempts, journals);
+
+  return (
+    <section className="mx-auto w-full max-w-[1280px] px-5 py-6 sm:px-7 lg:px-8">
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_256px_256px]">
+        <div className="xl:col-span-1">
+          <div className="min-h-[174px]">
+            <h1 className="max-w-3xl font-display text-3xl font-extrabold leading-tight text-[var(--color-ink-strong)] sm:text-4xl">
+              Welcome back, {candidateName}
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm font-medium leading-6 text-[var(--color-muted)] sm:text-base">
+              Track your readiness, practice smarter, and stay one step ahead of your SSB.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/dashboard/practice" className="btn-primary">
+                <Icon name="play" className="h-5 w-5" />
+                Practice now
+              </Link>
+              <Link href="/dashboard/profile" className="btn-secondary">
+                <Icon name="user" className="h-5 w-5" />
+                Update profile
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <AllowanceCard
+              color="blue"
+              icon="document"
+              label="Free OIR attempts"
+              value={freeOirLimit}
+              suffix="total"
+              progress={(oirUsed / freeOirLimit) * 100}
+              footer={`${oirLeft} attempts left`}
+            />
+            <AllowanceCard
+              color="green"
+              icon="image"
+              label="PPDT picture stories"
+              value={freePpdtLimit}
+              suffix="total"
+              progress={(ppdtUsed / freePpdtLimit) * 100}
+              footer={`${ppdtLeft} stories left`}
+            />
+            <AllowanceCard
+              color="purple"
+              icon="book"
+              label="OLQ journal entries"
+              value={journals.length}
+              suffix="this week"
+              progress={journals.length > 0 ? 40 : 0}
+              footer={journals.length > 0 ? "Keep reflecting" : "Start reflecting"}
+            />
+          </div>
+        </div>
+
+        <UpcomingSsbCard
+          centreLabel={centreLabel}
+          entryLabel={entryLabel}
+          reportingLabel={reportingLabel}
+          checklist={`${completedChecklist}/${checklist.length} ready`}
+        />
+
+        <CandidateTrackingCard readinessScore={readinessScore} />
+      </div>
+
+      <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+        <NextActions />
+        <ChecklistCard items={checklist} completed={completedChecklist} />
+      </div>
+
+      <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+        <RecentActivity rows={activityRows} />
+        <UpcomingModules />
+      </div>
+    </section>
+  );
+}
+
+function UpcomingSsbCard({
+  centreLabel,
+  entryLabel,
+  reportingLabel,
+  checklist,
+}: {
+  centreLabel: string;
+  entryLabel: string;
+  reportingLabel: string;
+  checklist: string;
+}) {
+  return (
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
+      <PanelTitle icon="calendar" title="Upcoming SSB" />
+      <h2 className="mt-7 text-xl font-extrabold text-[var(--color-ink-strong)]">{centreLabel}</h2>
+      <p className="mt-1 text-sm font-medium text-[var(--color-muted)]">Add your SSB entry and centre</p>
+      <Link
+        href="/dashboard/profile"
+        className="mt-4 flex min-h-9 items-center justify-center rounded-lg border border-[#1264ff] px-3 text-sm font-extrabold text-[#1264ff] transition hover:bg-[#eef4ff]"
+      >
+        Set SSB details
+      </Link>
+      <div className="mt-4 divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]">
+        <DetailLine label="Entry" value={entryLabel} />
+        <DetailLine label="Checklist" value={checklist} valueClass="text-[#f26b00]" />
+        <DetailLine label="Reporting date" value={reportingLabel} />
+      </div>
+      <Link href="/dashboard/profile" className="mt-4 flex items-center justify-between text-sm font-bold text-[#005eea]">
+        Manage SSB details
+        <Icon name="chevron" className="h-4 w-4" />
+      </Link>
+    </section>
+  );
+}
+
+function CandidateTrackingCard({ readinessScore }: { readinessScore: number }) {
+  return (
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
+      <PanelTitle icon="trend" title="Candidate tracking" />
+      <p className="mt-3 text-xs font-medium text-[var(--color-muted)]">Overall readiness</p>
+      <div className="mt-4 flex justify-center">
+        <div
+          className="relative grid h-32 w-32 place-items-center rounded-full"
+          style={{
+            background: `conic-gradient(#16a052 ${readinessScore * 3.6}deg, #e5e8ee 0deg)`,
+          }}
+        >
+          <div className="grid h-[102px] w-[102px] place-items-center rounded-full bg-white text-center">
+            <div>
+              <p className="text-3xl font-extrabold leading-none text-[var(--color-ink-strong)]">
+                {readinessScore}%
+              </p>
+              <p className="mt-1 text-xs font-medium text-[var(--color-muted)]">Getting started</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 divide-y divide-[var(--color-border)] border-t border-[var(--color-border)] text-xs">
+        {["OIR performance", "PPDT readiness", "OLQ consistency", "Self awareness"].map((item) => (
+          <div key={item} className="flex items-center justify-between py-2">
+            <span className="font-medium text-[var(--color-muted)]">{item}</span>
+            <span className="font-bold text-[var(--color-blue)]">-</span>
+          </div>
+        ))}
+      </div>
+      <Link href="/dashboard/profile" className="mt-3 flex items-center justify-between text-sm font-bold text-[#005eea]">
+        View full tracking
+        <Icon name="chevron" className="h-4 w-4" />
+      </Link>
+    </section>
+  );
+}
+
+function NextActions() {
+  const actions = [
     {
-      title: plan?.target_board ? "Confirm reporting kit" : "Add centre and date",
-      body: plan?.target_board
-        ? "Review your travel buffer and document stack."
-        : "Save your board and reporting date in profile setup.",
+      title: "Set your SSB details",
+      body: "Add entry, centre and date",
+      icon: "target",
       href: "/dashboard/profile",
-      tone: "blue",
     },
     {
-      title: oirUsed < freeOirLimit ? "Attempt OIR practice" : "Review OIR attempts",
-      body:
-        oirUsed < freeOirLimit
-          ? `${freeOirLimit - oirUsed} free attempts left in this workspace.`
-          : "Use recent scores to find weak reasoning areas.",
+      title: "Attempt OIR practice",
+      body: "Use 1 of your free OIR attempts",
+      icon: "document",
       href: "/dashboard/practice",
-      tone: "green",
     },
     {
-      title: ppdtUsed < freePpdtLimit ? "Write a PPDT story" : "Review PPDT stories",
-      body:
-        ppdtUsed < freePpdtLimit
-          ? `${freePpdtLimit - ppdtUsed} picture-story prompts left.`
-          : "Re-read themes and tighten story structure.",
+      title: "Write PPDT story",
+      body: "Pick a picture and practice storytelling",
+      icon: "image",
       href: "/dashboard/practice",
-      tone: "amber",
+    },
+    {
+      title: "Reflect in OLQ journal",
+      body: "Build self awareness with daily reflection",
+      icon: "book",
+      href: "/dashboard/journals",
     },
   ];
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-5 py-6 sm:px-8">
-      <div className="grid gap-5 xl:grid-cols-[1.45fr_0.55fr]">
-        <section className="overflow-hidden rounded-lg border border-[var(--color-border)] bg-white shadow-[var(--shadow-card)]">
-          <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="p-5 sm:p-6 lg:p-7">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-extrabold uppercase text-[var(--color-green)]">
-                    Candidate workspace
-                  </p>
-                  <h1 className="mt-3 max-w-2xl font-display text-3xl font-extrabold leading-tight text-[var(--color-ink-strong)] sm:text-4xl">
-                    Welcome back, {candidateName}.
-                  </h1>
-                </div>
-                <StatusDot label={profile?.onboarding_completed ? "Profile ready" : "Profile pending"} />
-              </div>
-
-              <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--color-muted)]">
-                A focused command center for free practice, reporting readiness,
-                centre planning, and daily SSB preparation momentum.
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/dashboard/practice" className="btn-primary">
-                  Practice now
-                </Link>
-                <Link href="/dashboard/profile" className="btn-secondary">
-                  Update profile
-                </Link>
-              </div>
-            </div>
-
-            <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-5 sm:p-6 lg:border-l lg:border-t-0">
-              <div className="grid gap-3">
-                <WorkspaceFact label="Target entry" value={entryLabel} />
-                <WorkspaceFact label="Upcoming SSB" value={boardLabel} />
-                <WorkspaceFact label="Reporting" value={reportingLabel} />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-lg border border-[var(--color-border)] bg-[#0d1b2f] p-5 text-white shadow-[var(--shadow-card)] sm:p-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold uppercase text-white/55">Readiness</p>
-              <p className="mt-2 text-5xl font-extrabold leading-none">{readinessScore}%</p>
-            </div>
-            <Icon name="target" className="text-white/70" />
-          </div>
-          <div className="mt-5 h-2 overflow-hidden rounded-full bg-white/12">
-            <div className="h-full rounded-full bg-[#7bd79b]" style={{ width: `${readinessScore}%` }} />
-          </div>
-          <p className="mt-4 text-sm leading-6 text-white/68">
-            Complete profile, centre details, practice attempts, and reflection logs
-            to build a stronger candidate profile.
-          </p>
-        </section>
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
+      <PanelTitle icon="bolt" title="Next best actions" />
+      <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto_1fr] lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr]">
+        {actions.map((action, index) => (
+          <ActionStep key={action.title} index={index + 1} action={action} isLast={index === actions.length - 1} />
+        ))}
       </div>
-
-      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Free OIR attempts" value={`${oirUsed}/${freeOirLimit}`} detail={`${freeOirLimit - oirUsed} left`} icon="brain" />
-        <MetricCard label="PPDT picture stories" value={`${ppdtUsed}/${freePpdtLimit}`} detail={`${freePpdtLimit - ppdtUsed} left`} icon="image" />
-        <MetricCard label="Latest OIR" value={latestScore} detail={oirAttempts[0]?.paper ?? "Start first attempt"} icon="trend" />
-        <MetricCard label="Centre checklist" value={`${completedChecklist}/${checklist.length}`} detail="reporting essentials" icon="check" />
-      </div>
-
-      <div className="mt-5 grid gap-5 xl:grid-cols-[0.72fr_0.28fr]">
-        <section className="rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6">
-          <SectionHeader
-            title="Next best actions"
-            body="A short sequence for what matters most before your next reporting day."
-            href="/dashboard/practice"
-            action="Open practice"
-          />
-          <div className="mt-5 grid gap-3 lg:grid-cols-3">
-            {nextActions.map((action, index) => (
-              <ActionCard key={action.title} index={index + 1} {...action} />
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6">
-          <SectionHeader
-            title="Upcoming SSB"
-            body="Keep reporting details close."
-            href="/dashboard/profile"
-            action="Manage"
-          />
-          <div className="mt-5 space-y-3">
-            <DataRow label="Board / centre" value={boardLabel} />
-            <DataRow label="Entry" value={entryLabel} />
-            <DataRow label="Reporting" value={reportingLabel} />
-          </div>
-        </section>
-      </div>
-
-      <div className="mt-5 grid gap-5 xl:grid-cols-[0.38fr_0.62fr]">
-        <ChecklistPanel items={checklist} completed={completedChecklist} />
-
-        <section className="rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6">
-          <SectionHeader
-            title="Recent activity"
-            body="Practice and reflection snapshots from your workspace."
-            href="/dashboard/practice"
-            action="View all"
-          />
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
-            <ActivityPanel
-              title="OIR attempts"
-              href="/dashboard/practice"
-              empty="No OIR attempts yet."
-              items={oirAttempts.map((attempt) => ({
-                title: attempt.paper,
-                meta: `${attempt.score}/${attempt.total_questions} - ${formatDate(attempt.completed_at)}`,
-              }))}
-            />
-            <ActivityPanel
-              title="PPDT stories"
-              href="/dashboard/practice"
-              empty="No PPDT stories saved yet."
-              items={ppdtAttempts.slice(0, 3).map((attempt) => ({
-                title: attempt.title,
-                meta: `${attempt.self_score ?? "Unscored"}/10 - ${formatDate(attempt.completed_at)}`,
-              }))}
-            />
-            <ActivityPanel
-              title="OLQ journal"
-              href="/dashboard/journals"
-              empty="No journal entries yet."
-              items={journals.map((entry) => ({
-                title: entry.title,
-                meta:
-                  entry.olq_tags.length > 0
-                    ? entry.olq_tags.slice(0, 3).join(", ")
-                    : formatDate(entry.created_at),
-              }))}
-            />
-          </div>
-        </section>
-      </div>
-
-      <section className="mt-5 rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6">
-        <SectionHeader
-          title="Workspace modules"
-          body="Connected areas for the preparation workflow we will keep expanding."
-          href="/dashboard/resources"
-          action="Resources"
-        />
-        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {[
-            ["Practice hub", "OIR, PPDT and screening drills.", "/dashboard/practice", "brain"],
-            ["Centre readiness", "Board, travel and checklist planning.", "/dashboard/centers", "map"],
-            ["OLQ journal", "Evidence, reflection and examples.", "/dashboard/journals", "journal"],
-            ["Upcoming modules", "GTO, medical and mentor review next.", "/dashboard/resources", "spark"],
-          ].map(([title, body, href, icon]) => (
-            <Link
-              key={title}
-              href={href}
-              className="group rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition hover:border-[var(--color-blue)] hover:bg-white hover:shadow-[var(--shadow-card)]"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <Icon name={icon} className="text-[var(--color-blue)]" />
-                <span className="text-sm font-bold text-[var(--color-muted)] transition group-hover:text-[var(--color-blue)]">
-                  Open
-                </span>
-              </div>
-              <p className="mt-4 text-base font-extrabold text-[var(--color-ink-strong)]">{title}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{body}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
     </section>
   );
 }
 
-function StatusDot({ label }: { label: string }) {
-  return (
-    <div className="hidden items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-xs font-bold text-[var(--color-green)] sm:flex">
-      <span className="h-2 w-2 rounded-full bg-[var(--color-green)]" />
-      {label}
-    </div>
-  );
-}
-
-function WorkspaceFact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg bg-white px-4 py-3">
-      <p className="text-xs font-bold uppercase text-[var(--color-muted)]">{label}</p>
-      <p className="mt-1 text-base font-extrabold text-[var(--color-ink-strong)]">{value}</p>
-    </div>
-  );
-}
-
-function MetricCard({
-  label,
-  value,
-  detail,
-  icon,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  icon: string;
-}) {
-  return (
-    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)]">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-bold uppercase text-[var(--color-muted)]">{label}</p>
-          <p className="mt-2 text-2xl font-extrabold text-[var(--color-ink-strong)]">{value}</p>
-        </div>
-        <Icon name={icon} className="text-[var(--color-blue)]" />
-      </div>
-      <p className="mt-3 text-sm font-semibold text-[var(--color-muted)]">{detail}</p>
-    </section>
-  );
-}
-
-function SectionHeader({
-  title,
-  body,
-  href,
-  action,
-}: {
-  title: string;
-  body: string;
-  href: string;
-  action: string;
-}) {
-  return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-      <div>
-        <h2 className="text-xl font-extrabold text-[var(--color-ink-strong)]">{title}</h2>
-        <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--color-muted)]">{body}</p>
-      </div>
-      <Link href={href} className="text-sm font-bold text-[var(--color-blue)]">
-        {action}
-      </Link>
-    </div>
-  );
-}
-
-function ActionCard({
+function ActionStep({
   index,
-  title,
-  body,
-  href,
-  tone,
+  action,
+  isLast,
 }: {
   index: number;
-  title: string;
-  body: string;
-  href: string;
-  tone: string;
+  action: { title: string; body: string; icon: string; href: string };
+  isLast: boolean;
 }) {
-  const toneClass =
-    tone === "green"
-      ? "bg-[var(--color-green-soft)] text-[var(--color-green)]"
-      : tone === "amber"
-        ? "bg-[#fff7e6] text-[#9a6500]"
-        : "bg-[var(--color-blue-soft)] text-[var(--color-blue)]";
-
   return (
-    <Link href={href} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition hover:border-[var(--color-blue)] hover:bg-white hover:shadow-[var(--shadow-card)]">
-      <span className={`inline-flex h-8 w-8 items-center justify-center rounded-lg text-sm font-extrabold ${toneClass}`}>
-        {index}
-      </span>
-      <p className="mt-4 text-base font-extrabold text-[var(--color-ink-strong)]">{title}</p>
-      <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{body}</p>
-    </Link>
+    <>
+      <Link
+        href={action.href}
+        className="relative block min-h-[116px] rounded-lg border border-[var(--color-border)] bg-white px-3 py-4 transition hover:border-[#1264ff] hover:shadow-[var(--shadow-card)]"
+      >
+        <span className="absolute -top-3 left-3 grid h-6 w-6 place-items-center rounded-full bg-[#1264ff] text-xs font-extrabold text-white">
+          {index}
+        </span>
+        <Icon name={action.icon} className="h-6 w-6 text-[#6946e8]" />
+        <p className="mt-3 text-sm font-extrabold leading-5 text-[var(--color-ink-strong)]">{action.title}</p>
+        <p className="mt-2 text-xs font-medium leading-5 text-[var(--color-muted)]">{action.body}</p>
+      </Link>
+      {!isLast ? (
+        <div className="hidden items-center justify-center text-[var(--color-muted-soft)] md:flex">
+          <Icon name="arrowRight" className="h-5 w-5" />
+        </div>
+      ) : null}
+    </>
   );
 }
 
-function DataRow({ label, value }: { label: string; value: string }) {
+function ChecklistCard({ items, completed }: { items: ChecklistItem[]; completed: number }) {
+  const actions = ["Upload", "Upload", "Plan", "Review"];
+
   return (
-    <div className="flex items-center justify-between gap-4 rounded-lg bg-[var(--color-surface)] px-4 py-3">
-      <span className="text-sm font-semibold text-[var(--color-muted)]">{label}</span>
-      <span className="text-right text-sm font-extrabold text-[var(--color-ink-strong)]">{value}</span>
-    </div>
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <PanelTitle icon="clipboard" title="Centre checklist" />
+        <span className="text-sm font-extrabold text-[#f26b00]">
+          {completed}/{items.length} ready
+        </span>
+      </div>
+      <div className="mt-4 divide-y divide-[var(--color-border)] rounded-lg border border-[var(--color-border)]">
+        {items.map((item, index) => (
+          <div key={item.label} className="flex min-h-10 items-center justify-between gap-3 px-3 py-2">
+            <div className="flex items-center gap-3">
+              <span
+                className={`grid h-4 w-4 place-items-center rounded border text-[8px] font-black ${
+                  item.done
+                    ? "border-[#16a052] bg-[#16a052] text-white"
+                    : "border-[var(--color-border-strong)] bg-white text-transparent"
+                }`}
+              >
+                ok
+              </span>
+              <span className="text-sm font-semibold text-[var(--color-ink-strong)]">{item.label}</span>
+            </div>
+            <Link href="/dashboard/centers" className="text-xs font-bold text-[#005eea]">
+              {actions[index] ?? "Review"}
+            </Link>
+          </div>
+        ))}
+      </div>
+      <Link href="/dashboard/centers" className="mt-3 flex items-center justify-between text-sm font-bold text-[#005eea]">
+        View full checklist
+        <Icon name="chevron" className="h-4 w-4" />
+      </Link>
+    </section>
   );
 }
 
-function ChecklistPanel({
-  items,
-  completed,
-}: {
-  items: ChecklistItem[];
-  completed: number;
-}) {
+function RecentActivity({ rows }: { rows: ActivityRow[] }) {
   return (
-    <section className="rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)] sm:p-6">
-      <SectionHeader
-        title="Centre checklist"
-        body={`${completed}/${items.length} essentials ready for reporting day.`}
-        href="/dashboard/centers"
-        action="Centers"
-      />
-      <div className="mt-5 space-y-2">
-        {items.map((item) => (
-          <div key={item.label} className="flex items-center gap-3 rounded-lg bg-[var(--color-surface)] px-4 py-3">
-            <span
-              className={`flex h-5 w-5 items-center justify-center rounded text-[10px] font-black ${
-                item.done
-                  ? "bg-[var(--color-green)] text-white"
-                  : "border border-[var(--color-border-strong)] bg-white text-transparent"
-              }`}
-            >
-              ok
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <PanelTitle icon="clock" title="Recent activity" />
+        <Link href="/dashboard/practice" className="text-xs font-bold text-[#005eea]">
+          View all activity
+        </Link>
+      </div>
+      <div className="mt-4 flex gap-6 border-b border-[var(--color-border)] text-xs font-bold">
+        {["All", "OIR", "PPDT", "OLQ"].map((tab, index) => (
+          <span
+            key={tab}
+            className={`pb-2 ${index === 0 ? "border-b-2 border-[#1264ff] text-[#1264ff]" : "text-[var(--color-muted)]"}`}
+          >
+            {tab}
+          </span>
+        ))}
+      </div>
+      <div className="divide-y divide-[var(--color-border)]">
+        {rows.map((row) => (
+          <div key={`${row.title}-${row.detail}`} className="grid gap-2 py-3 text-sm sm:grid-cols-[1.7fr_70px_1fr_1fr_80px] sm:items-center">
+            <p className="font-semibold text-[var(--color-ink-strong)]">{row.title}</p>
+            <span className={`w-fit rounded-md px-2 py-1 text-[11px] font-extrabold ${tagClass(row.tone)}`}>
+              {row.tag}
             </span>
-            <span className="text-sm font-semibold text-[var(--color-ink)]">{item.label}</span>
+            <p className="font-medium text-[var(--color-ink)]">{row.detail}</p>
+            <p className={`font-semibold ${row.status === "Pending review" ? "text-[#f26b00]" : "text-[#16a052]"}`}>
+              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-current" />
+              {row.status}
+            </p>
+            <p className="text-right text-xs font-medium text-[var(--color-muted)] sm:text-left">{row.age}</p>
           </div>
         ))}
       </div>
@@ -456,50 +413,147 @@ function ChecklistPanel({
   );
 }
 
-function ActivityPanel({
-  title,
-  href,
-  items,
-  empty,
-}: {
-  title: string;
-  href: string;
-  empty: string;
-  items: ActivityItem[];
-}) {
+function UpcomingModules() {
+  const modules = [
+    {
+      title: "OIR Full Sets",
+      body: "Timed practice sets with IB-style review",
+      icon: "document",
+      color: "blue",
+      action: "Start",
+      href: "/dashboard/practice",
+    },
+    {
+      title: "PPDT Picture Stories",
+      body: "Practice storytelling with 10 free prompts",
+      icon: "image",
+      color: "green",
+      action: "Start",
+      href: "/dashboard/practice",
+    },
+    {
+      title: "OLQ Journal",
+      body: "Build self awareness with guided prompts",
+      icon: "book",
+      color: "purple",
+      action: "Start",
+      href: "/dashboard/journals",
+    },
+    {
+      title: "Mock Interviews",
+      body: "Prepare for TAT, GTO and interview",
+      icon: "users",
+      color: "orange",
+      action: "Coming soon",
+      href: "/dashboard/resources",
+    },
+  ];
+
   return (
-    <div className="rounded-lg bg-[var(--color-surface)] p-4">
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-base font-extrabold text-[var(--color-ink-strong)]">{title}</h3>
-        <Link href={href} className="text-sm font-bold text-[var(--color-blue)]">
-          Open
+        <PanelTitle icon="calendar" title="Upcoming modules" />
+        <Link href="/dashboard/resources" className="text-xs font-bold text-[#005eea]">
+          View all
         </Link>
       </div>
       <div className="mt-4 space-y-2">
-        {items.length > 0 ? (
-          items.map((item) => (
-            <div key={`${item.title}-${item.meta}`} className="rounded-lg bg-white px-3 py-3">
-              <p className="text-sm font-bold text-[var(--color-ink-strong)]">{item.title}</p>
-              <p className="mt-1 text-xs text-[var(--color-muted)]">{item.meta}</p>
+        {modules.map((module) => (
+          <div key={module.title} className="flex items-center gap-3 rounded-lg border border-[var(--color-border)] p-2">
+            <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg text-white ${moduleIconClass(module.color)}`}>
+              <Icon name={module.icon} className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-extrabold text-[var(--color-ink-strong)]">{module.title}</p>
+              <p className="truncate text-xs font-medium text-[var(--color-muted)]">{module.body}</p>
             </div>
-          ))
-        ) : (
-          <p className="rounded-lg bg-white px-3 py-3 text-sm text-[var(--color-muted)]">
-            {empty}
-          </p>
-        )}
+            <Link
+              href={module.href}
+              className={`rounded-md border px-3 py-1.5 text-xs font-extrabold ${
+                module.action === "Coming soon"
+                  ? "border-[var(--color-border)] text-[var(--color-muted)]"
+                  : "border-[#1264ff] text-[#1264ff]"
+              }`}
+            >
+              {module.action}
+            </Link>
+          </div>
+        ))}
       </div>
+    </section>
+  );
+}
+
+function AllowanceCard({
+  label,
+  value,
+  suffix,
+  progress,
+  footer,
+  icon,
+  color,
+}: {
+  label: string;
+  value: number;
+  suffix: string;
+  progress: number;
+  footer: string;
+  icon: string;
+  color: "blue" | "green" | "purple";
+}) {
+  return (
+    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)]">
+      <div className="flex items-center gap-4">
+        <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-full ${softIconClass(color)}`}>
+          <Icon name={icon} className="h-7 w-7" />
+        </span>
+        <div className="min-w-0">
+          <p className="truncate text-xs font-bold text-[var(--color-muted)]">{label}</p>
+          <p className="mt-1 flex items-end gap-2">
+            <span className="text-3xl font-extrabold leading-none text-[var(--color-ink-strong)]">{value}</span>
+            <span className="pb-1 text-sm font-medium text-[var(--color-muted)]">{suffix}</span>
+          </p>
+        </div>
+      </div>
+      <div className="mt-7 h-1.5 overflow-hidden rounded-full bg-[#edf0f4]">
+        <div className={`h-full rounded-full ${progressClass(color)}`} style={{ width: `${Math.max(progress, 0)}%` }} />
+      </div>
+      <p className={`mt-3 text-sm font-extrabold ${footerClass(color)}`}>{footer}</p>
+    </section>
+  );
+}
+
+function PanelTitle({ icon, title }: { icon: string; title: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <Icon name={icon} className="h-5 w-5 text-[var(--color-ink-strong)]" />
+      <p className="text-base font-extrabold text-[var(--color-ink-strong)]">{title}</p>
+    </div>
+  );
+}
+
+function DetailLine({
+  label,
+  value,
+  valueClass = "text-[var(--color-ink-strong)]",
+}: {
+  label: string;
+  value: string;
+  valueClass?: string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-3 text-xs">
+      <span className="font-medium text-[var(--color-muted)]">{label}</span>
+      <span className={`text-right font-extrabold ${valueClass}`}>{value}</span>
     </div>
   );
 }
 
 function Icon({ name, className = "" }: { name: string; className?: string }) {
-  const common = "h-6 w-6";
-
   return (
     <svg
       aria-hidden="true"
-      className={`${common} ${className}`}
+      className={className}
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -507,39 +561,62 @@ function Icon({ name, className = "" }: { name: string; className?: string }) {
       strokeWidth="2"
       viewBox="0 0 24 24"
     >
-      {name === "target" ? (
+      {name === "play" ? (
+        <path d="M8 5v14l11-7-11-7Z" fill="currentColor" stroke="none" />
+      ) : name === "user" ? (
         <>
-          <circle cx="12" cy="12" r="8" />
-          <circle cx="12" cy="12" r="3" />
-          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+          <path d="M20 21a8 8 0 0 0-16 0" />
+          <circle cx="12" cy="7" r="4" />
         </>
-      ) : name === "brain" ? (
-        <path d="M8 7a3 3 0 0 1 6-1 3 3 0 0 1 4 4 3 3 0 0 1-1 6 4 4 0 0 1-7 2 4 4 0 0 1-7-3 3 3 0 0 1 2-5 3 3 0 0 1 3-3Z" />
+      ) : name === "document" ? (
+        <>
+          <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Z" />
+          <path d="M14 2v5h5M9 13h6M9 17h4" />
+        </>
       ) : name === "image" ? (
         <>
           <rect x="4" y="5" width="16" height="14" rx="2" />
           <path d="m7 16 4-4 3 3 2-2 3 3" />
           <circle cx="9" cy="9" r="1" />
         </>
+      ) : name === "book" ? (
+        <>
+          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5Z" />
+          <path d="M4 5.5v16M8 7h8" />
+        </>
+      ) : name === "calendar" ? (
+        <>
+          <rect x="3" y="5" width="18" height="16" rx="2" />
+          <path d="M16 3v4M8 3v4M3 11h18" />
+        </>
       ) : name === "trend" ? (
         <path d="m4 16 5-5 4 4 7-8M15 7h5v5" />
-      ) : name === "check" ? (
+      ) : name === "chevron" ? (
+        <path d="m9 18 6-6-6-6" />
+      ) : name === "bolt" ? (
+        <path d="m13 2-9 13h7l-1 7 9-13h-7l1-7Z" />
+      ) : name === "target" ? (
         <>
-          <rect x="4" y="4" width="16" height="16" rx="3" />
-          <path d="m8 12 3 3 5-6" />
+          <circle cx="12" cy="12" r="8" />
+          <circle cx="12" cy="12" r="3" />
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
         </>
-      ) : name === "map" ? (
+      ) : name === "arrowRight" ? (
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      ) : name === "clipboard" ? (
         <>
-          <path d="m9 18-5 2V6l5-2 6 2 5-2v14l-5 2-6-2Z" />
-          <path d="M9 4v14M15 6v14" />
+          <rect x="5" y="4" width="14" height="17" rx="2" />
+          <path d="M9 4a3 3 0 0 1 6 0M9 9h6" />
         </>
-      ) : name === "journal" ? (
+      ) : name === "clock" ? (
         <>
-          <path d="M6 4h10a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V4Z" />
-          <path d="M9 8h6M9 12h5" />
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
         </>
-      ) : name === "spark" ? (
-        <path d="M12 3 9.8 8.8 4 11l5.8 2.2L12 19l2.2-5.8L20 11l-5.8-2.2L12 3Z" />
+      ) : name === "users" ? (
+        <>
+          <path d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </>
       ) : (
         <circle cx="12" cy="12" r="8" />
       )}
@@ -569,7 +646,79 @@ function parseChecklist(items: Json | undefined): ChecklistItem[] {
     })
     .filter((item): item is ChecklistItem => item !== null);
 
-  return parsed.length > 0 ? parsed : fallbackChecklist;
+  return parsed.length > 0 ? parsed.slice(0, 4) : fallbackChecklist;
+}
+
+function buildActivityRows(
+  oirAttempts: Array<{ paper: string; score: number; total_questions: number; completed_at: string }>,
+  ppdtAttempts: Array<{ title: string; completed_at: string }>,
+  journals: Array<{ title: string; created_at: string }>,
+): ActivityRow[] {
+  const rows: ActivityRow[] = [
+    ...oirAttempts.slice(0, 2).map((attempt, index) => ({
+      title: attempt.paper || `OIR Set ${index + 1} - Attempt 1`,
+      tag: "OIR",
+      detail: `Score: ${attempt.score}/${attempt.total_questions}`,
+      status: "Reviewed",
+      age: relativeDate(attempt.completed_at),
+      tone: "blue" as const,
+    })),
+    ...ppdtAttempts.slice(0, 1).map((attempt) => ({
+      title: attempt.title,
+      tag: "PPDT",
+      detail: "Practice story",
+      status: "Completed",
+      age: relativeDate(attempt.completed_at),
+      tone: "green" as const,
+    })),
+    ...journals.slice(0, 1).map((journal) => ({
+      title: journal.title,
+      tag: "OLQ",
+      detail: "Reflection",
+      status: "Saved",
+      age: relativeDate(journal.created_at),
+      tone: "purple" as const,
+    })),
+  ];
+
+  if (rows.length > 0) {
+    return rows.slice(0, 4);
+  }
+
+  return [
+    {
+      title: "OIR Set 1 - Attempt 1",
+      tag: "OIR",
+      detail: "Ready to start",
+      status: "Reviewed",
+      age: "New",
+      tone: "blue",
+    },
+    {
+      title: "PPDT Picture 3 - The Bridge",
+      tag: "PPDT",
+      detail: "Practice story",
+      status: "Completed",
+      age: "Starter",
+      tone: "green",
+    },
+    {
+      title: "OLQ - Strengths & Weaknesses",
+      tag: "OLQ",
+      detail: "Reflection",
+      status: "Saved",
+      age: "Starter",
+      tone: "purple",
+    },
+    {
+      title: "OIR Set 2 - Attempt 1",
+      tag: "OIR",
+      detail: "Score pending",
+      status: "Pending review",
+      age: "Next",
+      tone: "orange",
+    },
+  ];
 }
 
 function cleanName(value: string | null | undefined) {
@@ -588,4 +737,93 @@ function formatDate(value: string | null | undefined) {
     month: "short",
     year: "numeric",
   }).format(new Date(value));
+}
+
+function relativeDate(value: string) {
+  const date = new Date(value);
+  const diffMs = Date.now() - date.getTime();
+  const day = 24 * 60 * 60 * 1000;
+  const days = Math.max(Math.round(diffMs / day), 0);
+
+  if (days === 0) {
+    return "Today";
+  }
+
+  if (days === 1) {
+    return "1 day ago";
+  }
+
+  if (days < 7) {
+    return `${days} days ago`;
+  }
+
+  return "1 week ago";
+}
+
+function softIconClass(color: "blue" | "green" | "purple") {
+  if (color === "green") {
+    return "bg-[#e5f8e8] text-[#16a052]";
+  }
+
+  if (color === "purple") {
+    return "bg-[#efe8ff] text-[#6946e8]";
+  }
+
+  return "bg-[#e7f4ff] text-[#1264ff]";
+}
+
+function progressClass(color: "blue" | "green" | "purple") {
+  if (color === "green") {
+    return "bg-[#16a052]";
+  }
+
+  if (color === "purple") {
+    return "bg-[#6946e8]";
+  }
+
+  return "bg-[#1264ff]";
+}
+
+function footerClass(color: "blue" | "green" | "purple") {
+  if (color === "green") {
+    return "text-[#00964c]";
+  }
+
+  if (color === "purple") {
+    return "text-[#6946e8]";
+  }
+
+  return "text-[#005eea]";
+}
+
+function tagClass(tone: ActivityRow["tone"]) {
+  if (tone === "green") {
+    return "bg-[#dff7e8] text-[#0b8b49]";
+  }
+
+  if (tone === "purple") {
+    return "bg-[#efe8ff] text-[#6946e8]";
+  }
+
+  if (tone === "orange") {
+    return "bg-[#fff1dd] text-[#c45d00]";
+  }
+
+  return "bg-[#e7f1ff] text-[#1264ff]";
+}
+
+function moduleIconClass(color: string) {
+  if (color === "green") {
+    return "bg-[#16a052]";
+  }
+
+  if (color === "purple") {
+    return "bg-[#6946e8]";
+  }
+
+  if (color === "orange") {
+    return "bg-[#ff8a00]";
+  }
+
+  return "bg-[#1264ff]";
 }
