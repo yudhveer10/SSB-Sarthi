@@ -60,9 +60,11 @@ export default async function DashboardLayout({
         <div className="mt-auto rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
           <p className="text-xs font-semibold uppercase text-[var(--color-muted)]">Signed in as</p>
           <p className="mt-1 text-sm font-extrabold text-[var(--color-ink-strong)]">{displayName}</p>
-          <Link href="/auth/signout" className="mt-4 inline-flex text-sm font-bold text-[var(--color-blue)]">
-            Sign out
-          </Link>
+          <form action="/auth/signout" method="post" className="mt-4">
+            <button type="submit" className="text-sm font-bold text-[var(--color-blue)]">
+              Sign out
+            </button>
+          </form>
         </div>
       </aside>
 
