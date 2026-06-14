@@ -32,7 +32,7 @@ export default async function DashboardLayout({
     .select("full_name,email")
     .eq("id", userId)
     .maybeSingle();
-  const displayName = profile?.full_name ?? profile?.email?.split("@")[0] ?? "Candidate";
+  const displayName = profile?.full_name?.trim() || "Candidate";
 
   return (
     <div className="min-h-dvh bg-[var(--color-surface)] text-[var(--color-ink-strong)]">

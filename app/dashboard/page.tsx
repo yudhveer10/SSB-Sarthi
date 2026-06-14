@@ -74,15 +74,7 @@ export default async function DashboardPage() {
   const oirAttempts = oirResult.data ?? [];
   const ppdtAttempts = ppdtResult.data ?? [];
   const journals = journalResult.data ?? [];
-  const claims = claimsData.claims as {
-    email?: string;
-    user_metadata?: Record<string, unknown>;
-  };
-  const candidateName =
-    cleanName(profile?.full_name) ??
-    cleanName(getMetadataName(claims.user_metadata)) ??
-    nameFromEmail(profile?.email ?? claims.email) ??
-    "Candidate";
+  const candidateName = cleanName(profile?.full_name) ?? "Candidate";
   const firstName = candidateName.split(" ")[0] ?? "Candidate";
   const latestScore = oirAttempts[0]
     ? `${oirAttempts[0].score}/${oirAttempts[0].total_questions}`
@@ -249,8 +241,8 @@ export default async function DashboardPage() {
                   Your current SSB routine and reporting target.
                 </p>
               </div>
-              <Link href="/process" className="text-sm font-bold text-[var(--color-blue)]">
-                Process
+              <Link href="/dashboard/resources" className="text-sm font-bold text-[var(--color-blue)]">
+                Resources
               </Link>
             </div>
 
@@ -285,7 +277,7 @@ export default async function DashboardPage() {
                   Keep reporting-day essentials in one place.
                 </p>
               </div>
-              <Link href="/centers" className="text-sm font-bold text-[var(--color-blue)]">
+              <Link href="/dashboard/centers" className="text-sm font-bold text-[var(--color-blue)]">
                 Centers
               </Link>
             </div>
@@ -364,7 +356,7 @@ export default async function DashboardPage() {
           </section>
           <ActivityPanel
             title="OIR attempts"
-            href="/screening/oir"
+            href="/dashboard/practice"
             empty="No OIR attempts yet."
             items={oirAttempts.map((attempt) => ({
               title: attempt.paper,
@@ -373,7 +365,7 @@ export default async function DashboardPage() {
           />
           <ActivityPanel
             title="PPDT stories"
-            href="/screening"
+            href="/dashboard/practice"
             empty="No PPDT stories saved yet."
             items={ppdtAttempts.map((attempt) => ({
               title: attempt.title,
@@ -385,7 +377,7 @@ export default async function DashboardPage() {
         <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1fr]">
           <ActivityPanel
             title="OLQ journal"
-            href="/journals"
+            href="/dashboard/journals"
             empty="No journal entries yet."
             items={journals.map((entry) => ({
               title: entry.title,
@@ -520,35 +512,6 @@ function cleanName(value: string | null | undefined) {
   const trimmed = value?.trim();
 
   return trimmed ? trimmed : null;
-}
-
-function getMetadataName(metadata: Record<string, unknown> | undefined) {
-  const fullName = metadata?.full_name;
-  const name = metadata?.name;
-
-  if (typeof fullName === "string" && fullName.trim()) {
-    return fullName;
-  }
-
-  if (typeof name === "string" && name.trim()) {
-    return name;
-  }
-
-  return null;
-}
-
-function nameFromEmail(email: string | null | undefined) {
-  const localPart = email?.split("@")[0]?.trim();
-
-  if (!localPart) {
-    return null;
-  }
-
-  return localPart
-    .split(/[._-]+/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
 }
 
 function formatDate(value: string | null | undefined) {
