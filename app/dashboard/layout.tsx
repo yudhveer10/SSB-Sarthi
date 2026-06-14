@@ -2,15 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import BrandIcon from "../_components/BrandIcon";
 import { createClient } from "../_lib/supabase/server";
-
-const dashboardLinks = [
-  { href: "/dashboard", label: "Overview" },
-  { href: "/dashboard/profile", label: "Profile setup" },
-  { href: "/dashboard/practice", label: "Practice" },
-  { href: "/dashboard/centers", label: "Centers" },
-  { href: "/dashboard/journals", label: "Journals" },
-  { href: "/dashboard/resources", label: "Resources" },
-];
+import { DashboardNav } from "./dashboard-nav";
 
 export const dynamic = "force-dynamic";
 
@@ -35,40 +27,45 @@ export default async function DashboardLayout({
   const displayName = profile?.full_name?.trim() || "Candidate";
 
   return (
-    <div className="min-h-dvh bg-[var(--color-surface)] text-[var(--color-ink-strong)]">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-[var(--color-border)] bg-white px-4 py-5 lg:flex lg:flex-col">
+    <div className="min-h-dvh bg-white text-[var(--color-ink-strong)]">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] border-r border-[var(--color-border)] bg-white px-4 py-6 lg:flex lg:flex-col">
         <Link href="/dashboard" className="flex items-center gap-3 px-2">
-          <BrandIcon className="h-11 w-11" priority />
+          <BrandIcon className="h-12 w-12" priority />
           <div>
-            <p className="text-lg font-extrabold">SSB Sarthi</p>
+            <p className="text-xl font-extrabold leading-tight">SSB Sarthi</p>
             <p className="text-xs font-semibold text-[var(--color-muted)]">Candidate workspace</p>
           </div>
         </Link>
 
-        <nav className="mt-8 space-y-1">
-          {dashboardLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="flex items-center justify-between rounded-lg px-4 py-3 text-sm font-bold text-[var(--color-muted)] transition hover:bg-[var(--color-surface)] hover:text-[var(--color-ink-strong)]"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <DashboardNav />
 
-        <div className="mt-auto rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-          <p className="text-xs font-semibold uppercase text-[var(--color-muted)]">Signed in as</p>
-          <p className="mt-1 text-sm font-extrabold text-[var(--color-ink-strong)]">{displayName}</p>
-          <form action="/auth/signout" method="post" className="mt-4">
-            <button type="submit" className="text-sm font-bold text-[var(--color-blue)]">
+        <div className="mt-auto space-y-4">
+          <div className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[0_1px_2px_rgba(13,27,47,0.04)]">
+            <div className="flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-muted)]">
+                <UserIcon />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-[var(--color-muted)]">Signed in as</p>
+                <p className="truncate text-sm font-extrabold text-[var(--color-ink-strong)]">{displayName}</p>
+              </div>
+            </div>
+            <p className="mt-4 text-xs font-extrabold text-[#00964c]">Free account</p>
+          </div>
+          <form
+            action="/auth/signout"
+            method="post"
+            className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[0_1px_2px_rgba(13,27,47,0.04)]"
+          >
+            <button type="submit" className="flex items-center gap-3 text-sm font-semibold text-[var(--color-ink-strong)]">
+              <SignOutIcon />
               Sign out
             </button>
           </form>
         </div>
       </aside>
 
-      <div className="lg:pl-72">
+      <div className="lg:pl-[260px]">
         <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-white/95 px-5 py-4 backdrop-blur lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link href="/dashboard" className="flex items-center gap-3 lg:hidden">
@@ -76,16 +73,32 @@ export default async function DashboardLayout({
               <span className="text-lg font-extrabold">SSB Sarthi</span>
             </Link>
             <div className="hidden lg:block">
-              <p className="text-sm font-bold text-[var(--color-muted)]">SSB Sarthi</p>
-              <p className="text-xl font-extrabold">Dashboard</p>
+              <p className="text-xl font-extrabold">Overview</p>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                <p className="text-xs font-semibold uppercase text-[var(--color-muted)]">Candidate</p>
-                <p className="text-sm font-extrabold">{displayName}</p>
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                aria-label="Notifications"
+                className="relative hidden h-10 w-10 place-items-center rounded-lg border border-transparent text-[var(--color-ink-strong)] transition hover:border-[var(--color-border)] sm:grid"
+              >
+                <BellIcon />
+                <span className="absolute right-1.5 top-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#1264ff] text-[10px] font-extrabold text-white">
+                  2
+                </span>
+              </button>
+              <Link
+                href="/dashboard/profile"
+                className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--color-border)] bg-white text-[var(--color-muted)]"
+                aria-label="Open profile"
+              >
+                <UserIcon />
+              </Link>
+              <div className="hidden text-left sm:block">
+                <p className="text-sm font-extrabold leading-tight">{displayName}</p>
+                <p className="text-xs font-semibold text-[#00964c]">Free account</p>
               </div>
-              <Link href="/dashboard/profile" className="btn-secondary hidden sm:inline-flex">
-                Profile
+              <Link href="/dashboard/profile" aria-label="Profile menu" className="text-[var(--color-ink-strong)]">
+                <ChevronDownIcon />
               </Link>
             </div>
           </div>
@@ -94,5 +107,66 @@ export default async function DashboardLayout({
         <main>{children}</main>
       </div>
     </div>
+  );
+}
+
+function UserIcon() {
+  return (
+    <svg aria-hidden="true" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  );
+}
+
+function SignOutIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <path d="M16 17l5-5-5-5M21 12H9" />
+    </svg>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
   );
 }
