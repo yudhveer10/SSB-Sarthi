@@ -513,7 +513,11 @@ type Phase = "intro" | "paper1" | "paper2" | "result";
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function OirQuiz() {
+export default function OirQuiz({
+  backHref = "/screening",
+}: {
+  backHref?: string;
+}) {
   const [phase, setPhase] = useState<Phase>("intro");
   const [activeSetId, setActiveSetId] = useState(DEFAULT_SET.id);
   const [currentPaper, setCurrentPaper] = useState<Question[]>(DEFAULT_PAPER_1);
@@ -588,7 +592,7 @@ export default function OirQuiz() {
           <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(3,105,161,0.16),transparent_70%)]" />
           <div className="relative">
             <div className="flex items-center gap-3">
-              <Link href="/screening" className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--color-muted)] hover:text-[var(--color-ink-strong)]">
+              <Link href={backHref} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--color-muted)] hover:text-[var(--color-ink-strong)]">
                 ← Back
               </Link>
               <span className="text-[var(--color-muted)] opacity-40">/</span>
@@ -853,7 +857,7 @@ export default function OirQuiz() {
             Retry Test →
           </button>
           <Link
-            href="/screening"
+            href={backHref}
             className="flex-1 rounded-2xl border border-white/80 bg-white/90 px-6 py-3.5 text-center text-sm font-bold text-[var(--color-ink-strong)] shadow-sm transition-all hover:-translate-y-0.5"
           >
             ← Back to Screening

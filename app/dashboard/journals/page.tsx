@@ -18,10 +18,10 @@ export default function DashboardJournalsPage() {
         like quality evidence. For now, open the current journal tools.
       </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <Link href="/journals" className="feature-panel">
+        <Link href="/dashboard/journals" className="feature-panel">
           <p className="text-lg font-extrabold">Open journal tools</p>
           <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
-            Continue using the existing resources while we connect saved entries.
+            Dashboard-native journal tools are being connected here so you do not leave the workspace.
           </p>
         </Link>
         <Link href="/dashboard/practice" className="feature-panel">
