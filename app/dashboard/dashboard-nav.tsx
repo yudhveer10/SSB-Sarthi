@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PendingLink } from "./pending-link";
 
 type NavItem = {
-  href: string;
+  href: string | null;
   label: string;
   icon: string;
   chevron?: boolean;
+  soon?: boolean;
 };
 
 const navItems: NavItem[] = [
@@ -17,9 +18,9 @@ const navItems: NavItem[] = [
   { href: "/dashboard/centers", label: "Centers", icon: "pin" },
   { href: "/dashboard/journals", label: "Journals", icon: "file" },
   { href: "/dashboard/resources", label: "Resources", icon: "book", chevron: true },
-  { href: "/dashboard/resources", label: "Planner", icon: "calendar" },
-  { href: "/dashboard/resources", label: "Tests & Analysis", icon: "chart" },
-  { href: "/dashboard/resources", label: "Achievements", icon: "star" },
+  { href: null, label: "Planner", icon: "calendar", soon: true },
+  { href: null, label: "Tests & Analysis", icon: "chart", soon: true },
+  { href: null, label: "Achievements", icon: "star", soon: true },
 ];
 
 export function DashboardNav() {
@@ -29,12 +30,33 @@ export function DashboardNav() {
     <nav className="mt-8 space-y-2">
       {navItems.map((item, index) => {
         const isActive =
-          item.href === "/dashboard"
-            ? pathname === item.href
-            : pathname === item.href || pathname.startsWith(`${item.href}/`);
+          item.href === null
+            ? false
+            : item.href === "/dashboard"
+              ? pathname === item.href
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+        if (item.href === null) {
+          return (
+            <div
+              key={`${item.label}-${index}`}
+              className="relative flex min-h-11 cursor-not-allowed items-center gap-4 rounded-lg px-3 text-sm font-semibold text-[var(--color-muted-soft)]"
+              aria-disabled="true"
+              title={`${item.label} is coming soon`}
+            >
+              <NavIcon name={item.icon} className="h-5 w-5 shrink-0" />
+              <span className="min-w-0 flex-1 truncate">{item.label}</span>
+              {item.soon ? (
+                <span className="rounded-md bg-[var(--color-surface)] px-2 py-1 text-[10px] font-extrabold uppercase text-[var(--color-muted)]">
+                  Soon
+                </span>
+              ) : null}
+            </div>
+          );
+        }
 
         return (
-          <Link
+          <PendingLink
             key={`${item.label}-${index}`}
             href={item.href}
             className={`group relative flex min-h-11 items-center gap-4 rounded-lg px-3 text-sm font-semibold transition ${
@@ -49,7 +71,7 @@ export function DashboardNav() {
             <NavIcon name={item.icon} className="h-5 w-5 shrink-0" />
             <span className="min-w-0 flex-1 truncate">{item.label}</span>
             {item.chevron ? <NavIcon name="chevron" className="h-4 w-4 shrink-0" /> : null}
-          </Link>
+          </PendingLink>
         );
       })}
     </nav>

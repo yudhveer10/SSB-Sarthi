@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import BrandIcon from "../_components/BrandIcon";
 import { createClient } from "../_lib/supabase/server";
 import { DashboardNav } from "./dashboard-nav";
+import { PendingLink } from "./pending-link";
 
 export const dynamic = "force-dynamic";
 
@@ -76,30 +77,30 @@ export default async function DashboardLayout({
               <p className="text-xl font-extrabold">Overview</p>
             </div>
             <div className="flex items-center gap-4">
-              <button
-                type="button"
-                aria-label="Notifications"
-                className="relative hidden h-10 w-10 place-items-center rounded-lg border border-transparent text-[var(--color-ink-strong)] transition hover:border-[var(--color-border)] sm:grid"
+              <PendingLink
+                href="/dashboard/resources"
+                ariaLabel="Open preparation updates"
+                className="hidden h-10 w-10 place-items-center rounded-lg border border-transparent text-[var(--color-ink-strong)] transition hover:border-[var(--color-border)] sm:grid"
               >
                 <BellIcon />
                 <span className="absolute right-1.5 top-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#1264ff] text-[10px] font-extrabold text-white">
                   2
                 </span>
-              </button>
-              <Link
+              </PendingLink>
+              <PendingLink
                 href="/dashboard/profile"
+                ariaLabel="Open profile"
                 className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--color-border)] bg-white text-[var(--color-muted)]"
-                aria-label="Open profile"
               >
                 <UserIcon />
-              </Link>
-              <div className="hidden text-left sm:block">
+              </PendingLink>
+              <PendingLink href="/dashboard/profile" className="hidden rounded-lg px-1 py-1 text-left sm:block">
                 <p className="text-sm font-extrabold leading-tight">{displayName}</p>
                 <p className="text-xs font-semibold text-[#00964c]">Free account</p>
-              </div>
-              <Link href="/dashboard/profile" aria-label="Profile menu" className="text-[var(--color-ink-strong)]">
+              </PendingLink>
+              <PendingLink href="/dashboard/profile" ariaLabel="Profile menu" className="text-[var(--color-ink-strong)]">
                 <ChevronDownIcon />
-              </Link>
+              </PendingLink>
             </div>
           </div>
         </header>
