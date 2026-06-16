@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Json } from "../_lib/database.types";
 import { createClient } from "../_lib/supabase/server";
+import { PendingLink } from "./pending-link";
 
 export const metadata = {
   title: "Dashboard",
@@ -125,14 +125,14 @@ export default async function DashboardPage() {
               Track your readiness, practice smarter, and stay one step ahead of your SSB.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/dashboard/practice" className="btn-primary">
+              <PendingLink href="/dashboard/practice" className="btn-primary">
                 <Icon name="play" className="h-5 w-5" />
                 Practice now
-              </Link>
-              <Link href="/dashboard/profile" className="btn-secondary">
+              </PendingLink>
+              <PendingLink href="/dashboard/profile" className="btn-secondary">
                 <Icon name="user" className="h-5 w-5" />
                 Update profile
-              </Link>
+              </PendingLink>
             </div>
           </div>
 
@@ -145,6 +145,7 @@ export default async function DashboardPage() {
               suffix="total"
               progress={(oirUsed / freeOirLimit) * 100}
               footer={`${oirLeft} attempts left`}
+              href="/dashboard/practice"
             />
             <AllowanceCard
               color="green"
@@ -154,6 +155,7 @@ export default async function DashboardPage() {
               suffix="total"
               progress={(ppdtUsed / freePpdtLimit) * 100}
               footer={`${ppdtLeft} stories left`}
+              href="/screening"
             />
             <AllowanceCard
               color="purple"
@@ -163,6 +165,7 @@ export default async function DashboardPage() {
               suffix="this week"
               progress={journals.length > 0 ? 40 : 0}
               footer={journals.length > 0 ? "Keep reflecting" : "Start reflecting"}
+              href="/dashboard/journals"
             />
           </div>
         </div>
@@ -206,21 +209,21 @@ function UpcomingSsbCard({
       <PanelTitle icon="calendar" title="Upcoming SSB" />
       <h2 className="mt-7 text-xl font-extrabold text-[var(--color-ink-strong)]">{centreLabel}</h2>
       <p className="mt-1 text-sm font-medium text-[var(--color-muted)]">Add your SSB entry and centre</p>
-      <Link
+      <PendingLink
         href="/dashboard/profile"
         className="mt-4 flex min-h-9 items-center justify-center rounded-lg border border-[#1264ff] px-3 text-sm font-extrabold text-[#1264ff] transition hover:bg-[#eef4ff]"
       >
         Set SSB details
-      </Link>
+      </PendingLink>
       <div className="mt-4 divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]">
         <DetailLine label="Entry" value={entryLabel} />
         <DetailLine label="Checklist" value={checklist} valueClass="text-[#f26b00]" />
         <DetailLine label="Reporting date" value={reportingLabel} />
       </div>
-      <Link href="/dashboard/profile" className="mt-4 flex items-center justify-between text-sm font-bold text-[#005eea]">
+      <PendingLink href="/dashboard/profile" className="mt-4 flex items-center justify-between text-sm font-bold text-[#005eea]">
         Manage SSB details
         <Icon name="chevron" className="h-4 w-4" />
-      </Link>
+      </PendingLink>
     </section>
   );
 }
@@ -255,10 +258,10 @@ function CandidateTrackingCard({ readinessScore }: { readinessScore: number }) {
           </div>
         ))}
       </div>
-      <Link href="/dashboard/profile" className="mt-3 flex items-center justify-between text-sm font-bold text-[#005eea]">
+      <PendingLink href="/dashboard/profile" className="mt-3 flex items-center justify-between text-sm font-bold text-[#005eea]">
         View full tracking
         <Icon name="chevron" className="h-4 w-4" />
-      </Link>
+      </PendingLink>
     </section>
   );
 }
@@ -314,7 +317,7 @@ function ActionStep({
 }) {
   return (
     <>
-      <Link
+      <PendingLink
         href={action.href}
         className="relative block min-h-[116px] rounded-lg border border-[var(--color-border)] bg-white px-3 py-4 transition hover:border-[#1264ff] hover:shadow-[var(--shadow-card)]"
       >
@@ -324,7 +327,7 @@ function ActionStep({
         <Icon name={action.icon} className="h-6 w-6 text-[#6946e8]" />
         <p className="mt-3 text-sm font-extrabold leading-5 text-[var(--color-ink-strong)]">{action.title}</p>
         <p className="mt-2 text-xs font-medium leading-5 text-[var(--color-muted)]">{action.body}</p>
-      </Link>
+      </PendingLink>
       {!isLast ? (
         <div className="hidden items-center justify-center text-[var(--color-muted-soft)] md:flex">
           <Icon name="arrowRight" className="h-5 w-5" />
@@ -360,16 +363,16 @@ function ChecklistCard({ items, completed }: { items: ChecklistItem[]; completed
               </span>
               <span className="text-sm font-semibold text-[var(--color-ink-strong)]">{item.label}</span>
             </div>
-            <Link href="/dashboard/centers" className="text-xs font-bold text-[#005eea]">
+            <PendingLink href="/dashboard/centers" className="text-xs font-bold text-[#005eea]">
               {actions[index] ?? "Review"}
-            </Link>
+            </PendingLink>
           </div>
         ))}
       </div>
-      <Link href="/dashboard/centers" className="mt-3 flex items-center justify-between text-sm font-bold text-[#005eea]">
+      <PendingLink href="/dashboard/centers" className="mt-3 flex items-center justify-between text-sm font-bold text-[#005eea]">
         View full checklist
         <Icon name="chevron" className="h-4 w-4" />
-      </Link>
+      </PendingLink>
     </section>
   );
 }
@@ -379,18 +382,24 @@ function RecentActivity({ rows }: { rows: ActivityRow[] }) {
     <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
       <div className="flex items-center justify-between gap-3">
         <PanelTitle icon="clock" title="Recent activity" />
-        <Link href="/dashboard/practice" className="text-xs font-bold text-[#005eea]">
+        <PendingLink href="/dashboard/practice" className="text-xs font-bold text-[#005eea]">
           View all activity
-        </Link>
+        </PendingLink>
       </div>
       <div className="mt-4 flex gap-6 border-b border-[var(--color-border)] text-xs font-bold">
-        {["All", "OIR", "PPDT", "OLQ"].map((tab, index) => (
-          <span
+        {[
+          ["All", "/dashboard/practice"],
+          ["OIR", "/dashboard/practice"],
+          ["PPDT", "/screening"],
+          ["OLQ", "/dashboard/journals"],
+        ].map(([tab, href], index) => (
+          <PendingLink
             key={tab}
+            href={href}
             className={`pb-2 ${index === 0 ? "border-b-2 border-[#1264ff] text-[#1264ff]" : "text-[var(--color-muted)]"}`}
           >
             {tab}
-          </span>
+          </PendingLink>
         ))}
       </div>
       <div className="divide-y divide-[var(--color-border)]">
@@ -453,9 +462,9 @@ function UpcomingModules() {
     <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] sm:p-5">
       <div className="flex items-center justify-between gap-3">
         <PanelTitle icon="calendar" title="Upcoming modules" />
-        <Link href="/dashboard/resources" className="text-xs font-bold text-[#005eea]">
+        <PendingLink href="/dashboard/resources" className="text-xs font-bold text-[#005eea]">
           View all
-        </Link>
+        </PendingLink>
       </div>
       <div className="mt-4 space-y-2">
         {modules.map((module) => (
@@ -467,16 +476,18 @@ function UpcomingModules() {
               <p className="truncate text-sm font-extrabold text-[var(--color-ink-strong)]">{module.title}</p>
               <p className="truncate text-xs font-medium text-[var(--color-muted)]">{module.body}</p>
             </div>
-            <Link
-              href={module.href}
-              className={`rounded-md border px-3 py-1.5 text-xs font-extrabold ${
-                module.action === "Coming soon"
-                  ? "border-[var(--color-border)] text-[var(--color-muted)]"
-                  : "border-[#1264ff] text-[#1264ff]"
-              }`}
-            >
-              {module.action}
-            </Link>
+            {module.action === "Coming soon" ? (
+              <span className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-xs font-extrabold text-[var(--color-muted)]">
+                Coming soon
+              </span>
+            ) : (
+              <PendingLink
+                href={module.href}
+                className="rounded-md border border-[#1264ff] px-3 py-1.5 text-xs font-extrabold text-[#1264ff]"
+              >
+                {module.action}
+              </PendingLink>
+            )}
           </div>
         ))}
       </div>
@@ -492,6 +503,7 @@ function AllowanceCard({
   footer,
   icon,
   color,
+  href,
 }: {
   label: string;
   value: number;
@@ -500,9 +512,13 @@ function AllowanceCard({
   footer: string;
   icon: string;
   color: "blue" | "green" | "purple";
+  href: string;
 }) {
   return (
-    <section className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)]">
+    <PendingLink
+      href={href}
+      className="block rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[var(--shadow-card)] transition hover:border-[#1264ff] hover:shadow-[var(--shadow-raised)]"
+    >
       <div className="flex items-center gap-4">
         <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-full ${softIconClass(color)}`}>
           <Icon name={icon} className="h-7 w-7" />
@@ -519,7 +535,7 @@ function AllowanceCard({
         <div className={`h-full rounded-full ${progressClass(color)}`} style={{ width: `${Math.max(progress, 0)}%` }} />
       </div>
       <p className={`mt-3 text-sm font-extrabold ${footerClass(color)}`}>{footer}</p>
-    </section>
+    </PendingLink>
   );
 }
 
