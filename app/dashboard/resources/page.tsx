@@ -18,16 +18,16 @@ export default function DashboardResourcesPage() {
         dashboard. We can turn these into saved resources next.
       </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <Link href="/resources" className="feature-panel">
+        <Link href="/dashboard/resources" className="feature-panel">
           <p className="text-lg font-extrabold">Open resource library</p>
           <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
-            View the current guides and preparation material.
+            Dashboard resource library is being connected here to keep you inside the workspace.
           </p>
         </Link>
-        <Link href="/process" className="feature-panel">
+        <Link href="/dashboard/resources" className="feature-panel">
           <p className="text-lg font-extrabold">Review SSB process</p>
           <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
-            Revisit the 5-day structure whenever you need a reset.
+            Process notes will open inside the dashboard instead of the public landing pages.
           </p>
         </Link>
       </div>

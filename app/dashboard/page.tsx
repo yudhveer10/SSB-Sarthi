@@ -155,7 +155,7 @@ export default async function DashboardPage() {
               suffix="total"
               progress={(ppdtUsed / freePpdtLimit) * 100}
               footer={`${ppdtLeft} stories left`}
-              href="/screening"
+              href="/dashboard/practice"
             />
             <AllowanceCard
               color="purple"
@@ -390,7 +390,7 @@ function RecentActivity({ rows }: { rows: ActivityRow[] }) {
         {[
           ["All", "/dashboard/practice"],
           ["OIR", "/dashboard/practice"],
-          ["PPDT", "/screening"],
+          ["PPDT", "/dashboard/practice"],
           ["OLQ", "/dashboard/journals"],
         ].map(([tab, href], index) => (
           <PendingLink

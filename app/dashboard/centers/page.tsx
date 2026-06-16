@@ -18,10 +18,10 @@ export default function DashboardCentersPage() {
         browser remains available while we connect saved centre preferences.
       </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <Link href="/centers" className="feature-panel">
-          <p className="text-lg font-extrabold">Browse SSB centers</p>
+        <Link href="/dashboard/centers" className="feature-panel">
+          <p className="text-lg font-extrabold">Centre browser</p>
           <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
-            Open the existing centre browser and logistics guide.
+            Dashboard-native centre browsing is coming next. Your saved board details stay here.
           </p>
         </Link>
         <Link href="/dashboard/profile" className="feature-panel">
