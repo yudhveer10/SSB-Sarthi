@@ -52,19 +52,19 @@ export default function NavBar() {
           <ThemeToggle compact />
           <Link
             href="/process"
-            className="hidden rounded-lg border border-[var(--color-border-strong)] bg-white px-4 py-2.5 text-xs font-bold text-[var(--color-blue)] transition-colors hover:bg-[var(--color-surface)] lg:inline-flex"
+            className="btn-nav-secondary hidden lg:inline-flex"
           >
             View process
           </Link>
           <Link
             href="/signin?mode=signin"
-            className="hidden rounded-lg border border-[var(--color-border-strong)] bg-white px-4 py-2.5 text-xs font-bold text-[var(--color-ink-strong)] transition-colors hover:bg-[var(--color-surface)] sm:inline-flex"
+            className="btn-nav-secondary hidden sm:inline-flex"
           >
             Sign in
           </Link>
           <Link
             href="/signin?mode=signup"
-            className="hidden rounded-lg bg-[var(--color-blue)] px-4 py-2.5 text-xs font-bold text-white shadow-[0_10px_24px_rgba(47,128,201,0.22)] transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
+            className="btn-nav-primary hidden sm:inline-flex"
           >
             Create account
           </Link>
@@ -74,7 +74,7 @@ export default function NavBar() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--color-border)] bg-white text-[var(--color-ink-strong)] transition-colors hover:bg-[var(--color-surface)] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] text-[var(--color-ink-strong)] shadow-[var(--shadow-subtle)] transition-colors hover:bg-[var(--color-surface)] md:hidden"
             onClick={() => setMenuOpen((open) => !open)}
           >
             <span className="relative flex h-4 w-5 items-center justify-center">
@@ -98,55 +98,53 @@ export default function NavBar() {
         </div>
       </nav>
 
-      <div
-        id="mobile-navigation"
-        className={`glass mx-4 mt-2 overflow-hidden rounded-lg p-3 shadow-[0_18px_50px_rgba(13,27,47,0.14)] transition-all duration-200 md:hidden ${
-          menuOpen
-            ? "pointer-events-auto translate-y-0 opacity-100"
-            : "pointer-events-none -translate-y-2 opacity-0"
-        }`}
-      >
-        <div className="flex flex-col gap-1.5">
-          {NAV_LINKS.map((link) => {
-            const isActive =
-              pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+      {menuOpen ? (
+        <div
+          id="mobile-navigation"
+          className="glass mx-4 mt-2 overflow-hidden rounded-lg p-3 shadow-[0_18px_50px_rgba(13,27,47,0.14)] animate-fade-up md:hidden"
+        >
+          <div className="flex flex-col gap-1.5">
+            {NAV_LINKS.map((link) => {
+              const isActive =
+                pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
 
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive ? "page" : undefined}
-                className={`flex items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold ${
-                  isActive
-                    ? "bg-[var(--color-blue)] text-white"
-                    : "text-[var(--color-ink-strong)] hover:bg-[var(--color-surface)]"
-                }`}
-                onClick={() => setMenuOpen(false)}
-              >
-                <span>{link.label}</span>
-                <ArrowIcon />
-              </Link>
-            );
-          })}
-        </div>
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`flex items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold ${
+                    isActive
+                      ? "bg-[var(--color-blue)] text-white"
+                      : "text-[var(--color-ink-strong)] hover:bg-[var(--color-surface)]"
+                  }`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>{link.label}</span>
+                  <ArrowIcon />
+                </Link>
+              );
+            })}
+          </div>
 
-        <div className="mt-3 border-t border-[var(--color-border)] pt-3">
-          <Link
-            href="/signin?mode=signin"
-            className="mb-2 flex w-full items-center justify-center rounded-lg border border-[var(--color-border-strong)] bg-white px-4 py-3 text-sm font-bold text-[var(--color-ink-strong)]"
-            onClick={() => setMenuOpen(false)}
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/signin?mode=signup"
-            className="flex w-full items-center justify-center rounded-lg bg-[var(--color-blue)] px-4 py-3 text-sm font-bold text-white"
-            onClick={() => setMenuOpen(false)}
-          >
-            Create account
-          </Link>
+          <div className="mt-3 border-t border-[var(--color-border)] pt-3">
+            <Link
+              href="/signin?mode=signin"
+              className="btn-secondary mb-2 w-full justify-center"
+              onClick={() => setMenuOpen(false)}
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/signin?mode=signup"
+              className="btn-primary w-full justify-center"
+              onClick={() => setMenuOpen(false)}
+            >
+              Create account
+            </Link>
+          </div>
         </div>
-      </div>
+      ) : null}
     </header>
   );
 }
