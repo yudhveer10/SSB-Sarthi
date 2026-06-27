@@ -17,7 +17,7 @@ export default async function SignInPage({
   const initialMode: SignInMode = mode === "signin" ? "signin" : "signup";
 
   return (
-    <main className="bg-white">
+    <main>
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-12 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-12 lg:py-16">
         <div className="max-w-2xl">
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-[var(--color-green)]">

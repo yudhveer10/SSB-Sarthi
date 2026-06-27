@@ -107,7 +107,7 @@ export default function SignInForm({
   }
 
   return (
-    <div className="rounded-lg border border-[var(--color-border)] bg-white p-5 shadow-[var(--shadow-card)]">
+    <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-5 shadow-[var(--shadow-raised)]">
       <div className="mb-5 grid grid-cols-2 rounded-lg bg-[var(--color-surface)] p-1">
         {[
           ["signup", "Create account"],
@@ -122,7 +122,7 @@ export default function SignInForm({
             }}
             className={`min-h-10 rounded-md text-sm font-bold transition ${
               mode === value
-                ? "bg-white text-[var(--color-ink-strong)] shadow-sm"
+                ? "bg-[var(--color-panel)] text-[var(--color-ink-strong)] shadow-sm"
                 : "text-[var(--color-muted)] hover:text-[var(--color-ink-strong)]"
             }`}
           >
@@ -148,7 +148,7 @@ export default function SignInForm({
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               placeholder="Yudhveer Panwar"
-              className="min-h-12 w-full rounded-lg border border-[var(--color-border-strong)] bg-white px-4 text-sm text-[var(--color-ink-strong)] outline-none transition placeholder:text-[var(--color-muted-soft)] focus:border-[var(--color-blue)]"
+              className="field-input"
             />
           </>
         ) : null}
@@ -163,7 +163,7 @@ export default function SignInForm({
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@example.com"
-          className="min-h-12 w-full rounded-lg border border-[var(--color-border-strong)] bg-white px-4 text-sm text-[var(--color-ink-strong)] outline-none transition placeholder:text-[var(--color-muted-soft)] focus:border-[var(--color-blue)]"
+          className="field-input"
         />
 
         <label className="block text-sm font-semibold text-[var(--color-ink-strong)]" htmlFor="password">
@@ -177,7 +177,7 @@ export default function SignInForm({
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           placeholder="Minimum 8 characters"
-          className="min-h-12 w-full rounded-lg border border-[var(--color-border-strong)] bg-white px-4 text-sm text-[var(--color-ink-strong)] outline-none transition placeholder:text-[var(--color-muted-soft)] focus:border-[var(--color-blue)]"
+          className="field-input"
         />
 
         <button

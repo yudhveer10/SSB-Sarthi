@@ -70,7 +70,7 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
       suppressHydrationWarning
       aria-label={label}
       onClick={toggleTheme}
-      className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[var(--color-border-strong)] bg-white px-3 text-xs font-bold text-[var(--color-ink-strong)] transition hover:bg-[var(--color-surface)] ${
+      className={`inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-panel)] px-3 text-xs font-bold text-[var(--color-ink-strong)] shadow-[var(--shadow-subtle)] transition hover:-translate-y-0.5 hover:bg-[var(--color-surface)] ${
         compact ? "w-10 px-0" : ""
       }`}
     >

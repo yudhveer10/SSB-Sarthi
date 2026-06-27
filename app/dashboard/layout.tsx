@@ -31,8 +31,8 @@ export default async function DashboardLayout({
   const displayName = profile?.full_name?.trim() || "Candidate";
 
   return (
-    <div className="min-h-dvh bg-white text-[var(--color-ink-strong)]">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] border-r border-[var(--color-border)] bg-white px-4 py-6 lg:flex lg:flex-col">
+    <div className="min-h-dvh bg-[var(--color-bg)] text-[var(--color-ink-strong)]">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] border-r border-[var(--color-border)] bg-[var(--color-panel)] px-4 py-6 shadow-[var(--shadow-soft)] lg:flex lg:flex-col">
         <Link href="/dashboard" className="flex items-center gap-3 px-2">
           <BrandIcon className="h-12 w-12" priority />
           <div>
@@ -44,7 +44,7 @@ export default async function DashboardLayout({
         <DashboardNav />
 
         <div className="mt-auto space-y-4">
-          <div className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[0_1px_2px_rgba(13,27,47,0.04)]">
+          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-subtle)]">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-muted)]">
                 <UserIcon />
@@ -61,7 +61,7 @@ export default async function DashboardLayout({
       </aside>
 
       <div className="lg:pl-[260px]">
-        <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-white/95 px-5 py-4 backdrop-blur lg:px-8">
+        <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-panel)_88%,transparent)] px-5 py-4 backdrop-blur-xl lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link href="/dashboard" className="flex items-center gap-3 lg:hidden">
               <BrandIcon className="h-10 w-10" priority />
@@ -85,7 +85,7 @@ export default async function DashboardLayout({
               <PendingLink
                 href="/dashboard/profile"
                 ariaLabel="Open profile"
-                className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--color-border)] bg-white text-[var(--color-muted)]"
+                className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] text-[var(--color-muted)] shadow-[var(--shadow-subtle)]"
               >
                 <UserIcon />
               </PendingLink>

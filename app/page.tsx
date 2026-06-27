@@ -71,11 +71,11 @@ const flow = [
 
 export default function HomePage() {
   return (
-    <main className="bg-white text-[var(--color-ink-strong)]">
+    <main className="text-[var(--color-ink-strong)]">
       <section className="overflow-hidden border-b border-[var(--color-border)]">
         <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-6 py-4 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12 lg:py-6">
           <div className="max-w-2xl animate-fade-up">
-            <span className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-extrabold text-[var(--color-green)] shadow-[0_1px_2px_rgba(13,27,47,0.04)]">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] px-3 py-2 text-xs font-extrabold text-[var(--color-green)] shadow-[var(--shadow-subtle)]">
               <span className="h-2 w-2 rounded-full bg-[var(--color-green)]" />
               Free beta workspace
             </span>
@@ -89,7 +89,7 @@ export default function HomePage() {
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/signin" className="btn-primary">
+              <Link href="/signin?mode=signup" className="btn-primary">
                 Create account
                 <ArrowIcon />
               </Link>
@@ -113,6 +113,9 @@ export default function HomePage() {
           </div>
 
           <div className="relative animate-fade-up stagger-2">
+            <div className="absolute -right-6 top-8 hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] px-4 py-3 text-xs font-bold text-[var(--color-ink)] shadow-[var(--shadow-soft)] lg:block">
+              Live dashboard preview
+            </div>
             <div className="product-shell landing-card-drift">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-4">
                 <div>
@@ -132,7 +135,7 @@ export default function HomePage() {
 
               <div className="grid gap-3 p-5 lg:grid-cols-[0.9fr_1.1fr]">
                 <div className="space-y-4">
-                  <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
+                  <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-4">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold">5-day prep map</p>
                       <CalendarIcon className="h-4 w-4 text-[var(--color-green)]" />
@@ -159,7 +162,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-[var(--color-border)] bg-[#0d1b2f] p-4 text-white">
+                  <div className="rounded-lg border border-[var(--color-border)] bg-[linear-gradient(135deg,#0d1b2f,#123b5a)] p-4 text-white shadow-[var(--shadow-card)]">
                     <p className="text-sm font-semibold">Centre checklist</p>
                     <div className="mt-3 space-y-2.5">
                       {["Call-up letter", "Documents", "Travel plan"].map((item) => (
@@ -175,7 +178,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="rounded-lg border border-[var(--color-border)] bg-white p-4">
+                  <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-4">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold">Readiness areas</p>
                       <TargetIcon className="h-4 w-4 text-[var(--color-blue)]" />
@@ -287,7 +290,7 @@ export default function HomePage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {dashboardAccess.map(([title, body]) => (
-              <div key={title} className="rounded-lg border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)]">
+              <div key={title} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-6 shadow-[var(--shadow-card)]">
                 <h3 className="text-lg font-semibold">{title}</h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">{body}</p>
               </div>
@@ -296,7 +299,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#0d1b2f] text-white">
+      <section className="bg-[linear-gradient(135deg,#08111f,#0d2b45_48%,#064e3b)] text-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-16 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">
           <div>
             <h2 className="font-display text-4xl font-semibold leading-tight">
