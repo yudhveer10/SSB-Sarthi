@@ -3,8 +3,14 @@
 import { useState } from "react";
 import { createClient } from "../_lib/supabase/client";
 
-export default function SignInForm() {
-  const [mode, setMode] = useState<"signup" | "signin">("signup");
+type SignInMode = "signup" | "signin";
+
+export default function SignInForm({
+  initialMode = "signup",
+}: {
+  initialMode?: SignInMode;
+}) {
+  const [mode, setMode] = useState<SignInMode>(initialMode);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -111,7 +117,7 @@ export default function SignInForm() {
             key={value}
             type="button"
             onClick={() => {
-              setMode(value as "signup" | "signin");
+              setMode(value as SignInMode);
               setMessage("");
             }}
             className={`min-h-10 rounded-md text-sm font-bold transition ${

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
+import { createClient } from "../_lib/supabase/client";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -526,7 +527,10 @@ export default function OirQuiz({
   const [timeLeft, setTimeLeft] = useState(PAPER_TIME);
   const [paper1Answers, setPaper1Answers] = useState<(number | null)[]>(Array(25).fill(null));
   const [paper2Answers, setPaper2Answers] = useState<(number | null)[]>(Array(25).fill(null));
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [saveMessage, setSaveMessage] = useState("");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const savedResultKeyRef = useRef<string | null>(null);
   const activeSet = useMemo(
     () => OIR_SETS.find((set) => set.id === activeSetId) ?? DEFAULT_SET,
     [activeSetId],
@@ -583,6 +587,51 @@ export default function OirQuiz({
   // Progress
   const answered = selected.filter((a) => a !== null).length;
 
+  useEffect(() => {
+    if (phase !== "result") {
+      return;
+    }
+
+    const resultKey = `${activeSet.id}:${paper1Answers.join(",")}:${paper2Answers.join(",")}`;
+
+    if (savedResultKeyRef.current === resultKey) {
+      return;
+    }
+
+    savedResultKeyRef.current = resultKey;
+    setSaveStatus("saving");
+    setSaveMessage("Saving your score...");
+
+    async function saveAttempt() {
+      const supabase = createClient();
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+
+      if (userError || !userData.user) {
+        setSaveStatus("error");
+        setSaveMessage("Score shown here, but it was not saved because the session could not be verified.");
+        return;
+      }
+
+      const { error } = await supabase.from("oir_attempts").insert({
+        user_id: userData.user.id,
+        paper: activeSet.title,
+        score: totalScore,
+        total_questions: activeSet.questions.length,
+      });
+
+      if (error) {
+        setSaveStatus("error");
+        setSaveMessage("Score shown here, but saving failed. Please retry from the dashboard.");
+        return;
+      }
+
+      setSaveStatus("saved");
+      setSaveMessage("Saved to your dashboard tracker.");
+    }
+
+    void saveAttempt();
+  }, [activeSet.id, activeSet.questions.length, activeSet.title, paper1Answers, paper2Answers, phase, totalScore]);
+
   // ── INTRO ──
   if (phase === "intro") {
     return (
@@ -620,6 +669,8 @@ export default function OirQuiz({
                   setSelected(Array(25).fill(null));
                   setPaper1Answers(Array(25).fill(null));
                   setPaper2Answers(Array(25).fill(null));
+                  setSaveStatus("idle");
+                  setSaveMessage("");
                   setQIndex(0);
                   setTimeLeft(PAPER_TIME);
                 }}
@@ -693,6 +744,8 @@ export default function OirQuiz({
             setSelected(Array(25).fill(null));
             setPaper1Answers(Array(25).fill(null));
             setPaper2Answers(Array(25).fill(null));
+            setSaveStatus("idle");
+            setSaveMessage("");
             setQIndex(0);
             setTimeLeft(PAPER_TIME);
             setPhase("paper1");
@@ -729,6 +782,20 @@ export default function OirQuiz({
             >
               {ib}
             </div>
+            {saveMessage ? (
+              <p
+                className="mt-4 rounded-lg px-4 py-3 text-sm font-semibold"
+                style={{
+                  background:
+                    saveStatus === "error"
+                      ? "color-mix(in srgb, #be123c 10%, white)"
+                      : "color-mix(in srgb, #1d6b40 10%, white)",
+                  color: saveStatus === "error" ? "#be123c" : "#1d6b40",
+                }}
+              >
+                {saveMessage}
+              </p>
+            ) : null}
             <div className="mt-5 flex gap-6">
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest text-[var(--color-muted)]">Paper 1</p>
@@ -848,6 +915,8 @@ export default function OirQuiz({
               setSelected(Array(25).fill(null));
               setPaper1Answers(Array(25).fill(null));
               setPaper2Answers(Array(25).fill(null));
+              setSaveStatus("idle");
+              setSaveMessage("");
               setQIndex(0);
               setTimeLeft(PAPER_TIME);
               setCurrentPaper(paper1);

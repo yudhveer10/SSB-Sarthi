@@ -4,6 +4,7 @@ import BrandIcon from "../_components/BrandIcon";
 import { createClient } from "../_lib/supabase/server";
 import { DashboardNav } from "./dashboard-nav";
 import { PendingLink } from "./pending-link";
+import { SignOutForm } from "./sign-out-form";
 
 export const dynamic = "force-dynamic";
 
@@ -53,16 +54,7 @@ export default async function DashboardLayout({
             </div>
             <p className="mt-4 text-xs font-extrabold text-[#00964c]">Free account</p>
           </div>
-          <form
-            action="/auth/signout"
-            method="post"
-            className="rounded-lg border border-[var(--color-border)] bg-white p-4 shadow-[0_1px_2px_rgba(13,27,47,0.04)]"
-          >
-            <button type="submit" className="flex items-center gap-3 text-sm font-semibold text-[var(--color-ink-strong)]">
-              <SignOutIcon />
-              Sign out
-            </button>
-          </form>
+          <SignOutForm />
         </div>
       </aside>
 
@@ -133,24 +125,6 @@ function BellIcon() {
     >
       <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-    </svg>
-  );
-}
-
-function SignOutIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="h-5 w-5"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <path d="M16 17l5-5-5-5M21 12H9" />
     </svg>
   );
 }
