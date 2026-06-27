@@ -73,9 +73,13 @@ export default function HomePage() {
   return (
     <main className="bg-white text-[var(--color-ink-strong)]">
       <section className="overflow-hidden border-b border-[var(--color-border)]">
-        <div className="mx-auto grid w-full max-w-7xl items-start gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12 lg:py-12">
-          <div className="max-w-2xl">
-            <h1 className="max-w-[13ch] font-display text-4xl font-extrabold leading-[1.05] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4rem]">
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-6 py-4 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12 lg:py-6">
+          <div className="max-w-2xl animate-fade-up">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-white px-3 py-2 text-xs font-extrabold text-[var(--color-green)] shadow-[0_1px_2px_rgba(13,27,47,0.04)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--color-green)]" />
+              Free beta workspace
+            </span>
+            <h1 className="mt-5 max-w-[13ch] font-display text-4xl font-extrabold leading-[1.05] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4rem]">
               SSB prep, organized around your real journey.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
@@ -94,9 +98,9 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
               {heroCards.map((card) => (
-                <div key={card.title} className="mini-panel">
+                <div key={card.title} className="mini-panel landing-hover">
                   <span className="text-sm font-semibold text-[var(--color-ink-strong)]">
                     {card.title}
                   </span>
@@ -108,8 +112,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="product-shell">
+          <div className="relative animate-fade-up stagger-2">
+            <div className="product-shell landing-card-drift">
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-4">
                 <div>
                   <p className="text-sm font-semibold text-[var(--color-ink-strong)]">
@@ -185,9 +189,9 @@ export default function HomePage() {
                             </span>
                             <span className="text-[var(--color-muted)]">{row.value}</span>
                           </div>
-                          <div className="h-2 rounded-full bg-[#e9eef3]">
+                          <div className="h-2 overflow-hidden rounded-full bg-[#e9eef3]">
                             <div
-                              className="h-full rounded-full bg-[linear-gradient(90deg,var(--color-green),var(--color-blue))]"
+                              className="landing-progress h-full rounded-full bg-[linear-gradient(90deg,var(--color-green),var(--color-blue),var(--color-green))]"
                               style={{ width: row.width }}
                             />
                           </div>
@@ -236,7 +240,7 @@ export default function HomePage() {
             {productSections.map((feature) => {
               const Icon = feature.icon;
               return (
-                <Link key={feature.title} href={feature.href} className="feature-panel">
+                <Link key={feature.title} href={feature.href} className="feature-panel landing-hover">
                   <Icon className="h-5 w-5 text-[var(--color-green)]" />
                   <h3 className="mt-5 text-lg font-semibold">{feature.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BrandIcon from "./BrandIcon";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV_LINKS = [
   { href: "/process", label: "Process" },
@@ -48,6 +49,7 @@ export default function NavBar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle compact />
           <Link
             href="/process"
             className="hidden rounded-lg border border-[var(--color-border-strong)] bg-white px-4 py-2.5 text-xs font-bold text-[var(--color-blue)] transition-colors hover:bg-[var(--color-surface)] lg:inline-flex"

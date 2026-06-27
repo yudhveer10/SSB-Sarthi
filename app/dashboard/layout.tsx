@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import BrandIcon from "../_components/BrandIcon";
+import { ThemeToggle } from "../_components/ThemeToggle";
 import { createClient } from "../_lib/supabase/server";
 import { DashboardNav } from "./dashboard-nav";
+import { OnboardingTour } from "./onboarding-tour";
 import { PendingLink } from "./pending-link";
 import { SignOutForm } from "./sign-out-form";
 
@@ -23,7 +25,7 @@ export default async function DashboardLayout({
   const userId = userData.user.id;
   const { data: profile } = await supabase
     .from("profiles")
-    .select("full_name,email")
+    .select("full_name,email,onboarding_completed")
     .eq("id", userId)
     .maybeSingle();
   const displayName = profile?.full_name?.trim() || "Candidate";
@@ -69,6 +71,7 @@ export default async function DashboardLayout({
               <p className="text-xl font-extrabold">Overview</p>
             </div>
             <div className="flex items-center gap-4">
+              <ThemeToggle compact />
               <PendingLink
                 href="/dashboard/resources"
                 ariaLabel="Open preparation updates"
@@ -99,6 +102,7 @@ export default async function DashboardLayout({
 
         <main>{children}</main>
       </div>
+      <OnboardingTour shouldShow={!profile?.onboarding_completed} />
     </div>
   );
 }
