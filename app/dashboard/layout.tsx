@@ -5,7 +5,6 @@ import { ThemeToggle } from "../_components/ThemeToggle";
 import { createClient } from "../_lib/supabase/server";
 import { DashboardNav } from "./dashboard-nav";
 import { OnboardingTour } from "./onboarding-tour";
-import { PendingLink } from "./pending-link";
 import { SignOutForm } from "./sign-out-form";
 
 export const dynamic = "force-dynamic";
@@ -72,30 +71,34 @@ export default async function DashboardLayout({
             </div>
             <div className="flex items-center gap-4">
               <ThemeToggle compact />
-              <PendingLink
+              <a
                 href="/dashboard/resources"
-                ariaLabel="Open preparation updates"
-                className="hidden h-10 w-10 place-items-center rounded-lg border border-transparent text-[var(--color-ink-strong)] transition hover:border-[var(--color-border)] sm:grid"
+                aria-label="Open preparation updates"
+                className="relative hidden h-10 w-10 place-items-center rounded-lg border border-transparent text-[var(--color-ink-strong)] transition hover:border-[var(--color-border)] hover:bg-[var(--color-surface)] sm:grid"
               >
                 <BellIcon />
                 <span className="absolute right-1.5 top-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#1264ff] text-[10px] font-extrabold text-white">
                   2
                 </span>
-              </PendingLink>
-              <PendingLink
+              </a>
+              <a
                 href="/dashboard/profile"
-                ariaLabel="Open profile"
-                className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] text-[var(--color-muted)] shadow-[var(--shadow-subtle)]"
+                aria-label="Open profile"
+                className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] text-[var(--color-muted)] shadow-[var(--shadow-subtle)] transition hover:-translate-y-0.5 hover:text-[var(--color-ink-strong)] hover:shadow-[var(--shadow-card)]"
               >
                 <UserIcon />
-              </PendingLink>
-              <PendingLink href="/dashboard/profile" className="hidden rounded-lg px-1 py-1 text-left sm:block">
+              </a>
+              <a href="/dashboard/profile" className="hidden rounded-lg px-2 py-1 text-left transition hover:bg-[var(--color-surface)] sm:block">
                 <p className="text-sm font-extrabold leading-tight">{displayName}</p>
                 <p className="text-xs font-semibold text-[#00964c]">Free account</p>
-              </PendingLink>
-              <PendingLink href="/dashboard/profile" ariaLabel="Profile menu" className="text-[var(--color-ink-strong)]">
+              </a>
+              <a
+                href="/dashboard/profile"
+                aria-label="Profile menu"
+                className="grid h-10 w-10 place-items-center rounded-lg text-[var(--color-ink-strong)] transition hover:bg-[var(--color-surface)]"
+              >
                 <ChevronDownIcon />
-              </PendingLink>
+              </a>
             </div>
           </div>
         </header>
