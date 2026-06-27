@@ -25,6 +25,8 @@ const liveUpdates = [
   },
 ];
 
+const tickerItems = [...liveUpdates, ...liveUpdates];
+
 export default function LiveUpdates() {
   return (
     <section
@@ -36,22 +38,26 @@ export default function LiveUpdates() {
           <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
           Live updates
         </span>
-        <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto py-0.5">
-          {liveUpdates.slice(0, 3).map((item) => (
-            <a
-              key={item.title}
-              href={item.href}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex min-w-0 shrink-0 items-center gap-2 rounded-md bg-white/12 px-3 py-1.5 text-xs font-bold text-white/94 transition hover:bg-white/18"
-            >
-              <span className="rounded bg-white/16 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.12em]">
-                {item.tag}
-              </span>
-              <span className="max-w-[220px] truncate sm:max-w-[360px] lg:max-w-[420px]">{item.title}</span>
-              <span className="text-white/65">{item.date}</span>
-            </a>
-          ))}
+        <div className="ticker-track min-w-0 flex-1 py-0.5">
+          <div className="ticker-content gap-2">
+            {tickerItems.map((item, index) => (
+              <a
+                key={`${item.title}-${index}`}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-hidden={index >= liveUpdates.length ? true : undefined}
+                tabIndex={index >= liveUpdates.length ? -1 : undefined}
+                className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white/12 px-3 py-1.5 text-xs font-bold text-white/94 transition hover:bg-white/18"
+              >
+                <span className="rounded bg-white/16 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.12em]">
+                  {item.tag}
+                </span>
+                <span className="whitespace-nowrap">{item.title}</span>
+                <span className="whitespace-nowrap text-white/65">{item.date}</span>
+              </a>
+            ))}
+          </div>
         </div>
         <a
           href="https://www.upsc.gov.in/whats-new"
