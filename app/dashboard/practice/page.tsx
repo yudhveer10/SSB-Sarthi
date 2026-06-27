@@ -9,7 +9,7 @@ export default function DashboardPracticePage() {
     <DashboardModule
       eyebrow="Practice"
       title="Screening practice hub."
-      body="Start with your free account allowance: 2 OIR sets and 10 PPDT picture-story prompts. Saved attempts will continue feeding the dashboard tracker."
+      body="Start with your free account allowance: 2 OIR sets and 4 PPDT picture-story prompts. Saved attempts will continue feeding the dashboard tracker."
       actions={[
         ["PPDT picture stories", "/dashboard/practice/ppdt"],
         ["OLQ reflection journal", "/dashboard/journals"],
