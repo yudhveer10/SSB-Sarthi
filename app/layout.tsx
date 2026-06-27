@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import AppChrome from "./_components/AppChrome";
 import "./globals.css";
 
@@ -39,8 +40,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className="flex min-h-dvh flex-col">
+        <Script
+          id="ssb-sarthi-theme"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=null;try{t=localStorage.getItem("ssb-sarthi-theme")}catch(e){}if(!t){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.dataset.theme=t}catch(e){}`,
+          }}
+        />
         <AppChrome>
           {children}
         </AppChrome>

@@ -27,31 +27,40 @@ const liveUpdates = [
 
 export default function LiveUpdates() {
   return (
-    <section className="border-b border-[var(--color-border)] bg-[linear-gradient(90deg,var(--color-green),var(--color-blue))] text-white">
-      <div className="mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-2 sm:px-6 lg:px-8">
+    <section
+      aria-label="Latest defence exam updates"
+      className="border-b border-[var(--color-border)] bg-[linear-gradient(90deg,var(--color-green),var(--color-blue))] text-white"
+    >
+      <div className="mx-auto flex h-12 w-full max-w-7xl items-center gap-3 px-4 py-2 sm:px-6 lg:px-8">
         <span className="hidden shrink-0 items-center gap-2 rounded-md bg-white/12 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-white/95 sm:inline-flex">
           <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
           Live updates
         </span>
-        <div className="ticker-track flex-1 overflow-hidden">
-          <div className="ticker-content flex gap-10 whitespace-nowrap text-sm font-medium">
-            {[...liveUpdates, ...liveUpdates].map((item, index) => (
-              <a
-                key={`${item.title}-${index}`}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-3 text-white/92 transition-colors hover:text-white"
-              >
-                <span className="rounded-md bg-white/14 px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-white">
-                  {item.tag}
-                </span>
-                <span>{item.title}</span>
-                <span className="text-white/65">- {item.date}</span>
-              </a>
-            ))}
-          </div>
+        <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto py-0.5">
+          {liveUpdates.slice(0, 3).map((item) => (
+            <a
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-w-0 shrink-0 items-center gap-2 rounded-md bg-white/12 px-3 py-1.5 text-xs font-bold text-white/94 transition hover:bg-white/18"
+            >
+              <span className="rounded bg-white/16 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.12em]">
+                {item.tag}
+              </span>
+              <span className="max-w-[220px] truncate sm:max-w-[360px] lg:max-w-[420px]">{item.title}</span>
+              <span className="text-white/65">{item.date}</span>
+            </a>
+          ))}
         </div>
+        <a
+          href="https://www.upsc.gov.in/whats-new"
+          target="_blank"
+          rel="noreferrer"
+          className="shrink-0 rounded-md border border-white/24 px-3 py-1.5 text-xs font-extrabold transition hover:bg-white/12"
+        >
+          Official UPSC
+        </a>
       </div>
     </section>
   );
