@@ -61,7 +61,7 @@ export function DashboardNav() {
             href={item.href}
             className={`group relative flex min-h-11 items-center gap-4 rounded-lg px-3 text-sm font-semibold transition ${
               isActive
-                ? "bg-[#eef5ff] text-[#1264ff]"
+                ? "dashboard-nav-active"
                 : "text-[var(--color-ink-strong)] hover:bg-[var(--color-surface)] hover:text-[#1264ff]"
             }`}
           >
