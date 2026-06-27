@@ -31,6 +31,12 @@ const proof = [
   ["Data safe", "Your data is private and secure", ShieldIcon],
 ];
 
+const preparationLoop = [
+  ["Plan the week", "Set a simple preparation route for screening, psychology, GTO and conference."],
+  ["Practice with context", "Use OIR, PPDT and OLQ work as connected preparation, not isolated tasks."],
+  ["Review what matters", "See your pending actions, saved notes and centre readiness before the next session."],
+];
+
 export default function HomePage() {
   return (
     <main className="landing-page landing-reference overflow-hidden text-[var(--color-ink-strong)]">
@@ -126,6 +132,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="landing-loop-section reveal-on-scroll border-b border-[var(--color-border)]">
+        <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-16 sm:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-12">
+          <div>
+            <h2 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl">
+              A calmer way to prepare every day.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)]">
+              SSB preparation becomes easier to trust when every session has a next step,
+              every attempt has a record, and every reflection stays easy to find.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/signin?mode=signup" className="btn-primary">
+                Create my workspace
+                <ArrowIcon />
+              </Link>
+              <Link href="/resources" className="btn-secondary">
+                Read resources
+              </Link>
+            </div>
+          </div>
+
+          <div className="landing-loop-card">
+            {preparationLoop.map(([title, body], index) => (
+              <div key={title} className="landing-loop-row">
+                <span>{index + 1}</span>
+                <div>
+                  <strong>{title}</strong>
+                  <p>{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="pricing" className="reveal-on-scroll mx-auto grid w-full max-w-7xl gap-8 px-6 py-12 sm:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-12">
         <div className="landing-proof-panel">
           {proof.map(([value, label, Icon]) => (
@@ -150,6 +191,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <footer className="landing-made-by border-t border-[var(--color-border)] px-6 py-6 text-center sm:px-10">
+        Made with love by Yudhveer.
+      </footer>
     </main>
   );
 }
