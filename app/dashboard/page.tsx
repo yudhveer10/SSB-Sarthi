@@ -24,7 +24,7 @@ type ActivityRow = {
 };
 
 const freeOirLimit = 2;
-const freePpdtLimit = 10;
+const freePpdtLimit = 4;
 
 const fallbackChecklist: ChecklistItem[] = [
   { label: "Call-up letter", done: false },
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
         .select("*")
         .eq("user_id", userId)
         .order("completed_at", { ascending: false })
-        .limit(10),
+        .limit(freePpdtLimit),
       supabase
         .from("olq_journals")
         .select("*")
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
               suffix="total"
               progress={(ppdtUsed / freePpdtLimit) * 100}
               footer={`${ppdtLeft} stories left`}
-              href="/dashboard/practice"
+              href="/dashboard/practice/ppdt"
             />
             <AllowanceCard
               color="purple"
@@ -168,6 +168,8 @@ export default async function DashboardPage() {
               href="/dashboard/journals"
             />
           </div>
+
+          <PremiumSoonCard />
         </div>
 
         <UpcomingSsbCard
@@ -266,6 +268,45 @@ function CandidateTrackingCard({ readinessScore }: { readinessScore: number }) {
   );
 }
 
+function PremiumSoonCard() {
+  const perks = [
+    { title: "Deeper TAT access", body: "More picture practice sets for psychology prep.", icon: "image" },
+    { title: "More OIR practice", body: "Extra timed sets with clearer attempt history.", icon: "document" },
+    { title: "Live centre updates", body: "Real-time SSB centre and reporting updates.", icon: "trend" },
+  ];
+
+  return (
+    <section className="premium-soon-card mt-5 overflow-hidden rounded-lg border border-[#b8d7ff] bg-[linear-gradient(135deg,#f7fbff_0%,#eef7ff_45%,#f2fff9_100%)] p-4 shadow-[var(--shadow-card)] sm:p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#005eea]">
+            Premium coming soon
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-extrabold leading-tight text-[var(--color-ink-strong)]">
+            More practice depth when you are ready to go serious.
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-[var(--color-muted)]">
+            Keep using the free workspace now. Premium will add more access to TAT,
+            expanded OIR practice, and real-time SSB centre updates.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-[#1264ff]/25 bg-white px-3 py-1.5 text-xs font-extrabold text-[#005eea] shadow-sm">
+          Coming soon
+        </span>
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        {perks.map((perk) => (
+          <div key={perk.title} className="premium-soon-card-item rounded-lg border border-white/70 bg-white/80 p-3 shadow-sm">
+            <Icon name={perk.icon} className="h-5 w-5 text-[#00a97f]" />
+            <p className="mt-2 text-sm font-extrabold text-[var(--color-ink-strong)]">{perk.title}</p>
+            <p className="mt-1 text-xs font-medium leading-5 text-[var(--color-muted)]">{perk.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function NextActions() {
   const actions = [
     {
@@ -284,7 +325,7 @@ function NextActions() {
       title: "Write PPDT story",
       body: "Pick a picture and practice storytelling",
       icon: "image",
-      href: "/dashboard/practice",
+      href: "/dashboard/practice/ppdt",
     },
     {
       title: "Reflect in OLQ journal",
@@ -434,11 +475,11 @@ function UpcomingModules() {
     },
     {
       title: "PPDT Picture Stories",
-      body: "Practice storytelling with 10 free prompts",
+      body: "Practice storytelling with 4 free prompts",
       icon: "image",
       color: "green",
       action: "Start",
-      href: "/dashboard/practice",
+      href: "/dashboard/practice/ppdt",
     },
     {
       title: "OLQ Journal",
@@ -711,7 +752,7 @@ function buildActivityRows(
       tone: "blue",
     },
     {
-      title: "PPDT Picture 3 - The Bridge",
+      title: "PPDT Picture 1 - Flooded Road",
       tag: "PPDT",
       detail: "Practice story",
       status: "Completed",

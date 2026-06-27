@@ -292,6 +292,18 @@ main > section {
   background-color: var(--color-surface) !important;
 }
 
+[data-theme="dark"] .premium-soon-card {
+  border-color: rgba(80, 166, 255, 0.34) !important;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(18, 100, 255, 0.22), transparent 34%),
+    linear-gradient(135deg, rgba(12, 24, 42, 0.98), rgba(12, 38, 55, 0.94)) !important;
+}
+
+[data-theme="dark"] .premium-soon-card-item {
+  border-color: rgba(148, 163, 184, 0.22) !important;
+  background: rgba(15, 26, 43, 0.76) !important;
+}
+
 .btn-secondary:hover {
   background: var(--color-surface);
   transform: translateY(-1px);
