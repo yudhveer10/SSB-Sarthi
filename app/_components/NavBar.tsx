@@ -19,10 +19,10 @@ export default function NavBar() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 h-[var(--nav-height)]"
+      className="site-header fixed inset-x-0 top-0 z-[1000] h-[var(--nav-height)] isolate pointer-events-auto"
       aria-label="Primary"
     >
-      <nav className="glass mx-auto flex h-full max-w-7xl items-center justify-between gap-5 px-4 shadow-[0_1px_0_rgba(13,27,47,0.08)] sm:px-6 lg:px-8">
+      <nav className="glass relative z-[1001] mx-auto flex h-full max-w-7xl items-center justify-between gap-5 px-4 shadow-[0_1px_0_rgba(13,27,47,0.08)] sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="SSB Sarthi home">
           <BrandIcon priority />
           <span className="font-display text-lg font-semibold text-[var(--color-ink-strong)]">
