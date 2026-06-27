@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "/centers", label: "Centers" },
   { href: "/screening", label: "Practice" },
   { href: "/resources", label: "Resources" },
+  { href: "#pricing", label: "Pricing" },
 ];
 
 export default function NavBar() {
@@ -51,22 +52,16 @@ export default function NavBar() {
         <div className="flex items-center gap-3">
           <ThemeToggle compact />
           <a
-            href="/process"
-            className="btn-nav-secondary hidden items-center justify-center lg:inline-flex"
-          >
-            View process
-          </a>
-          <a
             href="/signin?mode=signin"
             className="btn-nav-secondary hidden items-center justify-center sm:inline-flex"
           >
-            Sign in
+            Log in
           </a>
           <a
             href="/signin?mode=signup"
             className="btn-nav-primary hidden items-center justify-center sm:inline-flex"
           >
-            Create account
+            Start free
           </a>
 
           <button
@@ -133,14 +128,14 @@ export default function NavBar() {
               className="btn-secondary mb-2 w-full justify-center"
               onClick={() => setMenuOpen(false)}
             >
-              Sign in
+              Log in
             </a>
             <a
               href="/signin?mode=signup"
               className="btn-primary w-full justify-center"
               onClick={() => setMenuOpen(false)}
             >
-              Create account
+              Start free
             </a>
           </div>
         </div>
