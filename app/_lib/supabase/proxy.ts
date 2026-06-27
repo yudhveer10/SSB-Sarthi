@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
       setAll(cookiesToSet, headers) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
-        Object.entries(headers).forEach(([name, value]) => {
+        Object.entries(headers ?? {}).forEach(([name, value]) => {
           response.headers.set(name, value);
         });
         cookiesToSet.forEach(({ name, value, options }) => {
@@ -26,6 +26,7 @@ export async function updateSession(request: NextRequest) {
   });
 
   await supabase.auth.getUser();
+  response.headers.set("Cache-Control", "private, no-store");
 
   return response;
 }
