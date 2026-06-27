@@ -9,7 +9,7 @@ export default function DashboardPracticePage() {
     <DashboardModule
       eyebrow="Practice"
       title="Screening practice hub."
-      body="Start with your free account allowance: 5 OIR attempts and 10 PPDT picture-story prompts. Saved attempts will continue feeding the dashboard tracker."
+      body="Start with your free account allowance: 2 OIR sets and 10 PPDT picture-story prompts. Saved attempts will continue feeding the dashboard tracker."
       actions={[
         ["PPDT picture stories", "/dashboard/practice"],
         ["OLQ reflection journal", "/dashboard/journals"],
@@ -41,11 +41,11 @@ function DashboardModule({
         {body}
       </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {["OIR Attempt 01", "OIR Attempt 02", "OIR Attempt 03", "OIR Attempt 04", "OIR Attempt 05"].map((set) => (
+        {["OIR Set 01", "OIR Set 02"].map((set) => (
           <Link key={set} href="/dashboard/practice/oir" className="feature-panel">
             <p className="text-lg font-extrabold">{set}</p>
             <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
-              Timed screening practice for your free OIR allowance.
+              Timed screening practice with score and dashboard tracking.
             </p>
           </Link>
         ))}

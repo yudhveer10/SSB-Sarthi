@@ -23,7 +23,7 @@ type ActivityRow = {
   tone: "blue" | "green" | "purple" | "orange";
 };
 
-const freeOirLimit = 5;
+const freeOirLimit = 2;
 const freePpdtLimit = 10;
 
 const fallbackChecklist: ChecklistItem[] = [

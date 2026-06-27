@@ -5,7 +5,17 @@ export const metadata = {
   title: "Sign in",
 };
 
-export default function SignInPage() {
+type SignInMode = "signup" | "signin";
+
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string | string[] }>;
+}) {
+  const modeParam = (await searchParams).mode;
+  const mode = Array.isArray(modeParam) ? modeParam[0] : modeParam;
+  const initialMode: SignInMode = mode === "signin" ? "signin" : "signup";
+
   return (
     <main className="bg-white">
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-12 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-12 lg:py-16">
@@ -42,7 +52,7 @@ export default function SignInPage() {
         </div>
 
         <div className="lg:pt-8">
-          <SignInForm />
+          <SignInForm initialMode={initialMode} />
           <p className="mt-5 text-center text-sm text-[var(--color-muted)]">
             New here?{" "}
             <Link href="/process" className="font-semibold text-[var(--color-blue)]">
