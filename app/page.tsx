@@ -3,22 +3,22 @@ import Link from "next/link";
 const heroCards = [
   {
     title: "Process clarity",
-    detail: "Understand what happens from screening to conference before you start preparing.",
+    detail: "Know screening, psychology, GTO, interview, and conference before the clock starts.",
   },
   {
     title: "Dashboard first",
-    detail: "Save plans, practice history, OLQ notes, and centre checklists after login.",
+    detail: "Keep attempts, OLQ notes, centre tasks, and daily focus inside one workspace.",
   },
   {
     title: "Private prep",
-    detail: "Your practice history and reflections stay inside your candidate workspace.",
+    detail: "Your practice history and reflections stay attached to your candidate account.",
   },
 ];
 
 const readinessRows = [
-  { label: "OIR reasoning", value: "Planned", width: "76%" },
-  { label: "PPDT narration", value: "Reviewing", width: "62%" },
-  { label: "OLQ examples", value: "Building", width: "68%" },
+  { label: "OIR reasoning", value: "76%", tone: "from-emerald-400 to-cyan-300" },
+  { label: "PPDT narration", value: "62%", tone: "from-cyan-300 to-blue-400" },
+  { label: "OLQ examples", value: "68%", tone: "from-blue-400 to-emerald-300" },
 ];
 
 const dashboardPlan = [
@@ -28,7 +28,14 @@ const dashboardPlan = [
   { day: "Day 5", title: "Conference", state: "Final review" },
 ];
 
-const productSections = [
+const commandModules = [
+  ["Practice sessions", "Timed OIR sets, PPDT drills, and review notes that do not get lost."],
+  ["Readiness planner", "A 5-day preparation map with daily priorities and centre checklist."],
+  ["OLQ journal", "Real examples, reflections, and interview-ready stories in one place."],
+  ["Private history", "Attempts, scores, and notes attached to your account, not your browser tab."],
+];
+
+const publicSections = [
   {
     title: "Learn the SSB flow",
     body: "Use the public process guide to understand each testing stage before creating a plan.",
@@ -42,53 +49,40 @@ const productSections = [
     icon: MapIcon,
   },
   {
-    title: "Understand practice areas",
-    body: "See what OIR, PPDT, psychology, GTO, interview, and conference prep should cover.",
+    title: "Practice screening",
+    body: "See how OIR and PPDT preparation should be structured before you begin attempts.",
     href: "/screening",
     icon: TargetIcon,
   },
   {
     title: "Use resources wisely",
-    body: "Read guidance, myths, and prep notes without jumping straight into random tests.",
+    body: "Read guidance, myths, and prep notes without jumping into random disconnected tests.",
     href: "/resources",
     icon: JournalIcon,
   },
 ];
 
-const dashboardAccess = [
-  ["Practice sessions", "Timed OIR sets, PPDT drills, review notes, and saved progress."],
-  ["Readiness planner", "A 5-day preparation map with daily priorities and centre checklist."],
-  ["OLQ journal", "Real examples, reflections, and interview-ready stories in one place."],
-  ["Private history", "Attempts, scores, and preparation notes attached to your account."],
-];
-
-const flow = [
-  ["Explore", "Read public guides and understand the SSB journey."],
-  ["Login", "Create your private candidate workspace."],
-  ["Practice", "Attempt drills and save review notes inside the dashboard."],
-  ["Arrive", "Use your checklist and plan before reporting day."],
-];
-
 export default function HomePage() {
   return (
-    <main className="text-[var(--color-ink-strong)]">
-      <section className="overflow-hidden border-b border-[var(--color-border)]">
-        <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-6 py-4 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12 lg:py-6">
-          <div className="max-w-2xl animate-fade-up">
-            <span className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] px-3 py-2 text-xs font-extrabold text-[var(--color-green)] shadow-[var(--shadow-subtle)]">
+    <main className="overflow-hidden text-[var(--color-ink-strong)]">
+      <section className="relative border-b border-[var(--color-border)]">
+        <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(90deg,rgba(37,99,235,0.12),rgba(6,182,212,0.08),rgba(5,150,105,0.12))]" />
+        <div className="mx-auto grid min-h-[calc(100dvh-var(--nav-height)-48px)] w-full max-w-7xl items-center gap-10 px-6 py-12 sm:px-10 lg:grid-cols-[0.86fr_1.14fr] lg:px-12 lg:py-14">
+          <div className="relative z-10 max-w-2xl animate-fade-up">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] px-3 py-2 text-xs font-extrabold uppercase text-[var(--color-green)] shadow-[var(--shadow-subtle)]">
               <span className="h-2 w-2 rounded-full bg-[var(--color-green)]" />
               Free beta workspace
             </span>
-            <h1 className="mt-5 max-w-[13ch] font-display text-4xl font-extrabold leading-[1.05] text-[var(--color-ink-strong)] sm:text-5xl lg:text-[4rem]">
+            <h1 className="mt-6 max-w-[12ch] font-display text-5xl font-extrabold leading-[1.02] text-[var(--color-ink-strong)] sm:text-6xl lg:text-[5.15rem]">
               SSB prep, organized around your real journey.
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-              SSB Sarthi is a preparation workspace for aspirants who want a
-              clear process map, focused practice plan, OLQ review, and centre
-              readiness in one place.
+            <p className="mt-6 max-w-xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
+              A focused SaaS workspace for aspirants who want process clarity,
+              practice history, OLQ review, and centre readiness in one polished
+              command center.
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/signin?mode=signup" className="btn-primary">
                 Create account
                 <ArrowIcon />
@@ -98,10 +92,10 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {heroCards.map((card) => (
-                <div key={card.title} className="mini-panel landing-hover">
-                  <span className="text-sm font-semibold text-[var(--color-ink-strong)]">
+                <div key={card.title} className="mini-panel">
+                  <span className="text-sm font-bold text-[var(--color-ink-strong)]">
                     {card.title}
                   </span>
                   <span className="mt-2 block text-xs leading-5 text-[var(--color-muted)]">
@@ -112,49 +106,43 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative animate-fade-up stagger-2">
-            <div className="absolute -right-6 top-8 hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] px-4 py-3 text-xs font-bold text-[var(--color-ink)] shadow-[var(--shadow-soft)] lg:block">
+          <div className="relative z-10 animate-fade-up stagger-2">
+            <div className="absolute -right-2 -top-5 hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] px-4 py-3 text-xs font-bold text-[var(--color-ink)] shadow-[var(--shadow-soft)] lg:block">
               Live dashboard preview
             </div>
-            <div className="product-shell landing-card-drift">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-4">
+            <div className="overflow-hidden rounded-xl border border-white/10 bg-[#08111f] text-white shadow-[0_32px_90px_rgba(8,17,31,0.38)]">
+              <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
                 <div>
-                  <p className="text-sm font-semibold text-[var(--color-ink-strong)]">
-                    Candidate dashboard
-                  </p>
-                  <p className="text-xs text-[var(--color-muted)]">
-                    Available after login
-                  </p>
+                  <p className="text-base font-extrabold">Candidate dashboard</p>
+                  <p className="mt-1 text-xs font-semibold text-white/48">Available after login</p>
                 </div>
                 <div className="flex gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#2f7d57]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#2f80c9]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#cad3dc]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-cyan-300" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/60" />
                 </div>
               </div>
 
-              <div className="grid gap-3 p-5 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="grid gap-4 p-5 lg:grid-cols-[0.92fr_1.08fr]">
                 <div className="space-y-4">
-                  <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-4">
+                  <div className="rounded-lg border border-white/12 bg-white/[0.04] p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold">5-day prep map</p>
-                      <CalendarIcon className="h-4 w-4 text-[var(--color-green)]" />
+                      <p className="text-sm font-extrabold">5-day prep map</p>
+                      <CalendarIcon className="h-4 w-4 text-emerald-300" />
                     </div>
-                    <div className="mt-3 space-y-2">
+                    <div className="mt-4 space-y-2">
                       {dashboardPlan.map((item) => (
                         <div
                           key={item.day}
-                          className="flex items-center justify-between rounded-md bg-[var(--color-surface)] px-3 py-2"
+                          className="flex items-center justify-between rounded-md bg-white/[0.05] px-3 py-2"
                         >
                           <div>
-                            <p className="text-[11px] font-semibold text-[var(--color-green)]">
+                            <p className="text-[11px] font-extrabold text-emerald-300">
                               {item.day}
                             </p>
-                            <p className="text-xs font-medium text-[var(--color-ink)]">
-                              {item.title}
-                            </p>
+                            <p className="text-xs font-bold text-white/92">{item.title}</p>
                           </div>
-                          <span className="text-[11px] text-[var(--color-muted)]">
+                          <span className="text-[11px] font-semibold text-white/48">
                             {item.state}
                           </span>
                         </div>
@@ -162,15 +150,15 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-[var(--color-border)] bg-[linear-gradient(135deg,#0d1b2f,#123b5a)] p-4 text-white shadow-[var(--shadow-card)]">
-                    <p className="text-sm font-semibold">Centre checklist</p>
+                  <div className="rounded-lg border border-cyan-300/20 bg-[linear-gradient(135deg,rgba(18,59,90,0.96),rgba(16,29,48,0.96))] p-4">
+                    <p className="text-sm font-extrabold">Centre checklist</p>
                     <div className="mt-3 space-y-2.5">
                       {["Call-up letter", "Documents", "Travel plan"].map((item) => (
                         <div key={item} className="flex items-center gap-3">
-                          <span className="flex h-5 w-5 items-center justify-center rounded bg-[#2f7d57] text-[10px]">
+                          <span className="grid h-5 w-5 place-items-center rounded bg-emerald-400 text-[10px] text-[#08111f]">
                             <CheckIcon />
                           </span>
-                          <span className="text-xs text-white/82">{item}</span>
+                          <span className="text-xs font-semibold text-white/78">{item}</span>
                         </div>
                       ))}
                     </div>
@@ -178,24 +166,22 @@ export default function HomePage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-4">
+                  <div className="rounded-lg border border-white/12 bg-white/[0.04] p-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold">Readiness areas</p>
-                      <TargetIcon className="h-4 w-4 text-[var(--color-blue)]" />
+                      <p className="text-sm font-extrabold">Readiness areas</p>
+                      <TargetIcon className="h-4 w-4 text-cyan-300" />
                     </div>
-                    <div className="mt-4 space-y-3">
+                    <div className="mt-5 space-y-4">
                       {readinessRows.map((row) => (
                         <div key={row.label}>
                           <div className="mb-2 flex justify-between text-xs">
-                            <span className="font-medium text-[var(--color-ink)]">
-                              {row.label}
-                            </span>
-                            <span className="text-[var(--color-muted)]">{row.value}</span>
+                            <span className="font-bold text-white/86">{row.label}</span>
+                            <span className="font-semibold text-white/48">{row.value}</span>
                           </div>
-                          <div className="h-2 overflow-hidden rounded-full bg-[#e9eef3]">
+                          <div className="h-2 overflow-hidden rounded-full bg-white/18">
                             <div
-                              className="landing-progress h-full rounded-full bg-[linear-gradient(90deg,var(--color-green),var(--color-blue),var(--color-green))]"
-                              style={{ width: row.width }}
+                              className={`h-full rounded-full bg-gradient-to-r ${row.tone} landing-progress`}
+                              style={{ width: row.value }}
                             />
                           </div>
                         </div>
@@ -204,19 +190,15 @@ export default function HomePage() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-                      <p className="text-xs font-semibold text-[var(--color-muted)]">
-                        Next focus
-                      </p>
-                      <p className="mt-2 text-lg font-semibold">PPDT review</p>
-                      <p className="mt-1 text-xs text-[var(--color-muted)]">Saved in dashboard</p>
+                    <div className="rounded-lg border border-white/12 bg-white/[0.04] p-4">
+                      <p className="text-xs font-bold text-white/48">Next focus</p>
+                      <p className="mt-2 text-xl font-extrabold">PPDT review</p>
+                      <p className="mt-1 text-xs font-semibold text-white/42">Saved in dashboard</p>
                     </div>
-                    <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-                      <p className="text-xs font-semibold text-[var(--color-muted)]">
-                        Journal
-                      </p>
-                      <p className="mt-2 text-lg font-semibold">OLQ notes</p>
-                      <p className="mt-1 text-xs text-[var(--color-muted)]">Private workspace</p>
+                    <div className="rounded-lg border border-white/12 bg-white/[0.04] p-4">
+                      <p className="text-xs font-bold text-white/48">Journal</p>
+                      <p className="mt-2 text-xl font-extrabold">OLQ notes</p>
+                      <p className="mt-1 text-xs font-semibold text-white/42">Private workspace</p>
                     </div>
                   </div>
                 </div>
@@ -227,25 +209,24 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-12">
-        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
-            <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
-              What visitors can explore before login.
+            <h2 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl">
+              Browse publicly. Prepare privately.
             </h2>
             <p className="mt-5 max-w-md text-base leading-8 text-[var(--color-muted)]">
-              The public site explains the SSB journey and the product. Actual
-              practice history, saved progress, and review notes stay inside the
-              dashboard.
+              The public site explains the journey. The logged-in dashboard is
+              where practice, reflection, and readiness become measurable.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
-            {productSections.map((feature) => {
+            {publicSections.map((feature) => {
               const Icon = feature.icon;
               return (
-                <Link key={feature.title} href={feature.href} className="feature-panel landing-hover">
+                <Link key={feature.title} href={feature.href} className="feature-panel">
                   <Icon className="h-5 w-5 text-[var(--color-green)]" />
-                  <h3 className="mt-5 text-lg font-semibold">{feature.title}</h3>
+                  <h3 className="mt-5 text-lg font-extrabold">{feature.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">
                     {feature.body}
                   </p>
@@ -254,44 +235,31 @@ export default function HomePage() {
             })}
           </div>
         </div>
-
-        <div className="mt-10 grid overflow-hidden rounded-lg border border-[var(--color-border)] md:grid-cols-4">
-          {flow.map(([title, body], index) => (
-            <div
-              key={title}
-              className="border-b border-[var(--color-border)] p-5 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
-            >
-              <p className="text-xs font-semibold text-[var(--color-green)]">
-                0{index + 1}
-              </p>
-              <h3 className="mt-3 text-base font-semibold">{title}</h3>
-              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{body}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section className="border-y border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-20 sm:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-12">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-20 sm:px-10 lg:grid-cols-[0.88fr_1.12fr] lg:px-12">
           <div>
-            <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
-              What opens inside the dashboard.
+            <h2 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl">
+              What opens inside the command center.
             </h2>
             <p className="mt-5 max-w-lg text-base leading-8 text-[var(--color-muted)]">
-              Login is the boundary between browsing and doing. Once signed in,
-              a candidate can practice, track preparation, and keep
-              private notes.
+              Login is the line between reading and doing. Once signed in, a
+              candidate can practice, track preparation, and keep private notes.
             </p>
-            <Link href="/signin" className="btn-primary mt-7">
-              Go to dashboard
+            <Link href="/signin?mode=signup" className="btn-primary mt-7">
+              Open workspace
               <ArrowIcon />
             </Link>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {dashboardAccess.map(([title, body]) => (
-              <div key={title} className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-6 shadow-[var(--shadow-card)]">
-                <h3 className="text-lg font-semibold">{title}</h3>
+            {commandModules.map(([title, body]) => (
+              <div
+                key={title}
+                className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-6 shadow-[var(--shadow-card)]"
+              >
+                <h3 className="text-lg font-extrabold">{title}</h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">{body}</p>
               </div>
             ))}
@@ -302,15 +270,15 @@ export default function HomePage() {
       <section className="bg-[linear-gradient(135deg,#08111f,#0d2b45_48%,#064e3b)] text-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-16 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">
           <div>
-            <h2 className="font-display text-4xl font-semibold leading-tight">
+            <h2 className="font-display text-4xl font-extrabold leading-tight">
               Prepare with structure before reporting day.
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/65">
-              Start by understanding the process. Login when you are ready to
-              save practice notes and your personal readiness plan.
+              Start by understanding the process. Create your workspace when you
+              are ready to save practice notes and your readiness plan.
             </p>
           </div>
-          <Link href="/signin" className="btn-light">
+          <Link href="/signin?mode=signup" className="btn-light">
             Create account
             <ArrowIcon />
           </Link>

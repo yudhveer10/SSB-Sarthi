@@ -36,38 +36,38 @@ export default function NavBar() {
               pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
 
             return (
-              <Link
+              <a
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
                 className={`nav-link ${isActive ? "active" : ""}`}
               >
                 {link.label}
-              </Link>
+              </a>
             );
           })}
         </div>
 
         <div className="flex items-center gap-3">
           <ThemeToggle compact />
-          <Link
+          <a
             href="/process"
-            className="btn-nav-secondary hidden lg:inline-flex"
+            className="btn-nav-secondary hidden items-center justify-center lg:inline-flex"
           >
             View process
-          </Link>
-          <Link
+          </a>
+          <a
             href="/signin?mode=signin"
-            className="btn-nav-secondary hidden sm:inline-flex"
+            className="btn-nav-secondary hidden items-center justify-center sm:inline-flex"
           >
             Sign in
-          </Link>
-          <Link
+          </a>
+          <a
             href="/signin?mode=signup"
-            className="btn-nav-primary hidden sm:inline-flex"
+            className="btn-nav-primary hidden items-center justify-center sm:inline-flex"
           >
             Create account
-          </Link>
+          </a>
 
           <button
             type="button"
@@ -109,7 +109,7 @@ export default function NavBar() {
                 pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
 
               return (
-                <Link
+                <a
                   key={link.href}
                   href={link.href}
                   aria-current={isActive ? "page" : undefined}
@@ -122,26 +122,26 @@ export default function NavBar() {
                 >
                   <span>{link.label}</span>
                   <ArrowIcon />
-                </Link>
+                </a>
               );
             })}
           </div>
 
           <div className="mt-3 border-t border-[var(--color-border)] pt-3">
-            <Link
+            <a
               href="/signin?mode=signin"
               className="btn-secondary mb-2 w-full justify-center"
               onClick={() => setMenuOpen(false)}
             >
               Sign in
-            </Link>
-            <Link
+            </a>
+            <a
               href="/signin?mode=signup"
               className="btn-primary w-full justify-center"
               onClick={() => setMenuOpen(false)}
             >
               Create account
-            </Link>
+            </a>
           </div>
         </div>
       ) : null}
