@@ -1207,6 +1207,61 @@ main > section {
   font-weight: 800;
 }
 
+.landing-love-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  animation: loveFloat 3.2s ease-in-out infinite;
+}
+
+.landing-love-heart {
+  display: inline-block;
+  transform-origin: center;
+  animation: heartBeat 1.35s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(239, 68, 68, 0.28));
+}
+
+[data-theme="dark"] main [class*="bg-white/70"],
+[data-theme="dark"] main [class*="bg-white/75"],
+[data-theme="dark"] main [class*="bg-white/80"],
+[data-theme="dark"] main [class*="bg-white/82"],
+[data-theme="dark"] main [class*="bg-white/84"],
+[data-theme="dark"] main [class*="bg-white/90"],
+[data-theme="dark"] main [class*="bg-white/92"] {
+  background-color: color-mix(in srgb, var(--color-panel) 88%, transparent) !important;
+  color: var(--color-ink-strong);
+}
+
+[data-theme="dark"] main [class*="bg-[linear-gradient"][class*="rgba(255,255,255"],
+[data-theme="dark"] main [class*="bg-[linear-gradient"][class*="rgba(248,252,255"],
+[data-theme="dark"] main [class*="bg-[linear-gradient"][class*="#ffffff"] {
+  background:
+    linear-gradient(135deg, rgba(15, 26, 43, 0.98), rgba(17, 29, 47, 0.94)),
+    var(--color-panel) !important;
+}
+
+[data-theme="dark"] main [class*="border-white/70"],
+[data-theme="dark"] main [class*="border-white/75"],
+[data-theme="dark"] main [class*="border-white/80"] {
+  border-color: var(--color-border-strong) !important;
+}
+
+[data-theme="dark"] .badge,
+[data-theme="dark"] .process-page .process-tint-chip,
+[data-theme="dark"] .process-page .process-tint-panel {
+  background: color-mix(in srgb, currentColor 14%, var(--color-panel)) !important;
+}
+
+[data-theme="dark"] .process-page .process-tint-chip,
+[data-theme="dark"] .process-page .process-tint-panel [style*="--process-tone"] {
+  color: color-mix(in srgb, var(--process-tone) 42%, var(--color-ink-strong)) !important;
+}
+
+[data-theme="dark"] .process-page .shadow-sm {
+  box-shadow: var(--shadow-subtle);
+}
+
 @media (max-width: 1100px) {
   .landing-dashboard-window {
     grid-template-columns: 112px minmax(0, 1fr);
@@ -1419,6 +1474,32 @@ main [class*="shadow-[0_"] {
   }
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes loveFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes heartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  18% {
+    transform: scale(1.22) rotate(-6deg);
+  }
+  34% {
+    transform: scale(0.96) rotate(4deg);
+  }
+  48% {
+    transform: scale(1.12) rotate(-2deg);
   }
 }
 

@@ -193,7 +193,9 @@ export default function HomePage() {
       </section>
 
       <footer className="landing-made-by border-t border-[var(--color-border)] px-6 py-6 text-center sm:px-10">
-        Made with love by Yudhveer.
+        <span className="landing-love-note">
+          Made with love by Yudhveer. <span className="landing-love-heart" aria-hidden="true">❤️</span>
+        </span>
       </footer>
     </main>
   );
