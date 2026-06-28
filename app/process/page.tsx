@@ -1,4 +1,5 @@
 // app/process/page.tsx
+import type { CSSProperties } from "react";
 
 const processDays = [
   {
@@ -113,7 +114,7 @@ const assessors = [
 
 export default function ProcessPage() {
   return (
-    <main className="pb-20">
+    <main className="process-page pb-20">
       {/* ── Hero ── */}
       <section className="mx-auto w-full max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
         <div className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(232,246,255,0.9))] px-6 py-8 shadow-[var(--shadow-soft)] sm:px-8 sm:py-10 lg:px-10 lg:py-12">
@@ -252,12 +253,13 @@ export default function ProcessPage() {
                       {item.tests.map((t) => (
                         <span
                           key={t}
-                          className="inline-block rounded-full border px-3 py-1 text-xs font-semibold"
+                          className="process-tint-chip inline-block rounded-full border px-3 py-1 text-xs font-semibold"
                           style={{
-                            borderColor: `color-mix(in srgb, ${item.color} 25%, transparent)`,
-                            color: item.color,
-                            background: `color-mix(in srgb, ${item.color} 7%, white)`,
-                          }}
+                            "--process-tone": item.color,
+                            borderColor: `color-mix(in srgb, var(--process-tone) 25%, transparent)`,
+                            color: "var(--process-tone)",
+                            background: `color-mix(in srgb, var(--process-tone) 7%, white)`,
+                          } as CSSProperties}
                         >
                           {t}
                         </span>
@@ -276,15 +278,16 @@ export default function ProcessPage() {
                       </p>
                     </div>
                     <div
-                      className="rounded-2xl p-4"
+                      className="process-tint-panel rounded-2xl p-4"
                       style={{
-                        background: `color-mix(in srgb, ${item.color} 8%, white)`,
-                        border: `1px solid color-mix(in srgb, ${item.color} 18%, transparent)`,
-                      }}
+                        "--process-tone": item.color,
+                        background: `color-mix(in srgb, var(--process-tone) 8%, white)`,
+                        border: `1px solid color-mix(in srgb, var(--process-tone) 18%, transparent)`,
+                      } as CSSProperties}
                     >
                       <p
                         className="text-[0.68rem] font-bold uppercase tracking-[0.22em]"
-                        style={{ color: item.color }}
+                        style={{ color: "var(--process-tone)" } as CSSProperties}
                       >
                         Insider tip
                       </p>
@@ -317,7 +320,7 @@ export default function ProcessPage() {
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {olqs.map((olq, i) => (
+          {olqs.map((olq) => (
             <div
               key={olq.short}
               className="flex items-start gap-3 rounded-[1.4rem] border border-white/80 bg-white/90 p-4 shadow-sm"
